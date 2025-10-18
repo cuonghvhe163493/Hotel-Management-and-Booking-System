@@ -8,7 +8,7 @@ public class DBConnection {
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=HotelManagerNo7Test";
     private static final String USER = "sa"; // Replace with your DB username
     private static final String PASSWORD = "1234"; // Replace with your DB password
-    private static Connection connection;
+    public static Connection connection;
 
     public static Connection getConnection() throws SQLException {
         if (connection == null) {
