@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newjsp
-    Created on : Oct 18, 2025, 3:46:58 AM
-    Author     : Hoang Viet Cuong
+    Document   : ExtendRoom
+    Created on : Oct 19, 2025, 3:04:53 PM
+    Author     : Admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        
     </body>
 </html>

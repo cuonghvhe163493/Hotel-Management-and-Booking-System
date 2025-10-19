@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Welcome to the Hotel Management System</h1>
         <a href="view/Authentication/login.jsp">Login</a>
-
+        
     </div>
 </body>
 </html>

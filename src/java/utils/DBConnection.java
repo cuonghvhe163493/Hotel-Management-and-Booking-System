@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=HotelManagerNo7Test";
-    private static final String USER = "sa"; // Replace with your DB username
-    private static final String PASSWORD = "1234"; // Replace with your DB password
+    private static final String USER = "sa"; 
+    private static final String PASSWORD = "1234"; 
     private static Connection connection;
 
     public static Connection getConnection() throws SQLException {
