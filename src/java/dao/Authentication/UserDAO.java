@@ -191,4 +191,30 @@ public static boolean updatePassword(String username, String newPassword) {
     }
     return false;
 }
+
+public static boolean updateUserProfile(String username, String email, String phone, String address, String password) {
+    String sql = "UPDATE dbo.Users "
+               + "SET email = ?, phone = ?, address = ?, password = ?, updated_at = GETDATE() "
+               + "WHERE username = ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, email);
+        ps.setString(2, phone);
+        ps.setString(3, address);
+        ps.setString(4, password);
+        ps.setString(5, username);
+
+        int rows = ps.executeUpdate();
+        System.out.println("[UpdateProfile] rows=" + rows + " for user=" + username);
+        return rows > 0;
+
+    } catch (SQLException e) {
+        System.out.println("❌ Error updating profile: " + e.getMessage());
+        return false;
+    }
+}
+
+
 }
