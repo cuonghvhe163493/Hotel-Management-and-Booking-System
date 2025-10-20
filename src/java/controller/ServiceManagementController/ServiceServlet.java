@@ -21,27 +21,42 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "ServiceServlet", urlPatterns = {"/service"})
 public class ServiceServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final int PAGE_SIZE = 10;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
-        // ĐƯỜNG DẪN TỚI JSP TRONG webapp (KHÔNG dùng context path khi forward)
-       RequestDispatcher rd = request.getRequestDispatcher("/view/ServiceManagement/service.jsp");
-        rd.forward(request, response);
+ 
+         
     }
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String pageStr = request.getParameter("page");
+        int page = pageStr != null ? Integer.parseInt(pageStr) : 1;
+        
+        
+        
+        
+        
+        
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/view/ServiceManagement/service.jsp");
+        rd.forward(request, response);
+    }
+
+    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
     }
+
+  
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+    
 }

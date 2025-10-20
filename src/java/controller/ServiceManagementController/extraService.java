@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.net.URLEncoder;
 
 /**
  *
@@ -26,7 +27,7 @@ public class extraService extends HttpServlet {
      * methods.
      *
      * @param request servlet request
-     * @param response servlet response
+     * @para m response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -36,29 +37,35 @@ public class extraService extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
 
             HttpSession session = request.getSession(false);
+            boolean loggedIn = (session != null && session.getAttribute("user") != null);
 
-            // Kiểm tra xem người dùng đã đăng nhập chưa
-            if (session == null || session.getAttribute("user") == null) {
-                // Nếu chưa login -> chuyển hướng về trang login
-                response.sendRedirect(request.getContextPath() + "/login.jsp");
+            if (!loggedIn) {
+                String ctx = request.getContextPath();
+                String target = request.getRequestURI() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
+                String returnUrl = URLEncoder.encode(target, "UTF-8");
+                response.sendRedirect(ctx + "/login?returnUrl=" + returnUrl);
                 return;
             }
-            RequestDispatcher rd = request.getRequestDispatcher("/view/ServiceManagement/extraService.jsp");
-            rd.forward(request, response);
+
+            // Đã login -> forward tới trang Extra Service
+            request.getRequestDispatcher("/view/ServiceManagement/extraService.jsp")
+                    .forward(request, response);
         }
+        request.getRequestDispatcher("/view/ServiceManagement/extraService.jsp")
+                .forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -72,7 +79,7 @@ public class extraService extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -83,7 +90,7 @@ public class extraService extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
