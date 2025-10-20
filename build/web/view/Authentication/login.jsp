@@ -11,7 +11,6 @@
         <div class="login-container">
             <div class="login-card">
                 <div class="login-header">
-                    <div class="logo-icon">⚡</div>
                     <h2>Sign In</h2>
                     <p>Access your account</p>
                 </div>

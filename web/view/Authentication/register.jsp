@@ -5,71 +5,7 @@
   <meta charset="UTF-8">
   <title>Create Account - Hotel Management</title>
   <link rel="stylesheet" href="<%=request.getContextPath()%>/view/Authentication/css/style.css">
-  <style>
-    body {
-      background: #0a0a0f;
-      color: white;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .register-card {
-      background: #151520;
-      border-radius: 16px;
-      padding: 40px;
-      width: 400px;
-      box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
-    }
-    .register-card h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      color: #00ff88;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #2a2a35;
-      border-radius: 6px;
-      background: #1a1a25;
-      color: white;
-    }
-    input:focus {
-      outline: none;
-      border-color: #00ff88;
-      box-shadow: 0 0 6px rgba(0, 255, 136, 0.3);
-    }
-    .submit-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #00ff88, #0099ff);
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      color: #0a0a0f;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: 0.3s;
-    }
-    .submit-btn:hover {
-      box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-    }
-    .error {
-      color: #ff4d6d;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-  </style>
-</head>
+ </head>
 
 <body>
   <div class="register-card">
