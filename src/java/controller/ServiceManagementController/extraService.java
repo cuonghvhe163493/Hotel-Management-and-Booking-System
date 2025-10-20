@@ -4,6 +4,7 @@
  */
 package controller.ServiceManagementController;
 
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,13 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Hoang Viet Cuong
  */
 @WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
-public class NewServlet extends HttpServlet {
+public class extraService extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,16 +34,17 @@ public class NewServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+            HttpSession session = request.getSession(false);
+
+            // Kiểm tra xem người dùng đã đăng nhập chưa
+            if (session == null || session.getAttribute("user") == null) {
+                // Nếu chưa login -> chuyển hướng về trang login
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                return;
+            }
+            RequestDispatcher rd = request.getRequestDispatcher("/view/ServiceManagement/extraService.jsp");
+            rd.forward(request, response);
         }
     }
 
