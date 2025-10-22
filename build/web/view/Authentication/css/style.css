@@ -1,0 +1,361 @@
+/* === Neon Login - Fixed & Enhanced === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  
+  background: #3C4A4A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 🔹 Đảm bảo form nằm trên glow */
+.login-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card {
+  background: #2A3232;
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid #2a2a35;
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow: 0 0 60px rgba(0, 255, 136, 0.35);
+  transform: translateY(-2px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+
+
+.login-header h2 {
+  color: #fff;
+  margin-top: 10px;
+}
+
+.login-header p {
+  color: #a0a0b0;
+  font-size: 14px;
+}
+
+/* ================================
+   Input Fields
+================================ */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 16px;
+  background: #1a1a25;
+  border: 1px solid #2a2a35;
+  border-radius: 6px;
+  color: white;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+/* hiệu ứng focus */
+.input-wrapper input:focus {
+  border-color: #00ff88;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+/* Label bay lên khi focus hoặc có chữ */
+.input-wrapper label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  color: #a0a0b0;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  pointer-events: none; /* Cho phép click vào input */
+  background-color: transparent;
+}
+
+.input-wrapper input:focus + label,
+.input-wrapper input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 12px;
+  font-size: 12px;
+  color: #00ff88;
+  background-color: #151520;
+  padding: 0 6px;
+}
+
+/* ================================
+   Password toggle
+================================ */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+}
+
+/* ================================
+   Form options & links
+================================ */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.forgot-password {
+  color: #00ff88;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password:hover {
+  color: #0099ff;
+}
+
+/* ================================
+   Login button
+================================ */
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #00ff88, #0099ff);
+  border: none;
+  color: #0a0a0f;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+}
+
+/* ================================
+   Divider + social login
+================================ */
+.divider {
+  text-align: center;
+  color: #a0a0b0;
+  margin: 20px 0;
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social-btn {
+  background: #1a1a25;
+  border: 1px solid #2a2a35;
+  border-radius: 6px;
+  padding: 12px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  border-color: #00ff88;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
+}
+
+/* ================================
+   Signup link
+================================ */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  color: #a0a0b0;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #00ff88;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  color: #0099ff;
+}
+
+/* ================================
+   Background effects (nền neon)
+================================ */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;             /* nằm dưới form */
+  pointer-events: none;   /* không chặn chuột */
+  overflow: hidden;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.1), transparent 70%);
+  animation: float 6s ease-in-out infinite;
+}
+
+.glow-orb-1 { width: 300px; height: 300px; top: 10%; left: -10%; }
+.glow-orb-2 { width: 200px; height: 200px; bottom: 20%; right: -5%; }
+.glow-orb-3 { width: 150px; height: 150px; top: 70%; left: 20%; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -20px); }
+}
+
+/* ================================
+   Responsive
+================================ */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px;
+  }
+}
+/* -------------------------------------- */
+/* -------------------------------------- */
+/* CSS cho phần cân xứng Forgot Password và Create Account */
+/* -------------------------------------- */
+
+.login-card .auth-options {
+    /* Đảm bảo flexbox được kích hoạt */
+    display: flex;
+    
+    /* Đảm bảo nội dung được đẩy ra 2 góc */
+    justify-content: space-between; 
+    
+    align-items: center;
+    margin-top: 20px;
+    padding: 0; /* Đảm bảo không có padding làm lệch */
+    font-size: 0.9em;
+    width: 100%; 
+}
+
+/* Xóa style của signup-link cũ, chỉ giữ lại style cho text bên trong */
+.login-card .auth-options .signup-link {
+    /* Loại bỏ bất kỳ display: block, margin/padding nào gây lệch */
+    display: inline-block; 
+    margin: 0;
+    padding: 0;
+    text-align: right; /* Căn phải nội dung bên trong */
+}
+
+/* Đảm bảo liên kết quên mật khẩu căn trái đúng */
+.login-card .auth-options .forgot-password {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+/* === Register Page Styles (from register.jsp) === */
+body {
+  background: #3C4A4A;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.register-card {
+  background: #2A3232;
+  border-radius: 16px;
+  padding: 40px;
+  width: 400px;
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+}
+
+.register-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  color: #00ff88;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2a2a35;
+  border-radius: 6px;
+  background: #1a1a25;
+  color: white;
+}
+
+input:focus {
+  outline: none;
+  border-color: #00ff88;
+  box-shadow: 0 0 6px rgba(0, 255, 136, 0.3);
+}
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #00ff88, #0099ff);
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  color: #0a0a0f;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+.error {
+  color: #ff4d6d;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* ✅ End of Register Page section */
