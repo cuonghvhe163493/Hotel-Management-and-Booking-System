@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/src/java/dao/ServiceManagement/SerivceDetailDAO.java</file>
-            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/src/java/controller/ServiceManagementController/ServiceDetail.java</file>
+            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/src/java/dao/ServiceManagement/ExtraServiceDAO.java</file>
+            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/src/java/controller/ServiceManagementController/extraService.java</file>
+            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/web/view/ServiceManagement/detail.jsp</file>
+            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/src/java/controller/ServiceManagementController/ExtraServiceCheckoutServlet.java</file>
+            <file>file:/D:/KY9/SAP490/Hotel-Management-and-Booking-System/web/view/ServiceManagement/extraServiceCheckout.jsp</file>
         </group>
     </open-files>
 </project-private>

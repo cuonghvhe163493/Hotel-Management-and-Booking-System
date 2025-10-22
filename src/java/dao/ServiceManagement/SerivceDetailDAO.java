@@ -31,7 +31,8 @@ public class SerivceDetailDAO extends DBConnection {
                 + "WHERE (? = '' OR s.name LIKE ? OR s.code LIKE ? OR s.description LIKE ?)";
         String q = (search == null) ? "" : search.trim();
 
-        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); 
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, q);
             ps.setString(2, "%" + q + "%");
@@ -61,7 +62,8 @@ public class SerivceDetailDAO extends DBConnection {
         int offset = Math.max(0, (page - 1) * pageSize);
         List<Service> list = new ArrayList<>();
 
-        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); 
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, q);
             ps.setString(2, "%" + q + "%");
@@ -88,7 +90,8 @@ public class SerivceDetailDAO extends DBConnection {
                 + "       s.tax_class, s.is_active, s.created_at "
                 + "FROM Services s WHERE s.service_id = ?";
 
-        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); 
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setLong(1, id);
             try (ResultSet rs = ps.executeQuery()) {

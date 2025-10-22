@@ -24,38 +24,38 @@
             <div class="main_o1">
                 <section id="top" class="pt-3 pb-3">
                     <div class="container-xl">
-                    <div class="row top_1">
-                        <div class="col-md-4">
-                            <div class="top_1l">
-                                <span class="d-inline-block bg_yell  rounded-circle float-start me-2 text-center"><a href="#"><i class="fa fa-phone text-white"></i></a></span>
-                                <h6 class="mb-0 lh-base font_14"><a class="text-white" href="#">For Further Inquires : <br>
-                                        +(000) 345 67 89</a></h6>
+                        <div class="row top_1">
+                            <div class="col-md-4">
+                                <div class="top_1l">
+                                    <span class="d-inline-block bg_yell  rounded-circle float-start me-2 text-center"><a href="#"><i class="fa fa-phone text-white"></i></a></span>
+                                    <h6 class="mb-0 lh-base font_14"><a class="text-white" href="#">For Further Inquires : <br>
+                                            +(000) 345 67 89</a></h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="top_1m text-center mt-2">
-                                <h3 class="mb-0"><a class="text-white" href="index.jsp"><i class="fa fa-plane col_yell"></i> Hotels</a></h3>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="top_1r mt-2 text-end">
-                                <ul class="mb-0">
-                                    <!-- Nút Login / Register -->
-                                    <li class="d-inline-block">
-                                        <a href="<%=request.getContextPath()%>/view/Authentication/login.jsp" 
-                                           class="text-warning fw-bold me-2">Login</a>
-                                    </li>
-                                    <li class="d-inline-block">
-                                        <a href="<%=request.getContextPath()%>/view/Authentication/register.jsp" 
-                                           class="text-white fw-bold">Register</a>
-                                    </li>
-                                </ul>
+                            <div class="col-md-4">
+                                <div class="top_1m text-center mt-2">
+                                    <h3 class="mb-0"><a class="text-white" href="index.jsp"><i class="fa fa-plane col_yell"></i> Hotels</a></h3>
+                                </div>
                             </div>
 
+                            <div class="col-md-4">
+                                <div class="top_1r mt-2 text-end">
+                                    <ul class="mb-0">
+                                        <!-- Nút Login / Register -->
+                                        <li class="d-inline-block">
+                                            <a href="<%=request.getContextPath()%>/view/Authentication/login.jsp" 
+                                               class="text-warning fw-bold me-2">Login</a>
+                                        </li>
+                                        <li class="d-inline-block">
+                                            <a href="<%=request.getContextPath()%>/view/Authentication/register.jsp" 
+                                               class="text-white fw-bold">Register</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
                 </section>
 
                 <section id="header">
@@ -116,8 +116,8 @@
                     <div class="container-xl">
                         <div class="row center_o1 text-center">
                             <div class="col-md-12">
-                                <h2 class="text-white text-uppercase">Services</h2>
-                                <h6 class="mb-0 mt-3 col_yell"><a class="text-white" href="${ctx}/index.jsp">Home</a> <span class="mx-2 text-muted">/</span> Services</h6>
+                                <h2 class="text-white text-uppercase">Extra Service</h2>
+                                <h6 class="mb-0 mt-3 col_yell"><a class="text-white" href="${ctx}/index.jsp">Home</a> <span class="mx-2 text-muted">/</span> Extra Services</h6>
                             </div>
                         </div>
                     </div>
@@ -134,17 +134,34 @@
                                 <div class="room_2il1i">
                                     <div class="grid clearfix">
                                         <figure class="effect-jazz mb-0">
-                                            <a href="#"><img src="${ctx}/img/7.jpg" class="w-100" alt="img25"></a>
+                                            <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                                <img src="${ctx}/img/7.jpg" class="w-100" alt="${service.serviceName}">
+                                            </a>
                                         </figure>
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $13</span>
+                                    <!-- Link View chuyển tới trang chi tiết -->
+                                    <a href="${ctx}/detail?id=${service.extraServiceId}" 
+                                       class="d-inline-block bg_yell text-white p-2 px-4">View</a>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Food and Beverage</a></h4>
-                                <p class="font_14 mb-0">Live at the historic Plaza Residences. Spacious and bright one Bedroom Home o...</p>
+                                <h4 class="mt-2"><a href="#"> Tổ chức sự kiện</a></h4>
+                                <p class="font_14 mb-0">Các khách sạn lớn thường có không gian hội nghị, phòng họp được</p>
+                            </div>
+
+
+                            <div class="room_2il2 bg-white text-center p-4">
+                                <h4 class="mt-2">
+                                    <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                        ${service.serviceName}
+                                    </a>
+                                </h4>
+
+                                <p class="font_14 mb-0">
+                                    <c:out value="${service.serviceDescription}" />
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -155,17 +172,34 @@
                                 <div class="room_2il1i">
                                     <div class="grid clearfix">
                                         <figure class="effect-jazz mb-0">
-                                            <a href="#"><img src="${ctx}/img/8.jpg" class="w-100" alt="img25"></a>
+                                            <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                                <img src="${ctx}/img/7.jpg" class="w-100" alt="${service.serviceName}">
+                                            </a>
                                         </figure>
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">Free</span>
+                                    <!-- Link View chuyển tới trang chi tiết -->
+                                    <a href="${ctx}/detail?id=${service.extraServiceId}" 
+                                       class="d-inline-block bg_yell text-white p-2 px-4">View</a>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Free Transfer</a></h4>
-                                <p class="font_14 mb-0">Massive three bedroom, two full bathroom corner apartment located in a beauti...</p>
+                                <h4 class="mt-2"><a href="#">chăm sóc trẻ em</a></h4>
+                                <p class="font_14 mb-0">Giúp các gia đình có trẻ nhỏ an tâm hơn trong thời gian lưu trú.</p>
+                            </div>
+
+
+                            <div class="room_2il2 bg-white text-center p-4">
+                                <h4 class="mt-2">
+                                    <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                        ${service.serviceName}
+                                    </a>
+                                </h4>
+
+                                <p class="font_14 mb-0">
+                                    <c:out value="${service.serviceDescription}" />
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -176,87 +210,154 @@
                                 <div class="room_2il1i">
                                     <div class="grid clearfix">
                                         <figure class="effect-jazz mb-0">
-                                            <a href="#"><img src="${ctx}/img/9.jpg" class="w-100" alt="img25"></a>
+                                            <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                                <img src="${ctx}/img/7.jpg" class="w-100" alt="${service.serviceName}">
+                                            </a>
                                         </figure>
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $32</span>
+                                    <!-- Link View chuyển tới trang chi tiết -->
+                                    <a href="${ctx}/detail?id=${service.extraServiceId}" 
+                                       class="d-inline-block bg_yell text-white p-2 px-4">View</a>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Spa & Fitness</a></h4>
-                                <p class="font_14 mb-0">Designed for practicality and comfort, these contemporary-styled rooms featur...</p>
+                                <h4 class="mt-2"><a href="#">đồ ăn vặt</a></h4>
+                                <p class="font_14 mb-0">................</p>
+                            </div>
+
+
+                            <div class="room_2il2 bg-white text-center p-4">
+                                <h4 class="mt-2">
+                                    <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                        ${service.serviceName}
+                                    </a>
+                                </h4>
+
+                                <p class="font_14 mb-0">
+                                    <c:out value="${service.serviceDescription}" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="room_2i row mt-4">
+                        <div class="col-md-4">
+                            <div class="room_2il">
+                                <div class="room_2il1 position-relative">
+                                    <div class="room_2il1i">
+                                        <div class="grid clearfix">
+                                            <figure class="effect-jazz mb-0">
+                                                <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                                    <img src="${ctx}/img/7.jpg" class="w-100" alt="${service.serviceName}">
+                                                </a>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                    <div class="room_2il1i1 text-center position-absolute w-100">
+                                        <!-- Link View chuyển tới trang chi tiết -->
+                                        <a href="${ctx}/detail?id=${service.extraServiceId}" 
+                                           class="d-inline-block bg_yell text-white p-2 px-4">View</a>
+                                    </div>
+                                </div>
+                                <div class="room_2il2 bg-white text-center p-4">
+                                    <h4 class="mt-2"><a href="#">đưa đón sân bay</a></h4>
+                                    <p class="font_14 mb-0">Hỗ trợ khách di chuyển một cách nhanh chóng và tiện lợi</p>
+                                </div>
+
+
+                                <div class="room_2il2 bg-white text-center p-4">
+                                    <h4 class="mt-2">
+                                        <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                            ${service.serviceName}
+                                        </a>
+                                    </h4>
+
+                                    <p class="font_14 mb-0">
+                                        <c:out value="${service.serviceDescription}" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="room_2il">
+                                <div class="room_2il1 position-relative">
+                                    <div class="room_2il1i">
+                                        <div class="grid clearfix">
+                                            <figure class="effect-jazz mb-0">
+                                                <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                                    <img src="${ctx}/img/7.jpg" class="w-100" alt="${service.serviceName}">
+                                                </a>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                    <div class="room_2il1i1 text-center position-absolute w-100">
+                                        <!-- Link View chuyển tới trang chi tiết -->
+                                        <a href="${ctx}/detail?id=${service.extraServiceId}" 
+                                           class="d-inline-block bg_yell text-white p-2 px-4">View</a>
+                                    </div>
+                                </div>
+                                <div class="room_2il2 bg-white text-center p-4">
+                                    <h4 class="mt-2"><a href="#">gym & bể bơi</a></h4>
+                                    <p class="font_14 mb-0">Đáp ứng nhu cầu rèn luyện sức khỏe, nghỉ dưỡng với trang thiết bị hiện đại</p>
+                                </div>
+
+
+                                <div class="room_2il2 bg-white text-center p-4">
+                                    <h4 class="mt-2">
+                                        <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                            ${service.serviceName}
+                                        </a>
+                                    </h4>
+
+                                    <p class="font_14 mb-0">
+                                        <c:out value="${service.serviceDescription}" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="room_2il">
+                                <div class="room_2il1 position-relative">
+                                    <div class="room_2il1i">
+                                        <div class="grid clearfix">
+                                            <figure class="effect-jazz mb-0">
+                                                <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                                    <img src="${ctx}/img/7.jpg" class="w-100" alt="${service.serviceName}">
+                                                </a>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                    <div class="room_2il1i1 text-center position-absolute w-100">
+                                        <!-- Link View chuyển tới trang chi tiết -->
+                                        <a href="${ctx}/detail?id=${service.extraServiceId}" 
+                                           class="d-inline-block bg_yell text-white p-2 px-4">View</a>
+                                    </div>
+                                </div>
+                                <div class="room_2il2 bg-white text-center p-4">
+                                    <h4 class="mt-2"><a href="#">Safa,massaage</a></h4>
+                                    <p class="font_14 mb-0">Giúp khách thư giãn, giảm stress sau một ngày dài khám phá hoặc công tác.</p>
+                                </div>
+
+
+                                <div class="room_2il2 bg-white text-center p-4">
+                                    <h4 class="mt-2">
+                                        <a href="${ctx}/detail?id=${service.extraServiceId}">
+                                            ${service.serviceName}
+                                        </a>
+                                    </h4>
+
+                                    <p class="font_14 mb-0">
+                                        <c:out value="${service.serviceDescription}" />
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="room_2i row mt-4">
-                    <div class="col-md-4">
-                        <div class="room_2il">
-                            <div class="room_2il1 position-relative">
-                                <div class="room_2il1i">
-                                    <div class="grid clearfix">
-                                        <figure class="effect-jazz mb-0">
-                                            <a href="#"><img src="${ctx}/img/13.jpg" class="w-100" alt="img25"></a>
-                                        </figure>
-                                    </div>
-                                </div>
-                                <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $18</span>
-                                </div>
-                            </div>
-                            <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Exclusive Offers</a></h4>
-                                <p class="font_14 mb-0">Live at the historic Plaza Residences. Spacious and bright one Bedroom Home o...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="room_2il">
-                            <div class="room_2il1 position-relative">
-                                <div class="room_2il1i">
-                                    <div class="grid clearfix">
-                                        <figure class="effect-jazz mb-0">
-                                            <a href="#"><img src="${ctx}/img/14.jpg" class="w-100" alt="img25"></a>
-                                        </figure>
-                                    </div>
-                                </div>
-                                <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $17</span>
-                                </div>
-                            </div>
-                            <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Safe & Secure</a></h4>
-                                <p class="font_14 mb-0">Massive three bedroom, two full bathroom corner apartment located in a beauti...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="room_2il">
-                            <div class="room_2il1 position-relative">
-                                <div class="room_2il1i">
-                                    <div class="grid clearfix">
-                                        <figure class="effect-jazz mb-0">
-                                            <a href="#"><img src="${ctx}/img/15.jpg" class="w-100" alt="img25"></a>
-                                        </figure>
-                                    </div>
-                                </div>
-                                <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $22</span>
-                                </div>
-                            </div>
-                            <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Laundry Service</a></h4>
-                                <p class="font_14 mb-0">Designed for practicality and comfort, these contemporary-styled rooms featur...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section id="sub" class="pt-5 pb-5">

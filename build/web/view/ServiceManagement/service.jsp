@@ -139,12 +139,12 @@
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $13</span>
+                                    <span class="d-inline-block bg_yell text-white p-2 px-4">View</span>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Food and Beverage</a></h4>
-                                <p class="font_14 mb-0">Live at the historic Plaza Residences. Spacious and bright one Bedroom Home o...</p>
+                                <h4 class="mt-2"><a href="#">Dịch vụ dọn phòng</a></h4>
+                                <p class="font_14 mb-0">nhân viên sẽ tiến hành dọn phòng và sắp xếp đồ đạc ngăn nắp để khách</p>
                             </div>
                         </div>
                     </div>
@@ -160,12 +160,14 @@
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">Free</span>
+                                    <span class="d-inline-block bg_yell text-white p-2 px-4">View</span>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Free Transfer</a></h4>
-                                <p class="font_14 mb-0">Massive three bedroom, two full bathroom corner apartment located in a beauti...</p>
+                                <h4 class="mt-2"><a href="#">Wifi & máy điều hòa</a></h4>
+                                <p class="font_14 mb-0">Hầu hết khách sạn hiện nay đều cung cấp dịch vụ Wi-Fi (kết nối Internet) 
+                                                        và air conditioner (máy lạnh, máy điều hoà) miễn phí, 
+                                                       dù là khách ở ngắn hạn hay dài hạn.</p>
                             </div>
                         </div>
                     </div>
@@ -181,12 +183,15 @@
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $32</span>
+                                    <span class="d-inline-block bg_yell text-white p-2 px-4">View</span>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Spa & Fitness</a></h4>
-                                <p class="font_14 mb-0">Designed for practicality and comfort, these contemporary-styled rooms featur...</p>
+                                <h4 class="mt-2"><a href="#">Sạc pin điện thoại</a></h4>
+                                <p class="font_14 mb-0">Điện thoại là vật bất ly thân của hầu hết mọi người. 
+                                    Tuy nhiên không phải lúc nào bạn cũng mang theo dây sạc pin 
+                                    hoặc có khi nó bất ngờ bị hỏng hãy đến quầy lễ tân và hỏi, 
+                                    nhân viên sẽ vui vẻ giao cho bạn dây sạc phù hợp.</p>
                             </div>
                         </div>
                     </div>
@@ -204,12 +209,12 @@
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $18</span>
+                                    <span class="d-inline-block bg_yell text-white p-2 px-4">View</span>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Exclusive Offers</a></h4>
-                                <p class="font_14 mb-0">Live at the historic Plaza Residences. Spacious and bright one Bedroom Home o...</p>
+                                <h4 class="mt-2"><a href="#">Bộ dụng cụ vệ sinh cá nhân</a></h4>
+                                <p class="font_14 mb-0">Bao gồm: xà bông tắm, dầu gội đầu, bàn chải cùng kem đánh răng,…một số nơi còn có mũ chụp tóc, chỉ nha khoa, nước súc miệng, dao cạo râu, lược chải tóc, …</p>
                             </div>
                         </div>
                     </div>
@@ -225,12 +230,13 @@
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $17</span>
+                                    <span class="d-inline-block bg_yell text-white p-2 px-4">View</span>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Safe & Secure</a></h4>
-                                <p class="font_14 mb-0">Massive three bedroom, two full bathroom corner apartment located in a beauti...</p>
+                                <h4 class="mt-2"><a href="#">Đồ chơi cho trẻ</a></h4>
+                                <p class="font_14 mb-0">Những bộ đồ chơi sẽ được khách sạn bố trí sẵn trong phòng nếu bạn báo trước với 
+                                    khách sạn nơi bạn đến rằng bạn sẽ mang theo trẻ em.</p>
                             </div>
                         </div>
                     </div>
@@ -246,12 +252,14 @@
                                     </div>
                                 </div>
                                 <div class="room_2il1i1 text-center position-absolute w-100">
-                                    <span class="d-inline-block bg_yell text-white p-2 px-4">From: $22</span>
+                                    <span class="d-inline-block bg_yell text-white p-2 px-4">View</span>
                                 </div>
                             </div>
                             <div class="room_2il2 bg-white text-center p-4">
-                                <h4 class="mt-2"><a href="#">Laundry Service</a></h4>
-                                <p class="font_14 mb-0">Designed for practicality and comfort, these contemporary-styled rooms featur...</p>
+                                <h4 class="mt-2"><a href="#">Ổ cắm điện và thiết bị chuyển đổi dòng điện</a></h4>
+                                <p class="font_14 mb-0">Khi có sự khác biệt về đầu cắm điện, 
+                                    hoặc có nhu cầu sử dụng nhiều hơn số ổ cắm điện trong phòng, 
+                                    hãy liên hệ lễ tân để được giúp đỡ nhé</p>
                             </div>
                         </div>
                     </div>

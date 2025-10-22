@@ -14,6 +14,9 @@ public class ExtraService {
     private Date createdAt;
     private Date updatedAt;
 
+    public ExtraService() {
+    }
+
     public ExtraService(int extraServiceId, int reservationId, String serviceName, String serviceDescription,
                         double servicePrice, Date serviceStartTime, Date serviceEndTime,
                         String status, Date createdAt, Date updatedAt) {

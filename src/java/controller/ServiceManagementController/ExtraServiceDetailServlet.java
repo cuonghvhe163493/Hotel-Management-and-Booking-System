@@ -4,59 +4,52 @@
  */
 package controller.ServiceManagementController;
 
-import dao.ServiceManagement.SerivceDetailDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import model.Service;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import java.util.List;
+import dao.ServiceManagement.ExtraServiceDAO;
+import model.ExtraService;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "ServiceDetail", urlPatterns = {"/ServiceDetail"})
-public class ServiceDetail extends HttpServlet {
-
-    private final SerivceDetailDAO dao = new SerivceDetailDAO();
+@WebServlet(name = "ExtraServiceDetail", urlPatterns = {"/extraServiceDetail"})
+public class ExtraServiceDetailServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String idStr = request.getParameter("id");
-        Integer id = null;
+        if (idStr == null || idStr.isBlank()) {
+            response.sendRedirect(request.getContextPath() + "/extraService");
+            return;
+        }
+
+        int id;
         try {
-            id = Integer.valueOf(idStr);
-        } catch (Exception ignore) {
-        }
-
-        if (id == null) {
-            // id không hợp lệ → 400
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid service id");
+            id = Integer.parseInt(idStr);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/extraService");
             return;
         }
 
-        Service s = dao.findById(id);
-        if (s == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Service not found");
-            return;
+        ExtraServiceDAO dao = new ExtraServiceDAO();
+        ExtraService service = dao.getById(id);
+        if (service == null) {
+            service = new ExtraService();
+            service.setExtraServiceId(id);
+            service.setServiceName("Extra Service #" + id + " (preview)");
+            service.setServiceDescription("No data in database yet. This is a placeholder detail page.");
+            service.setServicePrice(0.0);
+            // các field khác để null cũng không sao, JSP sẽ if-check
         }
 
-// lấy giá nhỏ nhất
-        Long minPriceCents = dao.getMinPriceCents(s.getServiceId());
-        if (minPriceCents != null) {
-            request.setAttribute("minPriceCents", minPriceCents);
-            request.setAttribute("priceLabel", "From: $" + String.format("%.2f", minPriceCents / 100.0));
-        }
-
-        request.setAttribute("service", s);
-        request.setAttribute("related", dao.findRelated(id, 4));
-
-        request.getRequestDispatcher("/view/ServiceManagement/service_detail.jsp")
-                .forward(request, response);
+        request.setAttribute("service", service);
+        request.setAttribute("related", java.util.Collections.emptyList()); // tạm không liên quan khi DB trống
+        request.getRequestDispatcher("/view/ServiceManagement/extraServiceDetail.jsp").forward(request, response);
     }
-
 }
