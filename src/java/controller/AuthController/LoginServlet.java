@@ -34,8 +34,12 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", user.getUsername());
             session.setAttribute("role", user.getRole());
 
-            if ("admin".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(ctx + "/view/HotelAdministration/admin_homepage.jsp");
+           if ("admin".equalsIgnoreCase(user.getRole()) || "hotel_manager".equalsIgnoreCase(user.getRole())) {
+                
+                // 🟢 FIX CUỐI CÙNG: Dùng FORWARD để buộc Controller tải dữ liệu ngay lập tức
+                // Chuyển hướng xử lý sang Servlet AdminDashboardController
+                request.getRequestDispatcher("/admin-home").forward(request, response);
+                return; // Kết thúc xử lý
             } else if ("customer".equalsIgnoreCase(user.getRole())) {
                 response.sendRedirect(ctx + "/view/Customer/customer_homepage.jsp");
             } else if ("hotel_manager".equalsIgnoreCase(user.getRole())) {

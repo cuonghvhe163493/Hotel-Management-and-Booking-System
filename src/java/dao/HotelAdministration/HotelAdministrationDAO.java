@@ -5,15 +5,13 @@ import utils.DBConnection;
 
 public class HotelAdministrationDAO {
     
-    // Cấu trúc Try-Finally mới để xử lý lỗi kết nối
-    private static int executeCountQuery(String query, String methodName) {
+    private int executeCountQuery(String query, String methodName) {
         int count = 0;
-        Connection conn = null; // Khai báo Connection ngoài try
+        Connection conn = null;
         
         try {
-            conn = DBConnection.getConnection(); // Lấy kết nối
+            conn = DBConnection.getConnection(); 
             
-            // Khối Try-with-resources cho PreparedStatement
             try (PreparedStatement ps = conn.prepareStatement(query)) {
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
@@ -21,12 +19,10 @@ public class HotelAdministrationDAO {
                 }
             }
         } catch (SQLException e) {
-            // In ra lỗi SQL Server chi tiết để gỡ lỗi
             System.err.println("Database: SQL Server");
             System.err.println("❌ CRITICAL SQL ERROR in " + methodName + ": " + e.getMessage());
             e.printStackTrace();
         } finally {
-            // Đảm bảo đóng kết nối
             if (conn != null) {
                 try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
             }
@@ -34,37 +30,35 @@ public class HotelAdministrationDAO {
         return count;
     }
     
-    // 🔹 Lấy số lượng Receptionists
-    public static int getReceptionistCount() {
-        // Đã sửa role = 'Receptionist'
-        String query = "SELECT COUNT(*) FROM users WHERE role = 'Receptionist'"; 
+    // 🔹 Lấy số lượng Receptionists (Dùng LOWER)
+    public int getReceptionistCount() {
+        String query = "SELECT COUNT(*) FROM dbo.Users WHERE LOWER(role) = 'hotel_manager'"; 
         return executeCountQuery(query, "getReceptionistCount");
     }
 
-    // 🔹 Lấy số lượng Customers
-    public static int getCustomerCount() {
-        // Đã sửa role = 'Customer'
-        String query = "SELECT COUNT(*) FROM users WHERE role = 'Customer'"; 
+    // 🔹 Lấy số lượng Customers (Dùng LOWER)
+    public int getCustomerCount() {
+        String query = "SELECT COUNT(*) FROM dbo.Users WHERE LOWER(role) = 'customer'"; 
         return executeCountQuery(query, "getCustomerCount");
     }
 
     // 🔹 Lấy số lượng phòng còn trống
-    public static int getAvailableRoomsCount() {
-        String query = "SELECT COUNT(*) FROM rooms WHERE room_status = 'available'";
+    public int getAvailableRoomsCount() {
+        String query = "SELECT COUNT(*) FROM dbo.Rooms WHERE LOWER(room_status) = 'available'";
         return executeCountQuery(query, "getAvailableRoomsCount");
     }
 
     // 🔹 Lấy số lượng phòng đã đặt
-    public static int getBookedRoomsCount() {
-        String query = "SELECT COUNT(*) FROM rooms WHERE room_status = 'occupied'";
-        return executeCountQuery(query, "getBookedRoomsCount");
+    public int getOccupiedRoomsCount() {
+        String query = "SELECT COUNT(*) FROM dbo.Rooms WHERE LOWER(room_status) = 'occupied'";
+        return executeCountQuery(query, "getOccupiedRoomsCount");
     }
 
     // 🔹 Lấy điểm đánh giá trung bình
-    public static double getAverageRating() {
+    public double getAverageRating() {
         double avgRating = 0.0;
-        String query = "SELECT AVG(rating) FROM feedback";
-        Connection conn = null; 
+        String query = "SELECT AVG(rating) FROM dbo.Feedback"; 
+        Connection conn = null;
         
         try {
             conn = DBConnection.getConnection(); 
