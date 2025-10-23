@@ -8,7 +8,7 @@ public class DBConnection {
     // 🚨 KIỂM TRA LẠI: Đảm bảo URL, USER và PASSWORD là chính xác 100%
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=HotelManagerNo7Test;encrypt=true;trustServerCertificate=true;";
     private static final String USER = "sa";
-    private static final String PASSWORD = "1234"; 
+    private static final String PASSWORD = "sa"; 
 
     // Sửa: Thêm "throws SQLException" để thông báo lỗi kết nối ra bên ngoài
     public static Connection getConnection() throws SQLException { 
