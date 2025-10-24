@@ -4,10 +4,7 @@
  */
 package dao.Staymanagement;
 
-/**
- *
- * @author Hoang Viet Cuong
- */
+
 public class NewClass {
     
 }

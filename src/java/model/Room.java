@@ -12,6 +12,10 @@ public class Room {
     private Date createdAt;
     private Date updatedAt;
 
+    public Room() {
+    }
+
+    
     public Room(int roomId, String roomNumber, String roomStatus, String roomType,
                 int capacity, double pricePerNight, Date createdAt, Date updatedAt) {
         this.roomId = roomId;
@@ -23,6 +27,9 @@ public class Room {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+    
+    
+    
 
     // Getters & Setters
     public int getRoomId() { return roomId; }

@@ -75,7 +75,7 @@
                                             Rooms
                                         </a>
                                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="rooms.jsp"> Rooms</a></li>
+                                            <li><a class="dropdown-item" href="view/Staymanagement/StayRoom.jsp"> Stay Room</a></li>
                                             <li><a class="dropdown-item border-0" href="detail.jsp"> Room Detail</a></li>
                                         </ul>
                                     </li>

@@ -10,5 +10,14 @@
             <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391/2_SWP391%20(1)/HotelManagementandBookingSystem/src/java/controller/ProfileController/UpdateProfileServlet.java</file>
             <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391/2_SWP391%20(1)/HotelManagementandBookingSystem/web/view/Profile/update_profile.jsp</file>
         </group>
+        <group name="DataStructure_Algorithms">
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/rooms.css</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/stay.css</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/checkin.css</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/ServicesRoom.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/StayRoom.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckInForReceptionist.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/global.css</file>
+        </group>
     </open-files>
 </project-private>
