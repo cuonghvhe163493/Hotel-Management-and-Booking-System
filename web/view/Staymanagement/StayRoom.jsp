@@ -10,7 +10,7 @@
 
 <%
     StayRoomDAO d = new StayRoomDAO();
-    List<StayRoom> list = d.getAllRooms("1");
+    List<StayRoom> list = d.getAllRooms(13);
 %>
 <!DOCTYPE html>
 <html lang="en">

@@ -30,7 +30,9 @@ public class CheckInServlet extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-
+        
+        
+        String booked = request.getParameter("note");
         String idRoom = request.getParameter("idroom");
         String name = request.getParameter("name");
         String numPeople = request.getParameter("numPeople");

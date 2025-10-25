@@ -4,6 +4,14 @@
     Author     : Hoang Viet Cuong
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="dao.Staymanagement.StayRoomDAO"%>
+<%@page import="model.StayRoom"%>
+<%@page import="java.util.List"%>
+
+<%
+    StayRoomDAO d = new StayRoomDAO();
+    List<StayRoom> list = d.getAllRooms(13);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +23,7 @@
         <link href="css/font-awesome.min.css" rel="stylesheet" >
         <link href="css/global.css" rel="stylesheet">
         <link href="css/rooms.css" rel="stylesheet">
-        <link href="css/stay.css" rel="stylesheet">
+        <link href="css/check-in.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
@@ -114,35 +122,15 @@
             </div>
         </div>
 
-        <p>Booked</p>
-        <select name="Booked">
-            <option>Yes</option>
-            <option>No</option>
-        </select>
+        
         <div class=""check-in-container>
             <form action="CheckInServlet" method="post" class="check-in-container">
-                <p>ID Room: <input type="text" name="idroom" placeholder="ID Room" required /></p>
-                <p>Customer Name: <input type="text" name="name" placeholder="Name" required /></p>
-
-                <div>
-                    <p>Number of people: 
-                        <label for="numberInput"></label>
-                        <input type="text" id="numberInput" name="numPeople" list="people" placeholder="Number of people" required>
-                        <datalist id="people">
-                            <option value="1"><option value="2"><option value="3"><option value="4">
-                            <option value="5"><option value="6"><option value="7"><option value="8">
-                            <option value="9"><option value="10">
-                        </datalist>
-                </div>
-
-                <p>Citizen ID: <input type="text" name="citizenId" placeholder="Citizen ID" required /></p>
-                <p>Check-in Date: <input type="date" name="checkInDate" required /></p>    
-                <p>Check-out Date: <input type="date" name="checkOutDate" required /></p> 
-                <p>Gmail: <input type="email" name="gmail" placeholder="Gmail" /></p>   
-                <p>Phone: <input type="text" name="phone" placeholder="Phone" /></p>
-                <p>Note</p>    
-                <input type="text" name="note" value="" />
-                <input type="submit" class="send-btn" value="Submit" />
+                <p>Room ID:</p>
+                <select name="Room ID">
+                    <% for (StayRoom r : list) { %>
+                    <option>Booking ID:  <%= r.getBookingId() %> ---- Room ID: <%= r.getRoomId() %></option>   
+                    <% } %>
+                </select>   
             </form>
 
         </div>

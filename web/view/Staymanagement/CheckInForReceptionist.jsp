@@ -124,8 +124,10 @@
                     <option value="No">No</option>
                 </select>
                 <form action="CheckInServlet" method="post" class="check-in-input-container">
-
-                    <p>ID Room: <input type="text" name="idroom" placeholder="ID Room" required /></p>
+                    <div id="bookingIdField" style="display:none;">
+                        <p>Booking ID: <input type="text" name="bookingId" placeholder="Booking ID" /></p>
+                    </div>
+                    <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
                     <p>Customer Name: <input type="text" name="name" placeholder="Name" required /></p>
                     <p>Citizen ID: <input type="text" name="citizenId" placeholder="Citizen ID" required /></p>
 
@@ -157,11 +159,11 @@
                     <p>Booking date:</p>
                     <p>Check In Date:</p>
                     <p>Check Out Date:</p>
-                    
-                    
+
+
                 </div>
-                
-                
+
+
                 <div class="info-room">
                     <p>Room ID:</p>
                     <p>Room number:</p>
@@ -185,15 +187,20 @@
         </div>
 
         <script>
-
             const bookedSelect = document.getElementById("bookedSelect");
             const extraFields = document.getElementById("extraFields");
+            const bookingIdField = document.getElementById("bookingIdField");
 
             bookedSelect.addEventListener("change", function () {
                 if (this.value === "No") {
-                    extraFields.style.display = "block"; // Hiện các ô thêm
+                    extraFields.style.display = "block";     // Hiện thêm các ô khi chưa booked
+                    bookingIdField.style.display = "none";   // Ẩn booking ID
+                } else if (this.value === "Yes") {
+                    extraFields.style.display = "none";      // Ẩn ô thêm
+                    bookingIdField.style.display = "block";  // Hiện booking ID
                 } else {
-                    extraFields.style.display = "none";  // Ẩn nếu đã booked
+                    extraFields.style.display = "none";
+                    bookingIdField.style.display = "none";
                 }
             });
         </script>
