@@ -10,7 +10,8 @@
 
 <%
     StayRoomDAO d = new StayRoomDAO();
-    List<StayRoom> list = d.getAllRooms(13);
+    
+    List<StayRoom> list = d.getAllRoomsForCustomer(13);
 %>
 
 <!DOCTYPE html>
@@ -122,16 +123,32 @@
             </div>
         </div>
 
-        
-        <div class=""check-in-container>
-            <form action="CheckInServlet" method="post" class="check-in-container">
-                <p>Room ID:</p>
-                <select name="Room ID">
-                    <% for (StayRoom r : list) { %>
-                    <option>Booking ID:  <%= r.getBookingId() %> ---- Room ID: <%= r.getRoomId() %></option>   
-                    <% } %>
-                </select>   
-            </form>
+
+        <div class="check-in">
+            <div>
+                <form action="${pageContext.request.contextPath}/CheckInServletForCustomer" method="get" class="check-in-container">
+                    <p>Booking ID and Room ID:</p>
+                    <select name="Room ID">
+                        <% for (StayRoom r : list) { %>
+                        <option>Booking ID:  <%= r.getBookingId() %> ---- Room ID: <%= r.getRoomId() %></option>   
+                        <% } %>
+                    </select>   
+                    <input type="submit" value="Check" />
+                </form>
+                    <p>Information required for check-in</p>  
+                    <p>Customer Name: </p>
+                    <p>Phone: </p>
+                    
+                    
+                    
+            </div>    
+                    
+            <div>
+                <p>  123</p>   
+                        
+                        
+            </div>    
+
 
         </div>
 
@@ -189,7 +206,24 @@
             </div>
         </section>
 
+        <!--sticky navbar-->
+        <script>
+            window.onscroll = function () {
+                myFunction()
+            };
+            var navbar_sticky = document.getElementById("navbar_sticky");
+            var sticky = navbar_sticky.offsetTop;
+            var navbar_height = document.querySelector('.navbar').offsetHeight;
+            function myFunction() {
+                if (window.pageYOffset >= sticky + navbar_height) {
+                    navbar_sticky.classList.add("sticky")
 
+                } else {
+                    navbar_sticky.classList.remove("sticky");
+                    document.body.style.paddingTop = '0'
+                }
+            }
+        </script>
 
 
 

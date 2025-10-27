@@ -19,9 +19,24 @@ public class StayRoom {
     private String status;
     private Date checkInDate;
     private Date checkOutDate;
-
+    
+    private double price;
+    private double deposit;
+    private int citizenID;
+    private String gmail;
+    private int phone;
+    private String name;
+ 
     public StayRoom() {
     }
+
+    public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.roomStatus = roomStatus;
+        this.roomType = roomType;
+    }
+    
 
     public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType, int capacity, double pricePerNight, int bookingId, int guestCount, String status, Date checkInDate, Date checkOutDate) {
         this.roomId = roomId;
@@ -37,6 +52,46 @@ public class StayRoom {
         this.checkOutDate = checkOutDate;
     }
 
+    public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType, int capacity, double pricePerNight, int bookingId, int guestCount, String status, Date checkInDate, Date checkOutDate, double price, double deposit, int citizenID, String gmail, int phone) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.roomStatus = roomStatus;
+        this.roomType = roomType;
+        this.capacity = capacity;
+        this.pricePerNight = pricePerNight;
+        this.bookingId = bookingId;
+        this.guestCount = guestCount;
+        this.status = status;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.price = price;
+        this.deposit = deposit;
+        this.citizenID = citizenID;
+        this.gmail = gmail;
+        this.phone = phone;
+    }
+    public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType, int capacity, double pricePerNight, int bookingId, int guestCount, String status, Date checkInDate, Date checkOutDate, String gmail, int phone, String name) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.roomStatus = roomStatus;
+        this.roomType = roomType;
+        this.capacity = capacity;
+        this.pricePerNight = pricePerNight;
+        this.bookingId = bookingId;
+        this.guestCount = guestCount;
+        this.status = status;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+//        this.citizenID = citizenID;
+        this.gmail = gmail;
+        this.phone = phone;
+        this.name = name;
+    }
+    
+    
+    
+    
+    
     public StayRoom(int roomId, String roomNumber, String roomType, int bookingId, String status, Date checkInDate, Date checkOutDate) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
@@ -45,6 +100,57 @@ public class StayRoom {
         this.status = status;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
+    
+    
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(double deposit) {
+        this.deposit = deposit;
+    }
+
+    public int getCitizenID() {
+        return citizenID;
+    }
+
+    public void setCitizenID(int citizenID) {
+        this.citizenID = citizenID;
+    }
+
+    public String getGmail() {
+        return gmail;
+    }
+
+    public void setGmail(String gmail) {
+        this.gmail = gmail;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
     }
 
     

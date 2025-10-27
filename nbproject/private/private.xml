@@ -11,17 +11,16 @@
             <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391/2_SWP391%20(1)/HotelManagementandBookingSystem/web/view/Profile/update_profile.jsp</file>
         </group>
         <group name="DataStructure_Algorithms">
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/rooms.css</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/stay.css</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/checkin.css</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/ServicesRoom.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/NewServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/StayRoom.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/dao/Staymanagement/StayRoomDAO.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/CheckInServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/model/StayRoom.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/dao/Staymanagement/NewClass.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckInForReceptionist.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/model/Room.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/global.css</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckInForCustomer.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/StayRoomReceptionist.jsp</file>
         </group>
     </open-files>
 </project-private>

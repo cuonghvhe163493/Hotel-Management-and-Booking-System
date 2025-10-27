@@ -23,8 +23,8 @@ import model.StayRoom;
  *
  * @author Admin
  */
-@WebServlet(name="CheckInServlet", urlPatterns={"/CheckInServlet"})
-public class CheckInServlet extends HttpServlet {
+@WebServlet(name="CheckInServletForCustomer", urlPatterns={"/CheckInServletForCustomer"})
+public class CheckInServletForCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,35 +40,14 @@ public class CheckInServlet extends HttpServlet {
         
         
         StayRoomDAO d = new StayRoomDAO();
-        StayRoom stayroom = d.getCheckInRoomForReceptionist(booking_Id,room_Id);
+        StayRoom stayroom = d.getCheckInRoomForCustomer(booking_Id,room_Id);
         
         request.setAttribute("stayroom", stayroom);
 
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForCustomer.jsp");
         rd.forward(request, response);
     }
     
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        
-        
-        String booked = request.getParameter("booked");
-        String idRoom = request.getParameter("idroom");
-        String idroom = request.getParameter("idroom");
-        String numPeople = request.getParameter("numPeople");
-        String citizenId = request.getParameter("citizenId");
-        String checkInDate = request.getParameter("checkInDate");
-        String checkOutDate = request.getParameter("checkOutDate");
-        String gmail = request.getParameter("gmail");
-        String phone = request.getParameter("phone");
-        String note = request.getParameter("note");
-
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckIn.jsp");
-            rd.forward(request, response);
-    }
+    
 
 }

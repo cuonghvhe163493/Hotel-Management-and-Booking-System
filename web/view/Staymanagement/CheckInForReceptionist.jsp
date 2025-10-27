@@ -4,18 +4,21 @@
     Author     : Hoang Viet Cuong
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.StayRoom"%>
 
+<% StayRoom stayroom = (StayRoom) request.getAttribute("stayroom"); %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Check In</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" >
-        <link href="css/font-awesome.min.css" rel="stylesheet" >
-        <link href="css/global.css" rel="stylesheet">
-        <link href="css/rooms.css" rel="stylesheet">
-        <link href="css/checkin.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/rooms.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Staymanagement/css/checkin.css">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
@@ -118,20 +121,30 @@
 
 
             <div class="check-in-container">
+                <p>Check In</p>
+                <!--                Check customer booked or not-->
                 <p class="word-booked">Booked</p>
                 <select class="booked-selection" name="Booked" id="bookedSelect">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-                <form action="CheckInServlet" method="post" class="check-in-input-container">
-                    <div id="bookingIdField" style="display:none;">
+                <!--                Enter to confirm info customer booked-->
+                <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
+                    <div id="bookingIdField" style="display:block;">
                         <p>Booking ID: <input type="text" name="bookingId" placeholder="Booking ID" /></p>
+                        <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
+                        <p>Note</p>    
+                        <input type="text" name="note" value="" />
+                        <input type="submit" class="send-btn" value="Check" />
                     </div>
-                    <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
-                    <p>Customer Name: <input type="text" name="name" placeholder="Name" required /></p>
-                    <p>Citizen ID: <input type="text" name="citizenId" placeholder="Citizen ID" required /></p>
+                </form>
 
+                <!--                Enter to confirm info and room for customer not booked-->
+                <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" class="check-in-input-container">
                     <div id="extraFields" style="display:none;">
+                        <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
+                        <p>Customer Name: <input type="text" name="name" placeholder="Name" required /></p>
+                        <p>Citizen ID: <input type="text" name="citizenId" placeholder="Citizen ID" required /></p>
                         <div>
                             <p>Number of people: 
                                 <input type="text" id="numberInput" name="numPeople" list="people" placeholder="Number of people">
@@ -146,44 +159,70 @@
                         <p>Check-in Date: <input type="date" name="checkInDate" /></p>    
                         <p>Check-out Date: <input type="date" name="checkOutDate" /></p> 
                         <p>Gmail: <input type="email" name="gmail" placeholder="Gmail" /></p>
+                        <p>Phone: <input type="text" name="phone" placeholder="Phone" /></p>
+                        <p>Note<input type="text" name="note" value="" /></p>
+                        <input type="submit" class="send-btn" value="Check" />
                     </div>
-                    <p>Phone: <input type="text" name="phone" placeholder="Phone" /></p>
-                    <p>Note</p>    
-                    <input type="text" name="note" value="" />
-                    <input type="submit" class="send-btn" value="Check" />
+
                 </form>
+
             </div>
             <div class="check-info-container">
+
+                <p>Information of Room And Booking</p>
+                <br>
                 <div class="info-booking">
-                    <p>Booking ID:</p>
-                    <p>Booking date:</p>
-                    <p>Check In Date:</p>
-                    <p>Check Out Date:</p>
-
-
+                    <p>Booking ID: ${stayroom.bookingId}</p>
+                    <p>Booking status: ${stayroom.status}</p>
+                    <p>Check In Date: ${stayroom.checkInDate}</p>
+                    <p>Check Out Date: ${stayroom.checkOutDate}</p>
                 </div>
-
-
+                <p>=================================================</p>   
                 <div class="info-room">
-                    <p>Room ID:</p>
-                    <p>Room number:</p>
-                    <p>Room status:</p>
-                    <p>Room type:</p>
-                    <p>Capacity:</p>
+                    <p>Room ID: ${stayroom.roomId}</p>
+                    <p>Room number:${stayroom.roomNumber}</p>
+                    <p>Room status:${stayroom.roomStatus}</p>
+                    <p>Room type: ${stayroom.roomType}</p>
+                    <p>Capacity: ${stayroom.capacity}</p>
+                    <p>Price Per Night: ${stayroom.pricePerNight}</p>
                     <p>Price:</p>
                     <p>Deposit required:</p>
-                </div><!-- comment -->
-                <div class="info-customer">
-                    <p>Customer name:</p>
-                    <p>Citizen ID:</p>
-                    <p>Number of people</p>
-                    <p>Date</p>
-                    <p></p>
-                    <p></p>
                 </div>
+                <p>=================================================</p>   
+                <div class="info-customer">
+                    <p>Customer name: ${stayroom.name}</p>
+                    <!--                    <p>Citizen ID: </p>-->
+                    <p>Number of people: ${stayroom.guestCount}</p>
+                    <p>Email: ${stayroom.gmail}</p>
+                    <p>Phone: ${stayroom.phone}</p>
+                </div>
+                <form action="${pageContext.request.contextPath}/ChangeStatus" method="post">
+                    <input type="hidden" name="roomId" value="${stayroom.roomId}" />
+                    <input type="hidden" name="bookingId" value="${stayroom.bookingId}" />
+                    <input class="send-btn" type="submit" value="Confirmation" />
+                </form>
+                <%
+                String message = (String) request.getAttribute("message");
+                String error = (String) request.getAttribute("error");
 
+                if (message != null) {
+                %>
+                <div style="color: green; font-weight: bold; margin-bottom: 10px;">
+                    <%= message %>
+                </div>
+                <%
+                    }
 
-            </div>
+                    if (error != null) {
+                %>
+                <div style="color: red; font-weight: bold; margin-bottom: 10px;">
+                    <%= error %>
+                </div>
+                <%
+                    }
+                %>
+
+            </div>        
         </div>
 
         <script>

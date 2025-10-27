@@ -10,7 +10,7 @@
 
 <%
     StayRoomDAO d = new StayRoomDAO();
-    List<StayRoom> list = d.getAllRooms(13);
+    List<StayRoom> list = d.getAllRoomsForCustomer(13);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -181,7 +181,7 @@
 
                 <div class="func-box">
                     <div>
-                        <a href="CheckInForReceptionist.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
+                        <a href="CheckInForCustomer.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
                     </div>
                     <div>
                         <a href="CheckOut.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
@@ -200,7 +200,7 @@
 <!--small chat box-->
             <div class="chat-container">
                 <div>
-                    <h4 class="word-chat">Chat to Receptionist   <a href="CommunicationChatBox.jsp">CHAT BOX</a></h4>
+                    <h4 class="word-chat">Chat Box   <a href="CommunicationChatBox.jsp">CHAT BOX</a></h4>
 
                 </div>
                 <div class="box">

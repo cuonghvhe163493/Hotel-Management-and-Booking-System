@@ -95,8 +95,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  
+  display: block;
 }
+
 
 .check-info-container p {
   margin: 8px 0;
