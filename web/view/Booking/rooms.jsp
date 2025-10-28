@@ -1,9 +1,3 @@
-<%-- 
-    Document   : rooms
-    Created on : Oct 20, 2025
-    Author     : taqua
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -20,14 +14,28 @@
         <link href="${pageContext.request.contextPath}/css/rooms.css" rel="stylesheet">
         <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
         <style>
-            .room-count { color: #fff; margin-bottom: 15px; }
-            .room-attr i { margin-right: 5px; color: #ffb800; }
-            .pagination button.active { background-color: #ffb800; border-color: #ffb800; }
-            .floor-label { color: #fff; font-weight: bold; margin-bottom: 10px; }
+            .room-count {
+                color: #fff;
+                margin-bottom: 15px;
+            }
+            .room-attr i {
+                margin-right: 5px;
+                color: #ffb800;
+            }
+            .pagination .page-link.active, .pagination .active>.page-link {
+                background-color: #ffb800;
+                border-color: #ffb800;
+                color: #fff;
+            }
+            .floor-label {
+                color: #fff;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
         </style>
     </head>
     <body>
-        <!-- Header & Navbar -->
+        <!-- Header -->
         <div class="main_room_dt">
             <div class="main_o1">
                 <section id="top" class="pt-3 pb-3">
@@ -58,6 +66,10 @@
                 </section>
 
                 <section id="header">
+                    <c:set var="cartCount" value="0"/>
+                    <c:if test="${not empty sessionScope.cart}">
+                        <c:set var="cartCount" value="${fn:length(sessionScope.cart)}"/>
+                    </c:if>
                     <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
                         <div class="container-xl">
                             <a class="navbar-brand fs-3 fw-bold text-white" href="index.html"><i class="fa fa-plane col_yell"></i> Hotells </a>
@@ -68,10 +80,15 @@
                                 <ul class="navbar-nav mb-0">
                                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                                     <li class="nav-item"><a class="nav-link" href="about.html">About </a></li>
-                                    <li class="nav-item"><a class="nav-link" href="rooms">Rooms </a></li>
+                                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/rooms">Rooms </a></li>
                                 </ul>
                                 <ul class="navbar-nav ms-auto">
                                     <li class="nav-item"><a class="nav-link button" href="#">BOOK NOW</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/cart">
+                                            Cart <span class="badge bg-warning text-dark">${cartCount}</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -89,6 +106,7 @@
             </div>
         </div>
 
+        <!-- Content -->
         <section id="room" class="p_3">
             <div class="container-xl">
                 <div class="row">
@@ -96,269 +114,147 @@
                     <!-- Left: Room list -->
                     <div class="col-md-8">
                         <div class="room_1l">
-                            <div class="room-count mb-3">0 Rooms</div>
+                            <div class="room-count mb-3">${fn:length(rooms)} Rooms</div>
 
-                            <div class="room_1l1 row bg-light p-4 px-3 mx-0">
-                                <div class="col-md-7">
-                                    <input class="form-control border-0" id="example-date" type="date" name="date">
+                            <!-- Form Check-in / Check-out -->
+                            <form class="room_1l1 row bg-light p-4 px-3 mx-0 mb-4" action="${pageContext.request.contextPath}/rooms" method="get">
+                                <div class="col-md-5">
+                                    <label class="form-label">Check-in</label>
+                                    <input class="form-control border-0" type="date" name="checkInDate" value="${param.checkInDate}">
                                 </div>
                                 <div class="col-md-5">
-                                    <h6 class="mb-0"><a class="button d-block text-center fw-bold" href="detail.html">Check Rates</a></h6>
+                                    <label class="form-label">Check-out</label>
+                                    <input class="form-control border-0" type="date" name="checkOutDate" value="${param.checkOutDate}">
                                 </div>
-                            </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-warning w-100 fw-bold">Check</button>
+                                </div>
+                                <!-- Giữ các param khác khi submit -->
+                                <input type="hidden" name="sort" value="${param.sort}">
+                                <input type="hidden" name="roomType" value="${param.roomType}">
+                                <input type="hidden" name="capacity" value="${param.capacity}">
+                                <input type="hidden" name="maxPrice" value="${param.maxPrice}">
+                                <input type="hidden" name="availableOnly" value="${param.availableOnly}">
+                            </form>
 
                             <!-- Rooms Loop -->
-                            <c:set var="counter" value="0"/>
+                            <c:set var="counter" value="0" />
                             <c:forEach var="room" items="${rooms}">
-                                <c:set var="imgFile" value="" />
+                                <c:set var="imgFile" value="default_room.jpg" />
                                 <c:choose>
                                     <c:when test="${room.roomType eq 'Single'}"><c:set var="imgFile" value="single_room.jpg" /></c:when>
                                     <c:when test="${room.roomType eq 'Double'}"><c:set var="imgFile" value="double_room.jpg" /></c:when>
                                     <c:when test="${room.roomType eq 'Suite'}"><c:set var="imgFile" value="suite_room.jpg" /></c:when>
                                     <c:when test="${room.roomType eq 'Family'}"><c:set var="imgFile" value="family_room.jpg" /></c:when>
                                     <c:when test="${room.roomType eq 'Deluxe'}"><c:set var="imgFile" value="deluxe_room.jpg" /></c:when>
-                                    <c:otherwise><c:set var="imgFile" value="default_room.jpg" /></c:otherwise>
                                 </c:choose>
 
                                 <c:if test="${counter % 2 == 0}"><div class="room_2i row mt-4"></c:if>
+
                                         <div class="col-md-6">
-                                            <div class="room_2il" 
-                                                 data-type="${room.roomType}" 
-                                                 data-capacity="${room.capacity}" 
-                                                 data-status="${room.roomStatus}" 
-                                                 data-price="${room.pricePerNight}"
-                                                 data-room-number="${room.roomNumber}">
+                                            <div class="room_2il">
                                                 <div class="room_2il1 position-relative">
                                                     <div class="room_2il1i">
                                                         <figure class="effect-jazz mb-0">
-                                                            <a href="room-detail?id=${room.roomId}">
-                                                                <img src="${pageContext.request.contextPath}/img/${imgFile}" class="w-100" alt="Room Image">
-                                                            </a>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="room_2il1i1 text-center position-absolute w-100">
-                                                        <span class="d-inline-block bg_yell text-white p-2 px-4">
-                                                            <i class="fa fa-dollar"></i> ${room.pricePerNight}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="room_2il2 bg-light text-center p-4">
-                                                    <h4 class="mt-2">
-                                                        <a href="room-detail?id=${room.roomId}">
-                                                            <i class="fa fa-bed"></i> ${room.roomType} Room - #${room.roomNumber}
+                                                            <a href="${pageContext.request.contextPath}/room-detail?id=${room.roomId}">
+                                                            <img src="${pageContext.request.contextPath}/img/${imgFile}" class="w-100" alt="Room Image">
                                                         </a>
-                                                    </h4>
-                                                    <p class="font_14 room-attr">
-                                                        <div><i class="fa fa-users"></i> Capacity: ${room.capacity}</div>
-                                                        <div><i class="fa fa-circle" style="color: ${room.roomStatus eq 'available' ? 'green' : 'red'}"></i> Status: ${room.roomStatus}</div>
-                                                    </p>
+                                                    </figure>
+                                                </div>
+                                                <div class="room_2il1i1 text-center position-absolute w-100">
+                                                    <span class="d-inline-block bg_yell text-white p-2 px-4">
+                                                        <i class="fa fa-dollar"></i> ${room.pricePerNight}
+                                                    </span>
                                                 </div>
                                             </div>
+                                            <div class="room_2il2 bg-light text-center p-4">
+                                                <h4 class="mt-2">
+                                                    <a href="${pageContext.request.contextPath}/room-detail?id=${room.roomId}">
+                                                        <i class="fa fa-bed"></i> ${room.roomType} Room - #${room.roomNumber}
+                                                    </a>
+                                                </h4>
+                                                <p class="font_14 room-attr">
+                                                <div><i class="fa fa-users"></i> Capacity: ${room.capacity}</div>
+                                                <div><i class="fa fa-circle" style="color: ${room.roomStatus eq 'available' ? 'green' : 'red'}"></i> Status: ${room.roomStatus}</div>
+                                                </p>
+                                            </div>
                                         </div>
-                                    <c:set var="counter" value="${counter + 1}"/>
+                                    </div>
+
+                                    <c:set var="counter" value="${counter + 1}" />
                                     <c:if test="${counter % 2 == 0 || counter == fn:length(rooms)}"></div></c:if>
                                 </c:forEach>
 
-                            <div class="pagination-container mt-4 text-center"></div>
+                            <!-- Pagination -->
+                            <nav class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                            <a class="page-link"
+                                               href="${pageContext.request.contextPath}/rooms?page=${i}<c:if test='${not empty param.sort}'>&amp;sort=${param.sort}</c:if><c:if test='${not empty param.roomType}'>&amp;roomType=${param.roomType}</c:if><c:if test='${not empty param.capacity}'>&amp;capacity=${param.capacity}</c:if><c:if test='${not empty param.maxPrice}'>&amp;maxPrice=${param.maxPrice}</c:if><c:if test='${not empty param.availableOnly}'>&amp;availableOnly=${param.availableOnly}</c:if><c:if test='${not empty param.checkInDate}'>&amp;checkInDate=${param.checkInDate}</c:if><c:if test='${not empty param.checkOutDate}'>&amp;checkOutDate=${param.checkOutDate}</c:if>">
+                                                ${i}
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </nav>
+
                         </div>
                     </div>
 
                     <!-- Right: Filter + Sort Sidebar -->
                     <div class="col-md-4">
-                        <div class="room_sidebar bg-light p-4 mb-3">
-                            <h5 class="mb-3">Sort by:</h5>
-                            <select id="sortRooms" class="form-select">
-                                <option value="default">Default</option>
-                                <option value="priceAsc">Price: Low → High</option>
-                                <option value="priceDesc">Price: High → Low</option>
-                                <option value="capacityAsc">Capacity: Low → High</option>
-                                <option value="capacityDesc">Capacity: High → Low</option>
-                            </select>
-                        </div>
+                        <form action="${pageContext.request.contextPath}/rooms" method="get">
+                            <div class="room_sidebar bg-light p-4 mb-3">
+                                <h5 class="mb-3">Sort by:</h5>
+                                <select name="sort" class="form-select" onchange="this.form.submit()">
+                                    <option value="">Default</option>
+                                    <option value="priceAsc" ${param.sort eq 'priceAsc' ? 'selected' : ''}>Price: Low → High</option>
+                                    <option value="priceDesc" ${param.sort eq 'priceDesc' ? 'selected' : ''}>Price: High → Low</option>
+                                    <option value="capacityAsc" ${param.sort eq 'capacityAsc' ? 'selected' : ''}>Capacity: Low → High</option>
+                                    <option value="capacityDesc" ${param.sort eq 'capacityDesc' ? 'selected' : ''}>Capacity: High → Low</option>
+                                </select>
 
-                        <div class="room_sidebar bg-light p-4">
-                            <h5 class="mb-3">Filter Rooms:</h5>
-                            <div class="mb-4">
-                                <label for="priceRange" class="form-label">Price (max $)</label>
-                                <input type="number" id="priceRange" class="form-control" placeholder="Enter max price">
                             </div>
 
-                            <div class="mb-4">
-                                <label class="form-label">Room Type</label>
-                                <c:set var="roomTypesSet" value=""/>
-                                <c:forEach var="r" items="${rooms}">
-                                    <c:if test="${not fn:contains(roomTypesSet, r.roomType)}">
-                                        <c:set var="roomTypesSet" value="${roomTypesSet},${r.roomType}" />
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="roomType" value="${r.roomType}" id="type_${r.roomType}">
-                                            <label class="form-check-label" for="type_${r.roomType}">${r.roomType}</label>
-                                        </div>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
+                            <div class="room_sidebar bg-light p-4">
+                                <h5 class="mb-3">Filter Rooms:</h5>
 
-                            <div class="mb-4">
-                                <label class="form-label">Capacity</label>
-                                <c:forEach var="cap" items="${[1,2,3,4,5]}">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="capacity" value="${cap}" id="cap_${cap}">
-                                        <label class="form-check-label" for="cap_${cap}">${cap} person(s)</label>
-                                    </div>
-                                </c:forEach>
-                            </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Room Type</label>
+                                    <select name="roomType" class="form-select">
+                                        <option value="">All</option>
+                                        <option value="Single" ${param.roomType eq 'Single' ? 'selected' : ''}>Single</option>
+                                        <option value="Double" ${param.roomType eq 'Double' ? 'selected' : ''}>Double</option>
+                                        <option value="Suite" ${param.roomType eq 'Suite' ? 'selected' : ''}>Suite</option>
+                                        <option value="Family" ${param.roomType eq 'Family' ? 'selected' : ''}>Family</option>
+                                        <option value="Deluxe" ${param.roomType eq 'Deluxe' ? 'selected' : ''}>Deluxe</option>
+                                    </select>
+                                </div>
 
-                            <div class="mb-4">
-                                <label class="form-label">Floor</label>
-                                <c:set var="floorSet" value=""/>
-                                <c:forEach var="r" items="${rooms}">
-                                    <c:set var="floor" value="${fn:substring(r.roomNumber, 0, fn:length(r.roomNumber) - 2)}"/>
-                                    <c:if test="${not fn:contains(floorSet, floor)}">
-                                        <c:set var="floorSet" value="${floorSet},${floor}" />
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="floor" value="${floor}" id="floor_${floor}">
-                                            <label class="form-check-label" for="floor_${floor}">${floor}</label>
-                                        </div>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Capacity</label>
+                                    <input type="number" class="form-control" name="capacity" value="${param.capacity}">
+                                </div>
 
-                            <div class="mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="availableOnly" value="true" id="availableOnly">
+                                <div class="mb-4">
+                                    <label class="form-label">Max Price ($)</label>
+                                    <input type="number" class="form-control" name="maxPrice" value="${param.maxPrice}">
+                                </div>
+
+                                <div class="mb-4 form-check">
+                                    <input class="form-check-input" type="checkbox" name="availableOnly" value="true" id="availableOnly"
+                                           ${param.availableOnly eq 'true' ? 'checked' : ''}>
                                     <label class="form-check-label" for="availableOnly">Available Only</label>
                                 </div>
-                            </div>
 
-                            <button class="btn btn-primary w-100" type="button" id="applyFilters">Apply Filters</button>
-                        </div>
+                                <button class="btn btn-primary w-100" type="submit">Apply Filters</button>
+                            </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
         </section>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const container = document.querySelector(".room_1l");
-                const roomCards = Array.from(container.querySelectorAll(".room_2il"));
-                const roomCountEl = document.querySelector(".room-count");
-
-                const priceInput = document.getElementById("priceRange");
-                const typeChecks = Array.from(document.querySelectorAll("input[name='roomType']"));
-                const capacityChecks = Array.from(document.querySelectorAll("input[name='capacity']"));
-                const availableOnlyCheck = document.getElementById("availableOnly");
-                const applyBtn = document.getElementById("applyFilters");
-                const sortSelect = document.getElementById("sortRooms");
-
-                const roomsPerPage = 6;
-                let currentPage = 1;
-                let filteredCards = roomCards.slice();
-
-                // ensure dataset
-                roomCards.forEach(card => {
-                    card.dataset.price = parseFloat(card.dataset.price) || 0;
-                    card.dataset.capacity = parseInt(card.dataset.capacity) || 0;
-                    card.dataset.type = card.dataset.type || "";
-                    card.dataset.status = card.dataset.status.toLowerCase();
-                    card.dataset.roomNumber = parseInt(card.dataset.roomNumber) || 0;
-                    const roomNumber = parseInt(card.dataset.roomNumber) || 0;
-                    card.dataset.floor = Math.floor(roomNumber / 100);
-                });
-
-                const paginationContainer = document.querySelector(".pagination-container");
-
-                function updateRoomCount() {
-                    roomCountEl.textContent = filteredCards.length + " Rooms";
-                }
-
-                function filterRooms() {
-                    const maxPrice = parseFloat(priceInput.value) || Infinity;
-                    const selectedTypes = typeChecks.filter(c => c.checked).map(c => c.value);
-                    const selectedCaps = capacityChecks.filter(c => c.checked).map(c => parseInt(c.value));
-                    const availableOnly = availableOnlyCheck.checked;
-                    const floorChecks = Array.from(document.querySelectorAll("input[name='floor']"));
-                    const selectedFloors = floorChecks.filter(c => c.checked).map(c => parseInt(c.value));
-
-                    filteredCards = roomCards.filter(card => {
-                        const price = parseFloat(card.dataset.price);
-                        const type = card.dataset.type;
-                        const capacity = parseInt(card.dataset.capacity);
-                        const status = card.dataset.status;
-                        const floor = parseInt(card.dataset.floor);
-
-                        if (price > maxPrice) return false;
-                        if (selectedTypes.length && !selectedTypes.includes(type)) return false;
-                        if (selectedCaps.length && !selectedCaps.includes(capacity)) return false;
-                        if (availableOnly && status !== "available") return false;
-                        if (selectedFloors.length && !selectedFloors.includes(floor)) return false;
-
-                        return true;
-                    });
-
-                    currentPage = 1;
-                    sortRooms();
-                }
-
-                function sortRooms() {
-                    const sortType = sortSelect.value;
-                    filteredCards.sort((a, b) => {
-                        const priceA = Number(a.dataset.price);
-                        const priceB = Number(b.dataset.price);
-                        const capA = Number(a.dataset.capacity);
-                        const capB = Number(b.dataset.capacity);
-                        const roomA = Number(a.dataset.roomNumber);
-                        const roomB = Number(b.dataset.roomNumber);
-
-                        switch (sortType) {
-                            case "priceAsc": return priceA - priceB;
-                            case "priceDesc": return priceB - priceA;
-                            case "capacityAsc": return capA - capB;
-                            case "capacityDesc": return capB - capA;
-                            default: return roomA - roomB;
-                        }
-                    });
-                    currentPage = 1;
-                    showPage(currentPage);
-                }
-
-                function showPage(page) {
-                    container.querySelectorAll(".room_2i").forEach(r => r.remove());
-                    const start = (page - 1) * roomsPerPage;
-                    const end = start + roomsPerPage;
-
-                    for (let i = start; i < end && i < filteredCards.length; i += 2) {
-                        const row = document.createElement("div");
-                        row.className = "room_2i row mt-4";
-                        row.appendChild(filteredCards[i].parentElement.cloneNode(true));
-                        if (filteredCards[i + 1] && i + 1 < end)
-                            row.appendChild(filteredCards[i + 1].parentElement.cloneNode(true));
-                        container.insertBefore(row, paginationContainer);
-                    }
-                    updateRoomCount();
-                    renderPagination(Math.ceil(filteredCards.length / roomsPerPage));
-                }
-
-                function renderPagination(totalPages) {
-                    paginationContainer.innerHTML = "";
-                    if (totalPages <= 1) return;
-                    for (let i = 1; i <= totalPages; i++) {
-                        const btn = document.createElement("button");
-                        btn.textContent = i;
-                        btn.className = "btn btn-sm btn-secondary mx-1";
-                        if (i === currentPage) btn.classList.add("active");
-                        btn.addEventListener("click", () => {
-                            currentPage = i;
-                            showPage(currentPage);
-                        });
-                        paginationContainer.appendChild(btn);
-                    }
-                }
-
-                applyBtn.addEventListener("click", filterRooms);
-                sortSelect.addEventListener("change", sortRooms);
-
-                // initial sort by room number
-                sortRooms();
-            });
-        </script>
     </body>
 </html>

@@ -50,58 +50,6 @@ public class RoomDAO {
         return null;
     }
 
-    // Thêm phòng mới
-    public boolean addRoom(Room room) {
-        String sql = "INSERT INTO Rooms(room_number, room_status, room_type, capacity, price_per_night, created_at, updated_at) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, room.getRoomNumber());
-            ps.setString(2, room.getRoomStatus());
-            ps.setString(3, room.getRoomType());
-            ps.setInt(4, room.getCapacity());
-            ps.setBigDecimal(5, room.getPricePerNight());
-            ps.setTimestamp(6, room.getCreatedAt() != null ? Timestamp.valueOf(room.getCreatedAt()) : null);
-            ps.setTimestamp(7, room.getUpdatedAt() != null ? Timestamp.valueOf(room.getUpdatedAt()) : null);
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Cập nhật phòng
-    public boolean updateRoom(Room room) {
-        String sql = "UPDATE Rooms SET room_number=?, room_status=?, room_type=?, capacity=?, price_per_night=?, updated_at=? "
-                + "WHERE room_id=?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, room.getRoomNumber());
-            ps.setString(2, room.getRoomStatus());
-            ps.setString(3, room.getRoomType());
-            ps.setInt(4, room.getCapacity());
-            ps.setBigDecimal(5, room.getPricePerNight());
-            ps.setTimestamp(6, room.getUpdatedAt() != null ? Timestamp.valueOf(room.getUpdatedAt()) : null);
-            ps.setInt(7, room.getRoomId());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Xóa phòng theo ID
-    public boolean deleteRoom(int roomId) {
-        String sql = "DELETE FROM Rooms WHERE room_id=?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, roomId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     // Map ResultSet -> Room
     private Room mapResultSetToRoom(ResultSet rs) throws SQLException {
         Room room = new Room();
@@ -222,4 +170,16 @@ public class RoomDAO {
         }
     }
 
+    public boolean isRoomBooked(int roomId, java.util.Date checkIn, java.util.Date checkOut) throws SQLException {
+        String sql = "SELECT 1 FROM Booking_Rooms WHERE room_id = ? AND status IN ('reserved','checked_in') "
+                + "AND NOT (check_out_date <= ? OR check_in_date >= ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, roomId);
+            ps.setDate(2, new java.sql.Date(checkIn.getTime()));
+            ps.setDate(3, new java.sql.Date(checkOut.getTime()));
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
 }

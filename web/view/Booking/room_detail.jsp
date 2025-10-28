@@ -6,22 +6,29 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%
+    java.util.Date now = new java.util.Date();
+%>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Chi tiết phòng</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/global.css" rel="stylesheet">
-        <link href="css/rooms.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/font-awesome.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/global.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/rooms.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
-        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
     </head>
+
     <body>
 
-        <!-- Header & Navbar (giữ nguyên) -->
+        <!-- Header & Navbar -->
         <div class="main_room_dt">
             <div class="main_o1">
                 <section id="top" class="pt-3 pb-3">
@@ -52,6 +59,10 @@
                 </section>
 
                 <section id="header">
+                    <c:set var="cartCount" value="0"/>
+                    <c:if test="${not empty sessionScope.cart}">
+                        <c:set var="cartCount" value="${fn:length(sessionScope.cart)}"/>
+                    </c:if>
                     <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
                         <div class="container-xl">
                             <a class="navbar-brand fs-3 fw-bold text-white" href="index.html"><i class="fa fa-plane col_yell"></i> Hotells </a>
@@ -66,6 +77,11 @@
                                 </ul>
                                 <ul class="navbar-nav ms-auto">
                                     <li class="nav-item"><a class="nav-link button" href="#">BOOK NOW</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/cart">
+                                            Cart <span class="badge bg-warning text-dark">${cartCount}</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -127,11 +143,52 @@
                                 </div>
                             </div>
 
-                            <a href="rooms" class="btn btn-primary mt-3">Quay lại danh sách phòng</a>
+                            <!-- Hiển thị lỗi nếu có -->
+                            <c:if test="${not empty error}">
+                                <div class="alert alert-danger">${error}</div>
+                            </c:if>
+
+                            <c:if test="${isBooked}">
+                                <div class="alert alert-danger mt-3">
+                                    This room is already booked for the selected dates.
+                                </div>
+                            </c:if>
+
+
+                            <!-- Form add to cart -->
+                            <form action="${pageContext.request.contextPath}/booking/cart" method="post" class="mt-3">
+                                <input type="hidden" name="action" value="add"/>
+                                <input type="hidden" name="roomId" value="${room.roomId}"/>
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Check-in</label>
+                                        <input type="date" name="checkInDate" class="form-control" required
+                                               min="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>"
+                                               value="${param.checkInDate != null ? param.checkInDate : ''}"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Check-out</label>
+                                        <input type="date" name="checkOutDate" class="form-control" required
+                                               min="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>"
+                                               value="${param.checkOutDate != null ? param.checkOutDate : ''}"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Guests</label>
+                                        <input type="number" name="guestsCount" class="form-control"
+                                               min="1" max="${room.capacity}" 
+                                               value="${param.guestsCount != null ? param.guestsCount : 1}" required/>
+                                    </div>
+                                    <div class="col-md-12 mt-2">
+                                        <button type="submit" class="btn btn-warning">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
 
-                    <!-- Room & Suites -->
+                    <!-- Similar Rooms -->
                     <div class="mt-5">
                         <h3 class="mb-4">Similar Rooms</h3>
                         <div class="row">
@@ -163,6 +220,3 @@
         </section>
     </body>
 </html>
-
-
-

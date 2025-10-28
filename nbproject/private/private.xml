@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/dao/HotelAdministration/RoomDAO.java</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/controller/BookingController/RoomDetailServlet.java</file>
+            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/web/view/Booking/rooms.jsp</file>
             <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/dao/Booking/RoomDAO.java</file>
             <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/controller/BookingController/RoomListServlet.java</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/model/Room.java</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/utils/DBConnection.java</file>
+            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/web/view/Booking/room_detail.jsp</file>
         </group>
     </open-files>
 </project-private>
