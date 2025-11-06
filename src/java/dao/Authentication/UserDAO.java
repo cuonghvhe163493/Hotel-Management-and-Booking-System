@@ -144,77 +144,100 @@ public class UserDAO {
         }
         return false;
     }
-public static boolean resetPassword(String username, String newPassword) {
-    String sql = "UPDATE Users SET password = ?, updated_at = GETDATE() WHERE username = ?";
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, newPassword.trim());
-        stmt.setString(2, username.trim());
-        return stmt.executeUpdate() > 0;
-    } catch (SQLException e) {
-        System.out.println("❌ Lỗi khi cập nhật mật khẩu: " + e.getMessage());
-    }
-    return false;
-}
-public static boolean checkUserCredentials(String username, String email, String phone) {
-    String sql = "SELECT user_id FROM dbo.Users WHERE LOWER(username) = LOWER(?) AND LOWER(email) = LOWER(?) AND phone = ?";
-    
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        
-        stmt.setString(1, username.trim());
-        stmt.setString(2, email.trim());
-        stmt.setString(3, phone.trim());
-        
-        ResultSet rs = stmt.executeQuery();
-        return rs.next(); // Trả về true nếu tìm thấy 1 user khớp 3 trường
-    } catch (SQLException e) {
-        System.out.println("❌ Lỗi khi kiểm tra thông tin xác thực: " + e.getMessage());
-    }
-    return false;
-}
 
-// 🟢 PHƯƠNG THỨC MỚI: Cập nhật mật khẩu bằng Username (Bước 2 - Final)
-public static boolean updatePassword(String username, String newPassword) {
-    String sql = "UPDATE dbo.Users SET password = ?, updated_at = GETDATE() WHERE LOWER(username) = LOWER(?)";
-    
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        
-        stmt.setString(1, newPassword.trim()); 
-        stmt.setString(2, username.trim());
-        
-        int rowsAffected = stmt.executeUpdate();
-        return rowsAffected > 0;
-    } catch (SQLException e) {
-        System.out.println("❌ Lỗi khi cập nhật mật khẩu cuối cùng: " + e.getMessage());
-    }
-    return false;
-}
-
-public static boolean updateUserProfile(String username, String email, String phone, String address, String password) {
-    String sql = "UPDATE dbo.Users "
-               + "SET email = ?, phone = ?, address = ?, password = ?, updated_at = GETDATE() "
-               + "WHERE username = ?";
-
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setString(1, email);
-        ps.setString(2, phone);
-        ps.setString(3, address);
-        ps.setString(4, password);
-        ps.setString(5, username);
-
-        int rows = ps.executeUpdate();
-        System.out.println("[UpdateProfile] rows=" + rows + " for user=" + username);
-        return rows > 0;
-
-    } catch (SQLException e) {
-        System.out.println("❌ Error updating profile: " + e.getMessage());
+    public static boolean resetPassword(String username, String newPassword) {
+        String sql = "UPDATE Users SET password = ?, updated_at = GETDATE() WHERE username = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newPassword.trim());
+            stmt.setString(2, username.trim());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi cập nhật mật khẩu: " + e.getMessage());
+        }
         return false;
     }
-}
 
+    public static boolean checkUserCredentials(String username, String email, String phone) {
+        String sql = "SELECT user_id FROM dbo.Users WHERE LOWER(username) = LOWER(?) AND LOWER(email) = LOWER(?) AND phone = ?";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username.trim());
+            stmt.setString(2, email.trim());
+            stmt.setString(3, phone.trim());
+
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // Trả về true nếu tìm thấy 1 user khớp 3 trường
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi kiểm tra thông tin xác thực: " + e.getMessage());
+        }
+        return false;
+    }
+
+// 🟢 PHƯƠNG THỨC MỚI: Cập nhật mật khẩu bằng Username (Bước 2 - Final)
+    public static boolean updatePassword(String username, String newPassword) {
+        String sql = "UPDATE dbo.Users SET password = ?, updated_at = GETDATE() WHERE LOWER(username) = LOWER(?)";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, newPassword.trim());
+            stmt.setString(2, username.trim());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi cập nhật mật khẩu cuối cùng: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean updateUserProfile(String username, String email, String phone, String address, String password) {
+        String sql = "UPDATE dbo.Users "
+                + "SET email = ?, phone = ?, address = ?, password = ?, updated_at = GETDATE() "
+                + "WHERE username = ?";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.setString(2, phone);
+            ps.setString(3, address);
+            ps.setString(4, password);
+            ps.setString(5, username);
+
+            int rows = ps.executeUpdate();
+            System.out.println("[UpdateProfile] rows=" + rows + " for user=" + username);
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error updating profile: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean hasActiveBooking(int customerId) {
+        String sql = "SELECT COUNT(*) \n"
+                + "            FROM Bookings b\n"
+                + "            JOIN Booking_Rooms br ON b.booking_id = br.booking_id\n"
+                + "            WHERE \n"
+                + "                b.customer_id = ? \n"
+                + "                AND b.status IN ('Confirmed')\n"
+                + "                AND CAST(GETDATE() AS DATE) BETWEEN br.check_in_date AND br.check_out_date";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt  = conn.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error Has Active Booking: " + e.getMessage());
+            
+        }
+        return false;
+    }
 
 }
