@@ -35,76 +35,20 @@
         </style>
     </head>
     <body>
-        <!-- Header -->
-        <div class="main_room_dt">
-            <div class="main_o1">
-                <section id="top" class="pt-3 pb-3">
-                    <div class="container-xl">
-                        <div class="row top_1">
-                            <div class="col-md-4">
-                                <div class="top_1l">
-                                    <span class="d-inline-block bg_yell rounded-circle float-start me-2 text-center">
-                                        <a href="#"><i class="fa fa-phone text-white"></i></a>
-                                    </span>
-                                    <h6 class="mb-0 lh-base font_14">
-                                        <a class="text-white" href="#">For Further Inquires : <br> +(012) 345 67 89</a>
-                                    </h6>
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-center mt-2">
-                                <h3 class="mb-0"><a class="text-white" href="index.html"><i class="fa fa-plane col_yell"></i> Hotells</a></h3>
-                            </div>
-                            <div class="col-md-4 mt-2 text-end">
-                                <ul class="mb-0">
-                                    <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-instagram"></i></a></li>
-                                    <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-tripadvisor"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                <section id="header">
-                    <c:set var="cartCount" value="0"/>
-                    <c:if test="${not empty sessionScope.cart}">
-                        <c:set var="cartCount" value="${fn:length(sessionScope.cart)}"/>
-                    </c:if>
-                    <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
-                        <div class="container-xl">
-                            <a class="navbar-brand fs-3 fw-bold text-white" href="index.html"><i class="fa fa-plane col_yell"></i> Hotells </a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav mb-0">
-                                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="about.html">About </a></li>
-                                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/rooms">Rooms </a></li>
-                                </ul>
-                                <ul class="navbar-nav ms-auto">
-                                    <li class="nav-item"><a class="nav-link button" href="#">BOOK NOW</a></li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/cart">
-                                            Cart <span class="badge bg-warning text-dark">${cartCount}</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </section>
+        <!-- Include header -->
+        <jsp:include page="/view/common/header.jsp" />
 
-                <section id="center" class="center_o pt-4 pb-5">
-                    <div class="container-xl text-center">
-                        <h2 class="text-white text-uppercase">Rooms</h2>
-                        <h6 class="mb-0 mt-3 col_yell">
-                            <a class="text-white" href="#">Home</a> <span class="mx-2 text-muted">/</span> Rooms
-                        </h6>
-                    </div>
-                </section>
+        <!-- Page Banner -->
+        <section id="center" class="center_o pt-4 pb-5 text-center bg-dark text-white">
+            <div class="container-xl">
+                <h2 class="text-uppercase">Rooms List</h2>
+                <h6 class="mb-0 mt-3 text-warning">
+                    <a class="text-white" href="${pageContext.request.contextPath}/index.jsp">Home</a>
+                    <span class="mx-2 text-muted">/</span> Rooms List
+                </h6>
             </div>
-        </div>
+        </section>
 
         <!-- Content -->
         <section id="room" class="p_3">
@@ -214,7 +158,6 @@
                                     <option value="capacityAsc" ${param.sort eq 'capacityAsc' ? 'selected' : ''}>Capacity: Low → High</option>
                                     <option value="capacityDesc" ${param.sort eq 'capacityDesc' ? 'selected' : ''}>Capacity: High → Low</option>
                                 </select>
-
                             </div>
 
                             <div class="room_sidebar bg-light p-4">

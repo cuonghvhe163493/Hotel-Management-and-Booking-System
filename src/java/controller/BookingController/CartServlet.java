@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@WebServlet("/booking/cart")
+@WebServlet("/cart")
 public class CartServlet extends HttpServlet {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -98,7 +98,7 @@ public class CartServlet extends HttpServlet {
                     cart.add(item);
 
                     session.setAttribute("cart", cart);
-                    response.sendRedirect(request.getContextPath() + "/booking/cart");
+                    response.sendRedirect(request.getContextPath() + "/cart");
                 }
 
             } else if ("remove".equals(action)) {
@@ -114,7 +114,7 @@ public class CartServlet extends HttpServlet {
                 });
 
                 session.setAttribute("cart", cart);
-                response.sendRedirect(request.getContextPath() + "/booking/cart");
+                response.sendRedirect(request.getContextPath() + "/cart");
             }
 
         } catch (Exception e) {

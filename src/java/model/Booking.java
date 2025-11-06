@@ -36,6 +36,10 @@ public class Booking {
         this.updatedAt = updatedAt;
     }
 
+    public Booking() {
+        
+    }
+
     // Getters and Setters
     public int getBookingId() {
         return bookingId;

@@ -182,4 +182,14 @@ public class RoomDAO {
             }
         }
     }
+    
+    public void updateRoomStatus(int roomId, String status) throws SQLException {
+        // Chỉ dùng 'available', 'reserved', 'occupied', 'maintenance'
+        String sql = "UPDATE Rooms SET room_status = ? WHERE room_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, roomId);
+            ps.executeUpdate();
+        }
+    }
 }
