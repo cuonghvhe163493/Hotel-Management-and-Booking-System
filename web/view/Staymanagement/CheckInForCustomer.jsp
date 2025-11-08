@@ -4,16 +4,8 @@
     Author     : Hoang Viet Cuong
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="dao.Staymanagement.StayRoomDAO"%>
-<%@page import="model.StayRoom"%>
-<%@page import="java.util.List"%>
-
-<%
-    StayRoomDAO d = new StayRoomDAO();
-    
-    List<StayRoom> list = d.getAllRoomsForCustomer(13);
-%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -126,27 +118,49 @@
 
         <div class="check-in">
             <div>
-                <form action="${pageContext.request.contextPath}/CheckInServletForCustomer" method="get" class="check-in-container">
-                    <p>Booking ID and Room ID:</p>
-                    <select name="Room ID">
-                        <% for (StayRoom r : list) { %>
-                        <option>Booking ID:  <%= r.getBookingId() %> ---- Room ID: <%= r.getRoomId() %></option>   
-                        <% } %>
-                    </select>   
-                    <input type="submit" value="Check" />
-                </form>
-                    <p>Information required for check-in</p>  
-                    <p>Customer Name: </p>
-                    <p>Phone: </p>
-                    
-                    
-                    
+                <div>
+                    <form action="${pageContext.request.contextPath}/CheckInServletForCustomer" method="get" class="check-in-container">
+                        <p>Booking ID</p>
+                        <select name="selectedValue">
+                            <c:forEach var="id" items="${listbooking}">
+                                <option value="${id}">
+                                    ${id} 
+                                </option>   
+                            </c:forEach>
+                        </select>   
+                        <input type="hidden" name="mode" value="1" />
+                        <input type="submit" value="Check" />
+                    </form>    
+                </div>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Room Id</th> 
+                                <th>Number Room</th>
+                                <th>Check-in Date</th> 
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <c:forEach var="room" items="${stayroom}">
+                                <tr>
+                                    <td>${room.roomId}</td>                                  
+                                    <td>${room.roomNumber}</td>
+                                    <td>${room.checkInDate}</td>                            
+                                    <td>Details</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>           
             </div>    
-                    
+
             <div>
-                <p>  123</p>   
-                        
-                        
+                <p>Price Each Room:
+                <p>Deposit:
+                <p>Services:
+                <p>Total Booking:
             </div>    
 
 

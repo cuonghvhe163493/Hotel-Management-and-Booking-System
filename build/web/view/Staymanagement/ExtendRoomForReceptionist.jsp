@@ -1,34 +1,25 @@
 <%-- 
-    Document   : newjsp
-    Created on : Oct 18, 2025, 3:46:58 AM
-    Author     : Hoang Viet Cuong
+    Document   : ExtendRoom
+    Created on : Oct 19, 2025, 3:04:53 PM
+    Author     : Admin
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="dao.Staymanagement.StayRoomDAO"%>
-<%@page import="model.StayRoom"%>
-<%@page import="java.util.List"%>
-
-<%
-    StayRoomDAO d = new StayRoomDAO();
-    List<StayRoom> list = d.getAllRoomsForReceptionist();
-%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Stay Room</title>
+        <title>Extend Room</title>
         <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/stay.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/rooms.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Staymanagement/css/checkin.css">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
-
     <body>
-        
-<!--header-->
         <div class="main_room">
             <div class="main_o1">
                 <section id="top" class="pt-3 pb-3">
@@ -133,87 +124,52 @@
                 </section>
             </div>
         </div>
-
-        <div class="stay-room-list-container">
-            <h3>Stay Room</h3>
-<!--            list stay room-->
-
-            <table class="list-table">
-                <thead>
-                    <tr>
-                        <th>Room Id</th>
-                        <th>Number Room</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody >
-                    <% for (StayRoom r : list) { %>
-                    <tr>
-                        <td><%= r.getRoomId() %></td>
-                        <td><%= r.getRoomNumber() %></td>
-                        <td><%= r.getRoomStatus() %></td>
-                        <td><%= r.getRoomType() %></td>
-                        <td><input type="submit" value="Details" /></td>
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
-
-        </div>
-
-
-        <div class="func-chat-container">
-<!--function for use-->
-            <div class="func-container">
-                <h4 class="word-stay-functions">Stay Functions</h4>
-
-                <div class="func-single">
-                    <a href="ServicesRoom.jsp" class="word_2"><input type="button" value="SERVICES ROOM" class="func-btn_1" /></a>
-                </div> 
-
-                <div class="func-box">
-                    <div>
-                        <a href="CheckInForReceptionist.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
-                    </div>
-                    <div>
-                        <a href="CheckOut.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
-                    </div>
-                </div>
-
-                <div class="func-box">
-                    <div>
-                        <a href="ChangeRoom.jsp"><input type="button" value="CHANGE ROOM" class="func-btn" /></a>
-                    </div>
-                    <div>
-                        <a href="ExtendRoom.jsp"><input type="button" value="EXTEND ROOM" class="func-btn" /></a>
-                    </div>
-                </div>
+        
+        
+        
+        
+        <div>
+<!--            Bảng thông báo -->
+            <div>
+                
             </div>
-<!--small chat box-->
-            <div class="chat-container">
-                <div>
-                    <h4 class="word-chat">Chat Box  <a href="CommunicationChatBox.jsp">CHAT BOX</a></h4>
-
-                </div>
-                <div class="box">
-                    <div class="message user">Test 1</div>
-                    <div class="message staff">Test 2</div>
-                    <div class="message user">Test 3</div>
-                    <div class="message staff">Test4</div>
-                    <div class="message user">Test5</div>
-                    <div class="message staff">Test6</div>
-                    <div class="message user">Test 7</div>
-                    <div class="message staff">Test 8</div>
-                </div>
-                <div class="input-wrapper">
-                    <input   type="text" placeholder="Enter message...">
-                    <button class="send-btn">Send</button>
-                </div>
+            
+<!--            Bảng xử lí-->
+            <div>
+                
             </div>
+            
+            
+            
+            
         </div>
-<!--footer-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
                 <div class="row">
@@ -263,12 +219,8 @@
                 </div>
             </div>
         </section>
-
-
-
-
+        
 <!--script -->
-
 <!--sticky navbar-->
         <script>
             window.onscroll = function () {
@@ -287,7 +239,5 @@
                 }
             }
         </script>
-        
-        
     </body>
 </html>

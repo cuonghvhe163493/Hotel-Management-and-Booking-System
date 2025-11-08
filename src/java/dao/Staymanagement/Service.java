@@ -4,7 +4,10 @@
  */
 package dao.Staymanagement;
 
-
-public class NewClass {
+/**
+ *
+ * @author Admin
+ */
+public class Service {
     
 }

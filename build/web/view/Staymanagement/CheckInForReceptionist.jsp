@@ -116,12 +116,12 @@
                 </section>
             </div>
         </div>
-
+        
         <div class="check-in">
 
-
+            
             <div class="check-in-container">
-                <p>Check In</p>
+                
                 <!--                Check customer booked or not-->
                 <p class="word-booked">Booked</p>
                 <select class="booked-selection" name="Booked" id="bookedSelect">
@@ -131,10 +131,7 @@
                 <!--                Enter to confirm info customer booked-->
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
                     <div id="bookingIdField" style="display:block;">
-                        <p>Booking ID: <input type="text" name="bookingId" placeholder="Booking ID" /></p>
-                        <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
-                        <p>Note</p>    
-                        <input type="text" name="note" value="" />
+                        <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
                         <input type="submit" class="send-btn" value="Check" />
                     </div>
                 </form>
@@ -165,62 +162,21 @@
                     </div>
 
                 </form>
-
+                <div class="info-customer">
+                    <br><!--  -->
+                    <h4>Information Customer</h4>
+                    <p>==================================</p>
+                    <p>Customer name: ${stayroom.name}</p>
+                    <p>Number of people: ${stayroom.guestCount}</p>
+                    <p>Email: ${stayroom.gmail}</p>
+                    <p>Phone: ${stayroom.phone}</p> 
+                    <p>==================================</p>
+                </div>    
             </div>
             <div class="check-info-container">
 
-                <p>Information of Room And Booking</p>
-                <br>
-                <div class="info-booking">
-                    <p>Booking ID: ${stayroom.bookingId}</p>
-                    <p>Booking status: ${stayroom.status}</p>
-                    <p>Check In Date: ${stayroom.checkInDate}</p>
-                    <p>Check Out Date: ${stayroom.checkOutDate}</p>
-                </div>
-                <p>=================================================</p>   
-                <div class="info-room">
-                    <p>Room ID: ${stayroom.roomId}</p>
-                    <p>Room number:${stayroom.roomNumber}</p>
-                    <p>Room status:${stayroom.roomStatus}</p>
-                    <p>Room type: ${stayroom.roomType}</p>
-                    <p>Capacity: ${stayroom.capacity}</p>
-                    <p>Price Per Night: ${stayroom.pricePerNight}</p>
-                    <p>Price:</p>
-                    <p>Deposit required:</p>
-                </div>
-                <p>=================================================</p>   
-                <div class="info-customer">
-                    <p>Customer name: ${stayroom.name}</p>
-                    <!--                    <p>Citizen ID: </p>-->
-                    <p>Number of people: ${stayroom.guestCount}</p>
-                    <p>Email: ${stayroom.gmail}</p>
-                    <p>Phone: ${stayroom.phone}</p>
-                </div>
-                <form action="${pageContext.request.contextPath}/ChangeStatus" method="post">
-                    <input type="hidden" name="roomId" value="${stayroom.roomId}" />
-                    <input type="hidden" name="bookingId" value="${stayroom.bookingId}" />
-                    <input class="send-btn" type="submit" value="Confirmation" />
-                </form>
-                <%
-                String message = (String) request.getAttribute("message");
-                String error = (String) request.getAttribute("error");
-
-                if (message != null) {
-                %>
-                <div style="color: green; font-weight: bold; margin-bottom: 10px;">
-                    <%= message %>
-                </div>
-                <%
-                    }
-
-                    if (error != null) {
-                %>
-                <div style="color: red; font-weight: bold; margin-bottom: 10px;">
-                    <%= error %>
-                </div>
-                <%
-                    }
-                %>
+                
+                
 
             </div>        
         </div>
@@ -232,11 +188,11 @@
 
             bookedSelect.addEventListener("change", function () {
                 if (this.value === "No") {
-                    extraFields.style.display = "block";     // Hiện thêm các ô khi chưa booked
-                    bookingIdField.style.display = "none";   // Ẩn booking ID
+                    extraFields.style.display = "block";     
+                    bookingIdField.style.display = "none";   
                 } else if (this.value === "Yes") {
-                    extraFields.style.display = "none";      // Ẩn ô thêm
-                    bookingIdField.style.display = "block";  // Hiện booking ID
+                    extraFields.style.display = "none";     
+                    bookingIdField.style.display = "block";  
                 } else {
                     extraFields.style.display = "none";
                     bookingIdField.style.display = "none";

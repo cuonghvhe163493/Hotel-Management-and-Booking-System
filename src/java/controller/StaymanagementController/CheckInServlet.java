@@ -31,16 +31,16 @@ public class CheckInServlet extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        String bookingId = request.getParameter("bookingId");
+        String phoneNumber = request.getParameter("phoneNumber");
         
         String roomId = request.getParameter("idroom");
         
-        int booking_Id = Integer.parseInt(bookingId);
-        int room_Id = Integer.parseInt(roomId);
+        int phoneNumb = Integer.parseInt(phoneNumber);
+        
         
         
         StayRoomDAO d = new StayRoomDAO();
-        StayRoom stayroom = d.getCheckInRoomForReceptionist(booking_Id,room_Id);
+        StayRoom stayroom = d.getCheckInRoomForReceptionist(phoneNumb);
         
         request.setAttribute("stayroom", stayroom);
 

@@ -18,11 +18,10 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Stay Room</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" >
-        <link href="css/font-awesome.min.css" rel="stylesheet" >
-        <link href="css/global.css" rel="stylesheet">
-        <link href="css/rooms.css" rel="stylesheet">
-        <link href="css/stay.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/stay.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
@@ -154,7 +153,7 @@
                     <tr>
                         <td><%= r.getRoomId() %></td>
                         <td><%= r.getRoomNumber() %></td>
-                        <td><%= r.getStatus() %></td>
+                        <td><%= r.getRoomStatus() %></td>
                         <td><%= r.getRoomType() %></td>
                         <td><input type="submit" value="Details" /></td>
                     </tr>

@@ -111,6 +111,11 @@
                 </section>
             </div>
         </div>
+        
+        
+        
+        
+        
         <div>
             <p>ID Room: <input type="text" name="idroom" value="" placeholder="ID Room" />
             <p>Customer Name: <input type="text" name="name" value="" placeholder="Name" />
@@ -118,7 +123,23 @@
             <p>Note</p>    
             <input type="text" name="Note" value="" />
             <input type="submit" class="send-btn" value="Submit" />
+            
+            
+            <p>Bảng giá </p>
+            <p>Đã thanh toán
+            <p> chưa thanh toán
+                
+            
+            
+            
+            
+            
         </div>
+        
+        
+        
+        
+        
         
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">

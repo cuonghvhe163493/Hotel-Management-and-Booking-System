@@ -4,31 +4,26 @@
     Author     : Hoang Viet Cuong
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="dao.Staymanagement.StayRoomDAO"%>
 <%@page import="model.StayRoom"%>
-<%@page import="java.util.List"%>
 
-<%
-    StayRoomDAO d = new StayRoomDAO();
-    List<StayRoom> list = d.getAllRoomsForReceptionist();
-%>
+<% StayRoom stayroom = (StayRoom) request.getAttribute("stayroom"); %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Stay Room</title>
+        <title>Check In</title>
         <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/stay.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/rooms.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Staymanagement/css/checkin.css">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
 
     <body>
-        
-<!--header-->
         <div class="main_room">
             <div class="main_o1">
                 <section id="top" class="pt-3 pb-3">
@@ -44,18 +39,6 @@
                             <div class="col-md-4">
                                 <div class="top_1m text-center mt-2">
                                     <h3 class="mb-0"><a class="text-white" href="index.html"><i class="fa fa-plane col_yell"></i> HMBS</a></h3>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="top_1r mt-2 text-end">
-                                    <ul class="mb-0">
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-instagram"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-tripadvisor"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-pinterest"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-tumblr"></i></a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +109,7 @@
                         <div class="row center_o1 text-center">
                             <div class="col-md-12">
                                 <h2 class="text-white text-uppercase">Rooms</h2>
-                                <h6 class="mb-0 mt-3 col_yell"><a class="text-white" href="#">Home</a> <span class="mx-2 text-muted">/</span> Rooms </h6>
+                                <h6 class="mb-0 mt-3 col_yell"><a class="text-white" href="#">Stay Room</a> <span class="mx-2 text-muted">/</span> Check In </h6>
                             </div>
                         </div>
                     </div>   
@@ -134,86 +117,136 @@
             </div>
         </div>
 
-        <div class="stay-room-list-container">
-            <h3>Stay Room</h3>
-<!--            list stay room-->
+        <div class="check-in">
 
-            <table class="list-table">
-                <thead>
-                    <tr>
-                        <th>Room Id</th>
-                        <th>Number Room</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody >
-                    <% for (StayRoom r : list) { %>
-                    <tr>
-                        <td><%= r.getRoomId() %></td>
-                        <td><%= r.getRoomNumber() %></td>
-                        <td><%= r.getRoomStatus() %></td>
-                        <td><%= r.getRoomType() %></td>
-                        <td><input type="submit" value="Details" /></td>
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
 
+            <div class="check-in-container">
+                <p>Check In</p>
+                <!--                Check customer booked or not-->
+                <p class="word-booked">Booked</p>
+                <select class="booked-selection" name="Booked" id="bookedSelect">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <!--                Enter to confirm info customer booked-->
+                <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
+                    <div id="bookingIdField" style="display:block;">
+                        <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
+                        <input type="text" name="note" value="" />
+                        <input type="submit" class="send-btn" value="Check" />
+                    </div>
+                </form>
+
+                <!--                Enter to confirm info and room for customer not booked-->
+                <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" class="check-in-input-container">
+                    <div id="extraFields" style="display:none;">
+                        <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
+                        <p>Customer Name: <input type="text" name="name" placeholder="Name" required /></p>
+                        <p>Citizen ID: <input type="text" name="citizenId" placeholder="Citizen ID" required /></p>
+                        <div>
+                            <p>Number of people: 
+                                <input type="text" id="numberInput" name="numPeople" list="people" placeholder="Number of people">
+                                <datalist id="people">
+                                    <option value="1"><option value="2"><option value="3"><option value="4">
+                                    <option value="5"><option value="6"><option value="7"><option value="8">
+                                    <option value="9"><option value="10">
+                                </datalist>
+                            </p>
+                        </div>
+
+                        <p>Check-in Date: <input type="date" name="checkInDate" /></p>    
+                        <p>Check-out Date: <input type="date" name="checkOutDate" /></p> 
+                        <p>Gmail: <input type="email" name="gmail" placeholder="Gmail" /></p>
+                        <p>Phone: <input type="text" name="phone" placeholder="Phone" /></p>
+                        <p>Note<input type="text" name="note" value="" /></p>
+                        <input type="submit" class="send-btn" value="Check" />
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="check-info-container">
+
+                <p>Information of Room And Booking</p>
+                <br>
+                <div class="info-booking">
+                    <p>Booking ID: ${stayroom.bookingId}</p>
+                    <p>Booking status: ${stayroom.status}</p>
+                    <p>Check In Date: ${stayroom.checkInDate}</p>
+                    <p>Check Out Date: ${stayroom.checkOutDate}</p>
+                </div>
+                <p>=================================================</p>   
+                <div class="info-room">
+                    <p>Room ID: ${stayroom.roomId}</p>
+                    <p>Room number:${stayroom.roomNumber}</p>
+                    <p>Room status:${stayroom.roomStatus}</p>
+                    <p>Room type: ${stayroom.roomType}</p>
+                    <p>Capacity: ${stayroom.capacity}</p>
+                    <p>Price Per Night: ${stayroom.pricePerNight}</p>
+                    <p>Price:</p>
+                    <p>Deposit required:</p>
+                </div>
+                <p>=================================================</p>   
+                <div class="info-customer">
+                    <p>Customer name: ${stayroom.name}</p>
+                    <!--                    <p>Citizen ID: </p>-->
+                    <p>Number of people: ${stayroom.guestCount}</p>
+                    <p>Email: ${stayroom.gmail}</p>
+                    <p>Phone: ${stayroom.phone}</p>
+                </div>
+                <form action="${pageContext.request.contextPath}/ChangeStatus" method="post">
+                    <input type="hidden" name="roomId" value="${stayroom.roomId}" />
+                    <input type="hidden" name="bookingId" value="${stayroom.bookingId}" />
+                    <input class="send-btn" type="submit" value="Confirmation" />
+                </form>
+                <%
+                String message = (String) request.getAttribute("message");
+                String error = (String) request.getAttribute("error");
+
+                if (message != null) {
+                %>
+                <div style="color: green; font-weight: bold; margin-bottom: 10px;">
+                    <%= message %>
+                </div>
+                <%
+                    }
+
+                    if (error != null) {
+                %>
+                <div style="color: red; font-weight: bold; margin-bottom: 10px;">
+                    <%= error %>
+                </div>
+                <%
+                    }
+                %>
+
+            </div>        
         </div>
 
+        <script>
+            const bookedSelect = document.getElementById("bookedSelect");
+            const extraFields = document.getElementById("extraFields");
+            const bookingIdField = document.getElementById("bookingIdField");
 
-        <div class="func-chat-container">
-<!--function for use-->
-            <div class="func-container">
-                <h4 class="word-stay-functions">Stay Functions</h4>
+            bookedSelect.addEventListener("change", function () {
+                if (this.value === "No") {
+                    extraFields.style.display = "block";     // Hiện thêm các ô khi chưa booked
+                    bookingIdField.style.display = "none";   // Ẩn booking ID
+                } else if (this.value === "Yes") {
+                    extraFields.style.display = "none";      // Ẩn ô thêm
+                    bookingIdField.style.display = "block";  // Hiện booking ID
+                } else {
+                    extraFields.style.display = "none";
+                    bookingIdField.style.display = "none";
+                }
+            });
+        </script>
 
-                <div class="func-single">
-                    <a href="ServicesRoom.jsp" class="word_2"><input type="button" value="SERVICES ROOM" class="func-btn_1" /></a>
-                </div> 
 
-                <div class="func-box">
-                    <div>
-                        <a href="CheckInForReceptionist.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
-                    </div>
-                    <div>
-                        <a href="CheckOut.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
-                    </div>
-                </div>
 
-                <div class="func-box">
-                    <div>
-                        <a href="ChangeRoom.jsp"><input type="button" value="CHANGE ROOM" class="func-btn" /></a>
-                    </div>
-                    <div>
-                        <a href="ExtendRoom.jsp"><input type="button" value="EXTEND ROOM" class="func-btn" /></a>
-                    </div>
-                </div>
-            </div>
-<!--small chat box-->
-            <div class="chat-container">
-                <div>
-                    <h4 class="word-chat">Chat Box  <a href="CommunicationChatBox.jsp">CHAT BOX</a></h4>
 
-                </div>
-                <div class="box">
-                    <div class="message user">Test 1</div>
-                    <div class="message staff">Test 2</div>
-                    <div class="message user">Test 3</div>
-                    <div class="message staff">Test4</div>
-                    <div class="message user">Test5</div>
-                    <div class="message staff">Test6</div>
-                    <div class="message user">Test 7</div>
-                    <div class="message staff">Test 8</div>
-                </div>
-                <div class="input-wrapper">
-                    <input   type="text" placeholder="Enter message...">
-                    <button class="send-btn">Send</button>
-                </div>
-            </div>
-        </div>
-<!--footer-->
+
+
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
                 <div class="row">
@@ -264,12 +297,6 @@
             </div>
         </section>
 
-
-
-
-<!--script -->
-
-<!--sticky navbar-->
         <script>
             window.onscroll = function () {
                 myFunction()
@@ -287,7 +314,8 @@
                 }
             }
         </script>
-        
-        
+
+
+
     </body>
 </html>

@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.StaymanagementController;
 
+import dao.Staymanagement.CheckInOut;
 import dao.Staymanagement.StayRoomDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -23,31 +23,35 @@ import model.StayRoom;
  *
  * @author Admin
  */
-@WebServlet(name="CheckInServletForCustomer", urlPatterns={"/CheckInServletForCustomer"})
+@WebServlet(name = "CheckInServletForCustomer", urlPatterns = {"/CheckInServletForCustomer"})
 public class CheckInServletForCustomer extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        String bookingId = request.getParameter("bookingId");
-        
-        String roomId = request.getParameter("idroom");
-        
-        int booking_Id = Integer.parseInt(bookingId);
-        int room_Id = Integer.parseInt(roomId);
-        
-        
-        StayRoomDAO d = new StayRoomDAO();
-        StayRoom stayroom = d.getCheckInRoomForCustomer(booking_Id,room_Id);
-        
-        request.setAttribute("stayroom", stayroom);
+
+        String mode = request.getParameter("mode");
+        int modeId = mode != null ? Integer.parseInt(mode) : 0;
+
+        CheckInOut cio = new CheckInOut();
+
+        List<Integer> listbooking = cio.getBooking(13);
+        request.setAttribute("listbooking", listbooking); 
+
+        if (modeId == 1) {
+            String selectedValue = request.getParameter("selectedValue");
+            if (selectedValue != null && !selectedValue.isEmpty()) {
+                int bookingId = Integer.parseInt(selectedValue);
+                List<StayRoom> stayroom = cio.getCheckInRoomForCustomer(bookingId);
+                request.setAttribute("stayroom", stayroom);
+            }
+        }
 
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForCustomer.jsp");
         rd.forward(request, response);
     }
-    
-    
 
 }

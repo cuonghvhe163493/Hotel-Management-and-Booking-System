@@ -30,6 +30,13 @@ public class StayRoom {
     public StayRoom() {
     }
 
+    public StayRoom(int roomId, String roomNumber, Date checkInDate) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.checkInDate = checkInDate;
+    }
+    
+    
     public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
@@ -92,12 +99,12 @@ public class StayRoom {
     
     
     
-    public StayRoom(int roomId, String roomNumber, String roomType, int bookingId, String status, Date checkInDate, Date checkOutDate) {
+    public StayRoom(int roomId, String roomNumber, String roomType, int bookingId,  Date checkInDate, Date checkOutDate) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.bookingId = bookingId;
-        this.status = status;
+       
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
     }

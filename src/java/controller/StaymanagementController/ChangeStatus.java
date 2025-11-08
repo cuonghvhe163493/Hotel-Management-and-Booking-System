@@ -41,7 +41,7 @@ public class ChangeStatus extends HttpServlet {
         }
         StayRoom stayroom = dao.getCheckInRoomForReceptionist(bookingId, roomId);
         request.setAttribute("stayroom", stayroom);
-
+        
         
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
         rd.forward(request, response);
