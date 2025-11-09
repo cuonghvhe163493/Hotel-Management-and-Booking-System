@@ -70,12 +70,12 @@
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Check-in Date</label>
                                         <input type="date" name="checkInDate_${status.index}" class="form-control"
-                                               value="<fmt:formatDate value='${item.checkIn}' pattern='yyyy-MM-dd'/>" required>
+                                               value="<fmt:formatDate value='${item.checkIn}' pattern='yyyy-MM-dd'/>" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Check-out Date</label>
                                         <input type="date" name="checkOutDate_${status.index}" class="form-control"
-                                               value="<fmt:formatDate value='${item.checkOut}' pattern='yyyy-MM-dd'/>" required>
+                                               value="<fmt:formatDate value='${item.checkOut}' pattern='yyyy-MM-dd'/>" readonly>
                                     </div>
                                 </div>
 

@@ -12,11 +12,9 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/web/view/common/header.jsp</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/controller/BookingController/BookingListServlet.java</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/web/view/Booking/booking_list.jsp</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/dao/Booking/BookingRoomDAO.java</file>
-            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/dao/Booking/BookingDAO.java</file>
+            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/web/view/Booking/rooms.jsp</file>
+            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/src/java/controller/BookingController/ConfirmBookingServlet.java</file>
+            <file>file:/C:/Users/taqua/OJT/Hotel-Management-and-Booking-System/web/view/Booking/booking_form.jsp</file>
         </group>
     </open-files>
 </project-private>

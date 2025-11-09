@@ -57,34 +57,69 @@ public class RoomListServlet extends HttpServlet {
         Date _checkInDate = null;
         Date _checkOutDate = null;
 
+        // --- Validation logic ---
+        String errorMessage = null;
+        String errorMessage2 = null;
         try {
+            // --- Validate capacity ---
             if (capacityStr != null && !capacityStr.isEmpty()) {
                 capacity = Integer.parseInt(capacityStr);
+                if (capacity <= 0) {
+                    errorMessage2 = "Capacity must be greater than 0.";
+                    capacity = -1; // bỏ filter invalid
+                }
             }
+
+            // --- Validate maxPrice ---
             if (maxPriceStr != null && !maxPriceStr.isEmpty()) {
                 maxPrice = Double.parseDouble(maxPriceStr);
+                if (maxPrice <= 0) {
+                    errorMessage2 = "Max price must be greater than 0.";
+                    maxPrice = Double.MAX_VALUE; // bỏ giá trị invalid
+                }
             }
+
+            // --- Validate page ---
             if (pageStr != null && !pageStr.isEmpty()) {
                 page = Integer.parseInt(pageStr);
+                if (page < 1) {
+                    page = 1;
+                }
             }
+
+            // --- Validate check-in / check-out date ---
             if (checkInStr != null && !checkInStr.isEmpty()) {
                 _checkInDate = java.sql.Date.valueOf(checkInStr);
             }
             if (checkOutStr != null && !checkOutStr.isEmpty()) {
                 _checkOutDate = java.sql.Date.valueOf(checkOutStr);
             }
-        } catch (Exception e) {
-            capacity = 0;
+
+            Date today = new Date();
+            if (_checkInDate != null && _checkInDate.before(today)) {
+                errorMessage = "Check-in date cannot be in the past.";
+                _checkInDate = null;
+            }
+            if (_checkInDate != null && _checkOutDate != null && !_checkOutDate.after(_checkInDate)) {
+                errorMessage = "Check-out date must be after check-in date.";
+                _checkOutDate = null;
+            }
+
+        } catch (NumberFormatException e) {
+            errorMessage2 = "Capacity and max price must be valid numbers.";
+            capacity = -1;
             maxPrice = Double.MAX_VALUE;
             page = 1;
         }
 
+        // --- Set lại các giá trị checked để hiển thị lại form ---
         final Date checkInDate = _checkInDate;
         final Date checkOutDate = _checkOutDate;
         final int filterCapacity = capacity;
         final double filterMaxPrice = maxPrice;
         final String filterType = type;
 
+        // --- Lấy danh sách phòng và filter như cũ ---
         List<Room> rooms = new ArrayList<>();
         try {
             rooms = roomDAO.getAllRooms();
@@ -92,14 +127,13 @@ public class RoomListServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // --- FILTER ---
         List<Room> filtered = rooms.stream()
                 .filter(r -> filterType == null || filterType.isEmpty() || r.getRoomType().equalsIgnoreCase(filterType))
                 .filter(r -> filterCapacity <= 0 || r.getCapacity() == filterCapacity)
                 .filter(r -> filterMaxPrice < 0 || (r.getPricePerNight() != null && r.getPricePerNight().doubleValue() <= filterMaxPrice))
                 .filter(r -> {
                     if (checkInDate == null || checkOutDate == null) {
-                        return true; // nếu chưa chọn ngày -> giữ tất cả
+                        return true; // nếu chưa chọn ngày hoặc date invalid -> giữ tất cả
                     }
                     try (Connection conn = DBConnection.getConnection()) {
                         String sql = "SELECT 1 FROM Booking_Rooms WHERE room_id = ? AND status IN ('reserved','checked_in') AND NOT (check_out_date <= ? OR check_in_date >= ?)";
@@ -118,7 +152,7 @@ public class RoomListServlet extends HttpServlet {
                 })
                 .collect(Collectors.toList());
 
-        // --- SORT ---
+        // --- SORT, PAGINATION như cũ ---
         Comparator<Room> comparator = Comparator.comparing(Room::getRoomNumber);
         if ("priceAsc".equals(sort)) {
             comparator = Comparator.comparing(r -> r.getPricePerNight().doubleValue());
@@ -131,7 +165,6 @@ public class RoomListServlet extends HttpServlet {
         }
         filtered.sort(comparator);
 
-        // --- PAGINATION ---
         int pageSize = 6;
         int totalRooms = filtered.size();
         int totalPages = (int) Math.ceil((double) totalRooms / pageSize);
@@ -145,7 +178,7 @@ public class RoomListServlet extends HttpServlet {
         int end = Math.min(start + pageSize, totalRooms);
         List<Room> pageRooms = (totalRooms == 0 || start >= end) ? Collections.emptyList() : filtered.subList(start, end);
 
-        // --- SET ATTRIBUTE ---
+        // --- Set attribute ---
         request.setAttribute("rooms", pageRooms);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
@@ -157,6 +190,8 @@ public class RoomListServlet extends HttpServlet {
         request.setAttribute("sort", sort == null ? "" : sort);
         request.setAttribute("checkInDate", checkInStr == null ? "" : checkInStr);
         request.setAttribute("checkOutDate", checkOutStr == null ? "" : checkOutStr);
+        request.setAttribute("errorMessage", errorMessage); // thông báo lỗi date
+        request.setAttribute("errorMessage2", errorMessage2); // lỗi price và capacity
 
         // --- Forward sang JSP ---
         request.getRequestDispatcher("/view/Booking/rooms.jsp").forward(request, response);

@@ -62,17 +62,26 @@
 
                             <!-- Form Check-in / Check-out -->
                             <form class="room_1l1 row bg-light p-4 px-3 mx-0 mb-4" action="${pageContext.request.contextPath}/rooms" method="get">
+                                <c:if test="${not empty errorMessage}">
+                                    <div class="col-12 mb-2">
+                                        <div class="alert alert-danger">${errorMessage}</div>
+                                    </div>
+                                </c:if>
+
                                 <div class="col-md-5">
                                     <label class="form-label">Check-in</label>
-                                    <input class="form-control border-0" type="date" name="checkInDate" value="${param.checkInDate}">
+                                    <input class="form-control border-0" type="date" name="checkInDate"
+                                           value="${param.checkInDate}">
                                 </div>
                                 <div class="col-md-5">
                                     <label class="form-label">Check-out</label>
-                                    <input class="form-control border-0" type="date" name="checkOutDate" value="${param.checkOutDate}">
+                                    <input class="form-control border-0" type="date" name="checkOutDate"
+                                           value="${param.checkOutDate}">
                                 </div>
                                 <div class="col-md-2 d-flex align-items-end">
                                     <button type="submit" class="btn btn-warning w-100 fw-bold">Check</button>
                                 </div>
+
                                 <!-- Giữ các param khác khi submit -->
                                 <input type="hidden" name="sort" value="${param.sort}">
                                 <input type="hidden" name="roomType" value="${param.roomType}">
@@ -163,6 +172,11 @@
                             <div class="room_sidebar bg-light p-4">
                                 <h5 class="mb-3">Filter Rooms:</h5>
 
+                                <!-- Hiển thị lỗi nếu có -->
+                                <c:if test="${not empty errorMessage2}">
+                                    <div class="alert alert-danger">${errorMessage2}</div>
+                                </c:if>
+
                                 <div class="mb-4">
                                     <label class="form-label">Room Type</label>
                                     <select name="roomType" class="form-select">
@@ -177,12 +191,12 @@
 
                                 <div class="mb-4">
                                     <label class="form-label">Capacity</label>
-                                    <input type="number" class="form-control" name="capacity" value="${param.capacity}">
+                                    <input type="number" class="form-control" name="capacity" min="1" value="${param.capacity}">
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="form-label">Max Price ($)</label>
-                                    <input type="number" class="form-control" name="maxPrice" value="${param.maxPrice}">
+                                    <input type="number" class="form-control" name="maxPrice" min="1" value="${param.maxPrice}">
                                 </div>
 
                                 <div class="mb-4 form-check">
@@ -195,7 +209,6 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
         </section>
