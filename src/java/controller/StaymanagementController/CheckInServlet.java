@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Arrays;
 import java.util.List;
 import model.StayRoom;
 
@@ -32,18 +33,15 @@ public class CheckInServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String phoneNumber = request.getParameter("phoneNumber");
-        
-        String roomId = request.getParameter("idroom");
-        
         int phoneNumb = Integer.parseInt(phoneNumber);
-        
-        
-        
-        StayRoomDAO d = new StayRoomDAO();
-        StayRoom stayroom = d.getCheckInRoomForReceptionist(phoneNumb);
-        
-        request.setAttribute("stayroom", stayroom);
 
+        StayRoomDAO d = new StayRoomDAO();
+        List<StayRoom> list = d.getCheckInRoomForReceptionist(phoneNumb);
+        
+        StayRoom info = d.getInfoCustomer(phoneNumb);
+        request.setAttribute("list", list);
+        
+        request.setAttribute("info", info);
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
         rd.forward(request, response);
     }
@@ -55,17 +53,19 @@ public class CheckInServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         
+        String[] selectedRoomIds = request.getParameterValues("selectedRooms");
+        List<String> roomIdList = Arrays.asList(selectedRoomIds);
+        StayRoomDAO dao = new StayRoomDAO();
+        for (String roomIdStr : roomIdList) {
+                int roomId = Integer.parseInt(roomIdStr);
+                dao.updateRoomStatus(roomId, "occupied");
+            }
+
         
-        String booked = request.getParameter("booked");
-        String idRoom = request.getParameter("idroom");
-        String idroom = request.getParameter("idroom");
-        String numPeople = request.getParameter("numPeople");
-        String citizenId = request.getParameter("citizenId");
-        String checkInDate = request.getParameter("checkInDate");
-        String checkOutDate = request.getParameter("checkOutDate");
-        String gmail = request.getParameter("gmail");
-        String phone = request.getParameter("phone");
-        String note = request.getParameter("note");
+        
+
+        
+        
 
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckIn.jsp");
             rd.forward(request, response);

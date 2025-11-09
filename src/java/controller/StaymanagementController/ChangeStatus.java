@@ -39,8 +39,7 @@ public class ChangeStatus extends HttpServlet {
         } else {
             request.setAttribute("error", "Failed");
         }
-        StayRoom stayroom = dao.getCheckInRoomForReceptionist(bookingId, roomId);
-        request.setAttribute("stayroom", stayroom);
+        
         
         
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");

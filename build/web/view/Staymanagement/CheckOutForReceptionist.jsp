@@ -1,12 +1,7 @@
-<%-- 
-    Document   : newjsp
-    Created on : Oct 18, 2025, 3:46:58 AM
-    Author     : Hoang Viet Cuong
---%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.StayRoom"%>
 
-<% StayRoom stayroom = (StayRoom) request.getAttribute("stayroom"); %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -118,26 +113,23 @@
         </div>
 
         <div class="check-in">
-
-
             <div class="check-in-container">
-                <p>Check In</p>
-                <!--                Check customer booked or not-->
+
+                
                 <p class="word-booked">Booked</p>
                 <select class="booked-selection" name="Booked" id="bookedSelect">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-                <!--                Enter to confirm info customer booked-->
+                
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
                     <div id="bookingIdField" style="display:block;">
                         <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
-                        <input type="text" name="note" value="" />
                         <input type="submit" class="send-btn" value="Check" />
                     </div>
                 </form>
 
-                <!--                Enter to confirm info and room for customer not booked-->
+                
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" class="check-in-input-container">
                     <div id="extraFields" style="display:none;">
                         <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
@@ -163,66 +155,50 @@
                     </div>
 
                 </form>
-
+                <div class="info-customer">
+                    <br>
+                    <h4>Information Customer</h4>
+                    <p>===============================================</p>
+                    <p>Customer name: ${info.name}</p>
+                    <p>User Id: ${info.userId}</p>
+                    <p>Email: ${info.gmail}</p>
+                    <p>===============================================</p>
+                </div>    
             </div>
             <div class="check-info-container">
+                <h3>Booking Information</h3>
+                <div style="margin-bottom: 10px;">
+                    <input type="checkbox" id="selectAll" />
+                    <label for="selectAll"><strong>Select All Rooms</strong></label>
+                </div>
 
-                <p>Information of Room And Booking</p>
-                <br>
-                <div class="info-booking">
-                    <p>Booking ID: ${stayroom.bookingId}</p>
-                    <p>Booking status: ${stayroom.status}</p>
-                    <p>Check In Date: ${stayroom.checkInDate}</p>
-                    <p>Check Out Date: ${stayroom.checkOutDate}</p>
-                </div>
-                <p>=================================================</p>   
-                <div class="info-room">
-                    <p>Room ID: ${stayroom.roomId}</p>
-                    <p>Room number:${stayroom.roomNumber}</p>
-                    <p>Room status:${stayroom.roomStatus}</p>
-                    <p>Room type: ${stayroom.roomType}</p>
-                    <p>Capacity: ${stayroom.capacity}</p>
-                    <p>Price Per Night: ${stayroom.pricePerNight}</p>
-                    <p>Price:</p>
-                    <p>Deposit required:</p>
-                </div>
-                <p>=================================================</p>   
-                <div class="info-customer">
-                    <p>Customer name: ${stayroom.name}</p>
-                    <!--                    <p>Citizen ID: </p>-->
-                    <p>Number of people: ${stayroom.guestCount}</p>
-                    <p>Email: ${stayroom.gmail}</p>
-                    <p>Phone: ${stayroom.phone}</p>
-                </div>
-                <form action="${pageContext.request.contextPath}/ChangeStatus" method="post">
-                    <input type="hidden" name="roomId" value="${stayroom.roomId}" />
-                    <input type="hidden" name="bookingId" value="${stayroom.bookingId}" />
-                    <input class="send-btn" type="submit" value="Confirmation" />
+                <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" id="checkInfoForm">
+                    <div id="roomListContainer" class="room-list-container">
+                        <c:forEach var="room" items="${list}">
+                            <div class="room-block" data-roomid="${room.roomId}">                                
+                                <input type="checkbox" name="selectedRooms" value="${room.roomId}" id="room_${room.roomId}">
+                                <label for="room_${room.roomId}">
+                                    <strong>Booking ID: ${room.bookingId}</strong><br>
+                                    <strong>Room: ${room.roomNumber} - Room ID: ${room.roomId}</strong><br>
+                                    Type: ${room.roomType} - Check In Date: ${room.checkInDate}<br>
+                                    Price: ${room.pricePerNight}
+                                </label>
+                            </div>
+                                <p>================================================</p>
+                        </c:forEach>
+                    </div>
+
+                    <br>
+                    <input type="submit" class="send-btn" value="Check In">
                 </form>
-                <%
-                String message = (String) request.getAttribute("message");
-                String error = (String) request.getAttribute("error");
-
-                if (message != null) {
-                %>
-                <div style="color: green; font-weight: bold; margin-bottom: 10px;">
-                    <%= message %>
-                </div>
-                <%
-                    }
-
-                    if (error != null) {
-                %>
-                <div style="color: red; font-weight: bold; margin-bottom: 10px;">
-                    <%= error %>
-                </div>
-                <%
-                    }
-                %>
-
-            </div>        
+            </div>       
         </div>
-
+        <script>
+            document.getElementById('selectAll').addEventListener('change', function () {
+                const checkboxes = document.querySelectorAll('input[name="selectedRooms"]');
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        </script>            
         <script>
             const bookedSelect = document.getElementById("bookedSelect");
             const extraFields = document.getElementById("extraFields");
@@ -230,22 +206,17 @@
 
             bookedSelect.addEventListener("change", function () {
                 if (this.value === "No") {
-                    extraFields.style.display = "block";     // Hiện thêm các ô khi chưa booked
-                    bookingIdField.style.display = "none";   // Ẩn booking ID
+                    extraFields.style.display = "block";
+                    bookingIdField.style.display = "none";
                 } else if (this.value === "Yes") {
-                    extraFields.style.display = "none";      // Ẩn ô thêm
-                    bookingIdField.style.display = "block";  // Hiện booking ID
+                    extraFields.style.display = "none";
+                    bookingIdField.style.display = "block";
                 } else {
                     extraFields.style.display = "none";
                     bookingIdField.style.display = "none";
                 }
             });
         </script>
-
-
-
-
-
 
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
@@ -269,7 +240,7 @@
                         </ul>
                     </div>
 
-                    <!-- Contact -->
+                    
                     <div class="col-md-3 mb-4">
                         <h6 class="text-white mb-3">Contact Us</h6>
                         <p class="small mb-1">123 Street, New York, USA</p>
@@ -277,7 +248,7 @@
                         <p class="small mb-0">Email: info@hotells.com</p>
                     </div>
 
-                    <!-- Newsletter -->
+                    
                     <div class="col-md-3 mb-4">
                         <h6 class="text-white mb-3">Stay Updated</h6>
                         <div class="input-group">

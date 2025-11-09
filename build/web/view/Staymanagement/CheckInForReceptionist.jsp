@@ -4,9 +4,8 @@
     Author     : Hoang Viet Cuong
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.StayRoom"%>
-
-<% StayRoom stayroom = (StayRoom) request.getAttribute("stayroom"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -116,19 +115,17 @@
                 </section>
             </div>
         </div>
-        
-        <div class="check-in">
 
-            
+        <div class="check-in">
             <div class="check-in-container">
+
                 
-                <!--                Check customer booked or not-->
                 <p class="word-booked">Booked</p>
                 <select class="booked-selection" name="Booked" id="bookedSelect">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-                <!--                Enter to confirm info customer booked-->
+                
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
                     <div id="bookingIdField" style="display:block;">
                         <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
@@ -136,7 +133,7 @@
                     </div>
                 </form>
 
-                <!--                Enter to confirm info and room for customer not booked-->
+                
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" class="check-in-input-container">
                     <div id="extraFields" style="display:none;">
                         <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
@@ -163,24 +160,49 @@
 
                 </form>
                 <div class="info-customer">
-                    <br><!--  -->
+                    <br>
                     <h4>Information Customer</h4>
-                    <p>==================================</p>
-                    <p>Customer name: ${stayroom.name}</p>
-                    <p>Number of people: ${stayroom.guestCount}</p>
-                    <p>Email: ${stayroom.gmail}</p>
-                    <p>Phone: ${stayroom.phone}</p> 
-                    <p>==================================</p>
+                    <p>===============================================</p>
+                    <p>Customer name: ${info.name}</p>
+                    <p>User Id: ${info.userId}</p>
+                    <p>Email: ${info.gmail}</p>
+                    <p>===============================================</p>
                 </div>    
             </div>
             <div class="check-info-container">
+                <h3>Booking Information</h3>
+                <div style="margin-bottom: 10px;">
+                    <input type="checkbox" id="selectAll" />
+                    <label for="selectAll"><strong>Select All Rooms</strong></label>
+                </div>
 
-                
-                
+                <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" id="checkInfoForm">
+                    <div id="roomListContainer" class="room-list-container">
+                        <c:forEach var="room" items="${list}">
+                            <div class="room-block" data-roomid="${room.roomId}">                                
+                                <input type="checkbox" name="selectedRooms" value="${room.roomId}" id="room_${room.roomId}">
+                                <label for="room_${room.roomId}">
+                                    <strong>Booking ID: ${room.bookingId}</strong><br>
+                                    <strong>Room: ${room.roomNumber} - Room ID: ${room.roomId}</strong><br>
+                                    Type: ${room.roomType} - Check In Date: ${room.checkInDate}<br>
+                                    Price: ${room.pricePerNight}
+                                </label>
+                            </div>
+                                <p>================================================</p>
+                        </c:forEach>
+                    </div>
 
-            </div>        
+                    <br>
+                    <input type="submit" class="send-btn" value="Check In">
+                </form>
+            </div>       
         </div>
-
+        <script>
+            document.getElementById('selectAll').addEventListener('change', function () {
+                const checkboxes = document.querySelectorAll('input[name="selectedRooms"]');
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        </script>            
         <script>
             const bookedSelect = document.getElementById("bookedSelect");
             const extraFields = document.getElementById("extraFields");
@@ -188,22 +210,17 @@
 
             bookedSelect.addEventListener("change", function () {
                 if (this.value === "No") {
-                    extraFields.style.display = "block";     
-                    bookingIdField.style.display = "none";   
+                    extraFields.style.display = "block";
+                    bookingIdField.style.display = "none";
                 } else if (this.value === "Yes") {
-                    extraFields.style.display = "none";     
-                    bookingIdField.style.display = "block";  
+                    extraFields.style.display = "none";
+                    bookingIdField.style.display = "block";
                 } else {
                     extraFields.style.display = "none";
                     bookingIdField.style.display = "none";
                 }
             });
         </script>
-
-
-
-
-
 
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
@@ -227,7 +244,7 @@
                         </ul>
                     </div>
 
-                    <!-- Contact -->
+                    
                     <div class="col-md-3 mb-4">
                         <h6 class="text-white mb-3">Contact Us</h6>
                         <p class="small mb-1">123 Street, New York, USA</p>
@@ -235,7 +252,7 @@
                         <p class="small mb-0">Email: info@hotells.com</p>
                     </div>
 
-                    <!-- Newsletter -->
+                    
                     <div class="col-md-3 mb-4">
                         <h6 class="text-white mb-3">Stay Updated</h6>
                         <div class="input-group">

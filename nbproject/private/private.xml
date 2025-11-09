@@ -11,27 +11,24 @@
             <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391/2_SWP391%20(1)/HotelManagementandBookingSystem/web/view/Profile/update_profile.jsp</file>
         </group>
         <group name="DataStructure_Algorithms">
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/newjsp.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/ExtendRoomForReceptionist.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/StayRoom.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/dao/Staymanagement/CheckInOut.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/StayRoom.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/DetailRoom.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/dao/Staymanagement/StayRoomDAO.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/CheckInServlet.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/model/BookingRoom.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckInForCustomer.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/ChangeStatus.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/model/Booking.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/CheckInServletForCustomer.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CommunicationChatBox.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/Details.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/ChangeRoom.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/StayRoomReceptionist.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckOut.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/controller/StaymanagementController/NewServlet.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/ExtendRoom.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CommunicationChatBox_1.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/css/stay.css</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/dao/Staymanagement/ExtendChangeRoom.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/src/java/model/StayRoom.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckInForReceptionist.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/index.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/Hotel-Management-and-Booking-System/web/view/Staymanagement/CheckOutForReceptionist.jsp</file>
         </group>
     </open-files>

@@ -26,13 +26,30 @@ public class StayRoom {
     private String gmail;
     private int phone;
     private String name;
- 
+    private int userId;
     public StayRoom() {
     }
 
     public StayRoom(int roomId, String roomNumber, Date checkInDate) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
+        this.checkInDate = checkInDate;
+    }
+
+    public StayRoom(String gmail, String name, int userId) {
+        this.gmail = gmail;
+        this.name = name;
+        this.userId = userId;
+    }
+    
+    
+
+    public StayRoom(int roomId, String roomNumber, String roomType, double pricePerNight, int bookingId, Date checkInDate) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.pricePerNight = pricePerNight;
+        this.bookingId = bookingId;
         this.checkInDate = checkInDate;
     }
     
@@ -109,6 +126,14 @@ public class StayRoom {
         this.checkOutDate = checkOutDate;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
     public String getName() {
         return name;
     }
