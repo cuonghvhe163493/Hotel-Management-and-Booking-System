@@ -3,31 +3,38 @@ package model;
 import java.util.Date;
 
 public class BookingRoom {
+
     private int bookingRoomId;
     private int bookingId;
     private int roomId;
+    private String roomNumber;
     private Date checkInDate;
     private Date checkOutDate;
+    private int nights;
     private int guestsCount;
     private double ratePerNight;
     private double lineTotal;
     private String status;
 
-    // Constructor
-    public BookingRoom(int bookingRoomId, int bookingId, int roomId, Date checkInDate, Date checkOutDate,
-                       int guestsCount, double ratePerNight, double lineTotal, String status) {
+    public BookingRoom() {
+    }
+
+    public BookingRoom(int bookingRoomId, int bookingId, int roomId, String roomNumber,
+            Date checkInDate, Date checkOutDate, int nights,
+            int guestsCount, double ratePerNight, double lineTotal, String status) {
         this.bookingRoomId = bookingRoomId;
         this.bookingId = bookingId;
         this.roomId = roomId;
+        this.roomNumber = roomNumber;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        this.nights = nights;
         this.guestsCount = guestsCount;
         this.ratePerNight = ratePerNight;
         this.lineTotal = lineTotal;
         this.status = status;
     }
 
-    // Getters and Setters
     public int getBookingRoomId() {
         return bookingRoomId;
     }
@@ -98,5 +105,21 @@ public class BookingRoom {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public int getNights() {
+        return nights;
+    }
+
+    public void setNights(int nights) {
+        this.nights = nights;
     }
 }

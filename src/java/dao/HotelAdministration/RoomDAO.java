@@ -16,9 +16,9 @@ public class RoomDAO {
             rs.getString("room_status"),
             rs.getString("room_type"),
             rs.getInt("capacity"),
-            rs.getDouble("price_per_night"),
-            rs.getTimestamp("created_at"), 
-            rs.getTimestamp("updated_at")
+            rs.getBigDecimal("price_per_night"),
+            rs.getTimestamp("created_at").toLocalDateTime(), 
+            rs.getTimestamp("updated_at").toLocalDateTime()
         );
         return room;
     }
