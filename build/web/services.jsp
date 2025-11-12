@@ -98,6 +98,16 @@
                 font-weight: 600;
                 color: #333;
             }
+
+            .button-views:hover {
+                background-color: bisque !important;
+
+            }
+
+            .button-views {
+                cursor: pointer;
+                border-radius: 15px
+            }
         </style>
 
     </head>
@@ -249,35 +259,29 @@
                         <div class="room_2i row mt-4">
                         </c:if>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" >
                             <div class="room_2il">
-                                <div class="room_2il1 position-relative">
-                                    <div class="room_2il1i">
-                                        <div class="grid clearfix">
-                                            <figure class="effect-jazz mb-0">
-                                                <a href="#"><img src="img/13.jpg" class="w-100" alt="img25"></a>
-                                            </figure>
-                                        </div>
+                                <div class="room_2il2 bg-white text-center p-4" style="display: flex; flex-direction: column; justify-content: space-between; height: 250px">
+                                    <div >
+                                        <h4 class="mt-2"><a href="#">${service.serviceName} - $${service.price > 0 ? service.price : 'Miễn phí'}</a></h4>
+                                        <h4 class="mt-2"> 
+                                            <c:choose>
+                                                <c:when test="${service.price > 0}">
+                                                    Giá: $${service.price}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Miễn phí
+                                                </c:otherwise>
+                                            </c:choose></h4>
+                                        <p class="font_14 mb-0">
+                                            ${service.description}
+                                        </p>
                                     </div>
-                                    <div class="room_2il1i1 text-center position-absolute w-100">
-                                        <span class="d-inline-block  bg_yell text-white p-2 px-4">Views</span>
-                                    </div>
+                                    <a href="/HotelManagementandBookingSystem/service-detail?id=${service.serviceId}" class="bg_yell text-white p-2 px-4 hover:bg_black" style="width: fit-content; margin: auto" class="button-views" >Views</a>
+
                                 </div>
-                                <div class="room_2il2 bg-white text-center p-4">
-                                    <h4 class="mt-2"><a href="#">${service.serviceName} - $${service.price > 0 ? service.price : 'Miễn phí'}</a></h4>
-                                    <h4 class="mt-2"> 
-                                        <c:choose>
-                                            <c:when test="${service.price > 0}">
-                                                Giá: $${service.price}
-                                            </c:when>
-                                            <c:otherwise>
-                                                Miễn phí
-                                            </c:otherwise>
-                                        </c:choose></h4>
-                                    <p class="font_14 mb-0">
-                                        ${service.description}
-                                    </p>
-                                </div>
+
+
                             </div>
                         </div>
                         <c:if test="${(status.index + 1) % 3 == 0 || status.last}">

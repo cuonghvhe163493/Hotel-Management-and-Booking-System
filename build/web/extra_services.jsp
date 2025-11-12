@@ -253,32 +253,24 @@
 
                         <div class="col-md-4">
                             <div class="room_2il">
-                                <div class="room_2il1 position-relative">
-                                    <div class="room_2il1i">
-                                        <div class="grid clearfix">
-                                            <figure class="effect-jazz mb-0">
-                                                <a href="#"><img src="img/13.jpg" class="w-100" alt="img25"></a>
-                                            </figure>
-                                        </div>
+                                <div class="room_2il2 bg-white text-center p-4" style="display: flex; flex-direction: column; justify-content: space-between; height: 250px">
+                                    <div>
+                                        <h4 class="mt-2"><a href="#">${service.serviceName}</a></h4>
+                                        <h4 class="mt-2"> 
+                                            <c:choose>
+                                                <c:when test="${service.servicePrice > 0}">
+                                                    Giá: $${service.servicePrice}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Miễn phí
+                                                </c:otherwise>
+                                            </c:choose></h4>
+                                        <p class="font_14 mb-0">
+                                            ${service.serviceDescription}
+                                        </p>
                                     </div>
-                                    <div class="room_2il1i1 text-center position-absolute w-100">
-                                        <span class="d-inline-block  bg_yell text-white p-2 px-4">Views</span>
-                                    </div>
-                                </div>
-                                <div class="room_2il2 bg-white text-center p-4">
-                                    <h4 class="mt-2"><a href="#">${service.serviceName}</a></h4>
-                                    <h4 class="mt-2"> 
-                                        <c:choose>
-                                            <c:when test="${service.servicePrice > 0}">
-                                                Giá: $${service.servicePrice}
-                                            </c:when>
-                                            <c:otherwise>
-                                                Miễn phí
-                                            </c:otherwise>
-                                        </c:choose></h4>
-                                    <p class="font_14 mb-0">
-                                        ${service.serviceDescription}
-                                    </p>
+                                    <a href="/HotelManagementandBookingSystem/extra-service-detail?id=${service.extraServiceId}" class="bg_yell text-white p-2 px-4 hover:bg_black" style="width: fit-content; margin: auto" class="button-views" >Views</a>
+
                                 </div>
                             </div>
                         </div>

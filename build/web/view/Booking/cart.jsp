@@ -49,7 +49,7 @@
         <!-- Main Cart Content -->
         <section id="cart" class="cart-section">
             <div class="container-xl">
-                <c:if test="${empty sessionScope.cart}">
+                <c:if test="${empty sessionScope.cart && empty sessionScope.cartServices}">
                     <div class="text-center">
                         <h4>Your cart is empty.</h4>
                         <a href="${pageContext.request.contextPath}/rooms" class="btn btn-primary mt-3">Browse Rooms</a>
@@ -66,7 +66,7 @@
                                     <th>Guests</th>
                                     <th>Check-in</th>
                                     <th>Check-out</th>
-                                    <th>Price/night ($)</th>
+                                    <th>Price/night</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -95,14 +95,86 @@
                             </tbody>
                         </table>
                     </div>
-
                     <div class="text-end mt-4">
                         <a href="${pageContext.request.contextPath}/booking" class="btn btn-success px-4 py-2 fw-bold">
                             <i class="fa fa-calendar-check"></i> Proceed to Booking
                         </a>
                     </div>
                 </c:if>
+
+                <c:if test="${not empty sessionScope.cartServices}">
+                    <div class="table-responsive mt-5">
+                        <table class="table table-bordered cart-table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Type</th>
+                                    <th>Guests</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Price/night </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <c:forEach var="item"  items="${sessionScope.cartServices}" varStatus="status">
+                                <form action="${pageContext.request.contextPath}/service-cart" method="post">
+                                    <tr>
+                                        <td>${item.service.serviceName}</td>
+                                        <td>${item.service.serviceType}</td>
+                                        <td>
+                                            <input type="hidden" name="action" value="update"/>
+                                            <input type="hidden" name="index" value="${status.index}">
+                                            <input type="number" name="guestcount" value="${item.guestsCount}">
+                                        </td>
+                                        <td>
+                                            <input type="date" name="checkIn" value="<fmt:formatDate value='${item.checkInDate}' pattern='yyyy-MM-dd'/>">
+                                        </td>
+                                        <td>
+                                            <input type="date" name="checkOut" value="<fmt:formatDate value='${item.checkOutDate}' pattern='yyyy-MM-dd'/>">
+                                        </td>
+                                        <td>${item.service.price}</td>
+                                        <td>
+                                            <a href="service-cart?index=${status.index}" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i> Remove
+                                            </a>
+
+                                            <button type="submit" class="btn btn-info btn-sm">
+                                                <i class="fa fa-pencil"></i> Update
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </form>
+                            </c:forEach>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <c:if test="${not empty error}">
+                            <div class="alert alert-danger">${error}</div>
+                        </c:if>
+                        <a href="${pageContext.request.contextPath}/service-booking" class="btn btn-success px-4 py-2 fw-bold">
+                            <i class="fa fa-calendar-check"></i> Proceed to Booking
+                        </a>
+                    </div>
+                </c:if>
             </div>
         </section>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Hello!</h2>
+                <p>This is a simple modal created with HTML, CSS, and JavaScript.</p>
+            </div>
+        </div>
     </body>
 </html>
+
+
+
+
