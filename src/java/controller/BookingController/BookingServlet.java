@@ -18,28 +18,14 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(true); // luôn tạo session nếu chưa có
-
-        // --- Fake login tạm thời (xóa/comment khi test xong) ---
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setUserId(5);
-            user.setUsername("alice");
-            user.setPassword("alicepwd");
-            user.setEmail("alice@mail.com");
-            user.setRole("customer");
-            user.setProfileData("{\"fullname\":\"Alice\"}");
-            user.setAccountStatus("active");
-
-            session.setAttribute("user", user);
-            System.out.println("Alice đang login"); // log console
-        }
+        Integer customerId = (Integer) session.getAttribute("customerId");
         
-        /*if (customerId == null) {
+        if (customerId == null) {
             response.sendRedirect("login.jsp");
             return;
-        }*/
+        }
 
         // Lấy giỏ hàng từ session
         @SuppressWarnings("unchecked")

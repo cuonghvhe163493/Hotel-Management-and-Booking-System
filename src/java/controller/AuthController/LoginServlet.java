@@ -31,22 +31,21 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", user.getUsername());
+
+            // Lưu toàn bộ object User thay vì chỉ lưu String
+            session.setAttribute("user", user);
+            session.setAttribute("customerId", user.getUserId());
             session.setAttribute("role", user.getRole());
 
-           if ("admin".equalsIgnoreCase(user.getRole()) || "hotel_manager".equalsIgnoreCase(user.getRole())) {
-                
-                // 🟢 FIX CUỐI CÙNG: Dùng FORWARD để buộc Controller tải dữ liệu ngay lập tức
-                // Chuyển hướng xử lý sang Servlet AdminDashboardController
+            // Chuyển hướng theo vai trò
+            if ("admin".equalsIgnoreCase(user.getRole()) || "hotel_manager".equalsIgnoreCase(user.getRole())) {
                 request.getRequestDispatcher("/admin-home").forward(request, response);
-                return; // Kết thúc xử lý
             } else if ("customer".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(ctx + "/view/Customer/customer_homepage.jsp");
-            } else if ("hotel_manager".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(ctx + "/view/HotelManager/manager_homepage.jsp");
+                response.sendRedirect(ctx + "/rooms");
             } else {
                 response.sendRedirect(ctx + "/login?error=true");
             }
+
         } else {
             response.sendRedirect(ctx + "/login?error=true");
         }

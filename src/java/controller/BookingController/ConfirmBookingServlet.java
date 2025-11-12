@@ -26,21 +26,12 @@ public class ConfirmBookingServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            // fake login Alice
-            user = new User();
-            user.setUserId(5);
-            user.setUsername("alice");
-            user.setEmail("alice@mail.com");
-            user.setRole("customer");
-            session.setAttribute("user", user);
-            System.out.println("Alice đang login");
-        }
+        Integer customerId = (Integer) session.getAttribute("customerId");
         
-        /*if (customerId == null) {
+        if (customerId == null) {
             response.sendRedirect("login.jsp");
             return;
-        }*/
+        }
 
         int roomCount = Integer.parseInt(request.getParameter("roomCount"));
         if (roomCount <= 0) {

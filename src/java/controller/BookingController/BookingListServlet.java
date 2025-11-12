@@ -28,24 +28,8 @@ public class BookingListServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        Integer customerId = (Integer) session.getAttribute("customerId");
-
-        // --- Fake login tạm thời ---
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setUserId(5);
-            user.setUsername("alice");
-            user.setPassword("alicepwd");
-            user.setEmail("alice@mail.com");
-            user.setRole("customer");
-            user.setProfileData("{\"fullname\":\"Alice\"}");
-            user.setAccountStatus("active");
-
-            session.setAttribute("user", user);
-            session.setAttribute("customerId", user.getUserId());
-            System.out.println("Alice đang login");
-        }
+        Integer customerId = (Integer) session.getAttribute("customerId");
 
         if (customerId == null && user != null) {
             customerId = user.getUserId();
