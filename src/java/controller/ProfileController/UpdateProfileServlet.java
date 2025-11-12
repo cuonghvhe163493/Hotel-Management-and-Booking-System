@@ -26,14 +26,6 @@ public class UpdateProfileServlet extends HttpServlet {
             return;
         }
 
-        boolean updated = UserDAO.updateUserProfile(username, email, phone, address, password);
-
-        if (updated) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", username);
-            resp.sendRedirect(req.getContextPath() + "/view/Profile/update_profile.jsp?msg=success");
-        } else {
-            resp.sendRedirect(req.getContextPath() + "/view/Profile/update_profile.jsp?msg=error");
-        }
+     
     }
 }

@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user.getUsername());
             session.setAttribute("role", user.getRole());
-            
+           session.setAttribute("userId", user.getUserId());
             // Lấy role và chuyển về chữ thường để so sánh
             String userRole = user.getRole().toLowerCase();
 
