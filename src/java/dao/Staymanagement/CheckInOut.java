@@ -41,7 +41,7 @@ public class CheckInOut {
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, booking_id);
-            ps.setString(2, "checked_in");
+            ps.setString(2, "reserved");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom r = new StayRoom();
@@ -125,7 +125,7 @@ public class CheckInOut {
 
             ps.setInt(1, id);
 
-            ps.setString(2, "completed");
+            ps.setString(2, "confirmed");
 //            confirmed
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -153,7 +153,7 @@ public class CheckInOut {
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, phoneNumber);
-            ps.setString(2, "completed");
+            ps.setString(2, "confirmed");
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -186,7 +186,7 @@ public class CheckInOut {
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, phoneNumber);
-            ps.setString(2, "completed");
+            ps.setString(2, "confirmed");
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

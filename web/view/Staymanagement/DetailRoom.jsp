@@ -148,7 +148,7 @@
 
             <!--receptionist-->               
             <div>
-                <c:if test="${sessionScope.role == 'receptionist'}">
+                <c:if test="${sessionScope.role == 'hotel_manager'}">
                     <div>
                         <p>Room Number: ${room.roomNumber}</p>
                         <p>Room Id: ${room.roomId}</p>
@@ -169,23 +169,7 @@
                         <p>Phone: ${room.phone}</p>
                     </div>
                 </c:if>
-                <div>
-                        <p>Room Number: ${room.roomNumber}</p>
-                        <p>Room Id: ${room.roomId}</p>
-                        <p>Room type: ${room.roomType}</p>
-                        <p>Booking Id: ${room.bookingId}</p>
-                        <p>Service: </p>
-                        <p>Capacity: ${room.capacity}</p>
-                        <p>Price: ${room.pricePerNight}</p>
-                        <p>Check In Date: ${room.checkInDate}</p>
-                        <p>Check Out Date: ${room.checkOutDate}</p>         
-                        <p>Booking status:  ${room.status}</p>
-                        <p>Room status: ${room.roomStatus}</p>
-                        <p>Customer name: ${room.name}</p>
-                        <p>Number of people: ${room.guestCount}</p>
-                        <p>Email: ${room.gmail}</p>
-                        <p>Phone: ${room.phone}</p>
-                    </div>
+                
             </div>            
 
         </div>

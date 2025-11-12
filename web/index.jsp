@@ -82,13 +82,13 @@
                                             
                                             <c:when test="${sessionScope.role == 'customer'}">
                                                 <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoom?id=13">
+                                                   href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
                                                     Stay Room
                                                 </a>
                                             </c:when>
 
                                             
-                                            <c:when test="${sessionScope.role == 'receptionist'}">
+                                            <c:when test="${sessionScope.role == 'hotel_manager'}">
                                                 <a class="dropdown-item" 
                                                    href="${pageContext.request.contextPath}/stayRoomReceptionist">
                                                     Stay Room
@@ -96,14 +96,7 @@
                                             </c:when>
 
                                         </c:choose>
-                                                    <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoom?id=13">
-                                                    Stay Room
-                                                </a>
-                                                    <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoomReceptionist">
-                                                    Stay Room
-                                                </a>
+                                                
                                 </li>
                                 <li><a class="dropdown-item border-0" href="detail.jsp"> Room Detail</a></li>
                             </ul>
