@@ -6,6 +6,7 @@
 package controller.StaymanagementController;
 
 import dao.Staymanagement.StayRoomDAO;
+import model.StayRoom;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,18 +32,18 @@ public class Details extends HttpServlet {
     throws ServletException, IOException {        
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        
         String roomId = request.getParameter("roomId");
         String bookingId = request.getParameter("bookingId");
         int roomid = Integer.parseInt(roomId);
         int bookingid = Integer.parseInt(bookingId);
         
-        
-        StayRoom room = new StayRoom();
-        
-        
+        StayRoomDAO d = new StayRoomDAO();
+        StayRoom room = d.getDetails(bookingid, roomid);
+
         request.setAttribute("room", room);
 
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/StayRoom.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/DetailRoom.jsp");
         rd.forward(request, response);
  
     } 

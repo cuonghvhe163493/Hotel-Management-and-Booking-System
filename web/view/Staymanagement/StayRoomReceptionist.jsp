@@ -178,7 +178,7 @@
                         <a href="CheckInForReceptionist.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
                     </div>
                     <div>
-                        <a href="CheckOut.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
+                        <a href="CheckOutForReceptionist.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
                     </div>
                 </div>
 

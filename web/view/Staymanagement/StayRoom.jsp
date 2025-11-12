@@ -155,7 +155,7 @@
                         <td>${room.checkInDate}</td>
                         <td>${room.checkOutDate}</td>   
                         
-                        <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}?bookingId=${room.bookingId}"> Details</a></td>
+                        <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}"> Details</a></td>
                     </tr>
                     </c:forEach>
                 </tbody>

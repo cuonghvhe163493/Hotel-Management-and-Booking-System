@@ -114,23 +114,11 @@
 
         <div class="check-in">
             <div class="check-in-container">
-
                 
-                <p class="word-booked">Booked</p>
-                <select class="booked-selection" name="Booked" id="bookedSelect">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-                
-                <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
-                    <div id="bookingIdField" style="display:block;">
-                        <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
-                        <input type="submit" class="send-btn" value="Check" />
-                    </div>
-                </form>
-
-                
-                <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" class="check-in-input-container">
+                <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
+                <input type="submit" class="send-btn" value="Check" />
+                    
+                <form action="${pageContext.request.contextPath}/CheckOutServlet" method="post" class="check-in-input-container">
                     <div id="extraFields" style="display:none;">
                         <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
                         <p>Customer Name: <input type="text" name="name" placeholder="Name" required /></p>
@@ -199,24 +187,7 @@
                 checkboxes.forEach(cb => cb.checked = this.checked);
             });
         </script>            
-        <script>
-            const bookedSelect = document.getElementById("bookedSelect");
-            const extraFields = document.getElementById("extraFields");
-            const bookingIdField = document.getElementById("bookingIdField");
-
-            bookedSelect.addEventListener("change", function () {
-                if (this.value === "No") {
-                    extraFields.style.display = "block";
-                    bookingIdField.style.display = "none";
-                } else if (this.value === "Yes") {
-                    extraFields.style.display = "none";
-                    bookingIdField.style.display = "block";
-                } else {
-                    extraFields.style.display = "none";
-                    bookingIdField.style.display = "none";
-                }
-            });
-        </script>
+        
 
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">

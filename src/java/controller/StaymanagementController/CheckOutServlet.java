@@ -25,8 +25,8 @@ import model.StayRoom;
  *
  * @author Admin
  */
-@WebServlet(name="CheckInServlet", urlPatterns={"/CheckInServlet"})
-public class CheckInServlet extends HttpServlet {
+@WebServlet(name="CheckOutServlet", urlPatterns={"/CheckOutServlet"})
+public class CheckOutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,10 +36,10 @@ public class CheckInServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         int phoneNumb = Integer.parseInt(phoneNumber);
 
-        StayRoomDAO d = new StayRoomDAO();
-        List<StayRoom> list = d.getCheckInRoomForReceptionist(phoneNumb);
-        
         CheckInOut cio = new CheckInOut();
+        List<StayRoom> list = cio.getCheckOutRoomForReceptionist(phoneNumb);
+        
+        
         StayRoom info = cio.getInfoCustomer(phoneNumb);
         request.setAttribute("list", list);
         

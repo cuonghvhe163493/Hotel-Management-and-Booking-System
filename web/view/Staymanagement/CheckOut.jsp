@@ -116,24 +116,55 @@
         
         
         
-        <div>
-            <p>ID Room: <input type="text" name="idroom" value="" placeholder="ID Room" />
-            <p>Customer Name: <input type="text" name="name" value="" placeholder="Name" />
-            <p>Check-out Date: <input type="text"  value="" placeholder="Date" />    
-            <p>Note</p>    
-            <input type="text" name="Note" value="" />
-            <input type="submit" class="send-btn" value="Submit" />
-            
-            
-            <p>Bảng giá </p>
-            <p>Đã thanh toán
-            <p> chưa thanh toán
-                
-            
-            
-            
-            
-            
+
+        <div class="check-in">
+            <div>
+                <div>
+                    <form action="${pageContext.request.contextPath}/CheckOutServletForCustomer" method="get" class="check-in-container">
+                        <p>Booking ID</p>
+                        <select name="selectedValue">
+                            <c:forEach var="id" items="${listbooking}">
+                                <option value="${id}">
+                                    ${id} 
+                                </option>   
+                            </c:forEach>
+                        </select>   
+                        <input type="hidden" name="mode" value="1" />
+                        <input type="submit" value="Check" />
+                    </form>    
+                </div>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Room Id</th> 
+                                <th>Number Room</th>
+                                <th>Check-out Date</th> 
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <c:forEach var="room" items="${stayroom}">
+                                <tr>
+                                    <td>${room.roomId}</td>                                  
+                                    <td>${room.roomNumber}</td>
+                                    <td>${room.checkOutDate}</td>                            
+                                    <td>Details</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>           
+            </div>    
+
+            <div>
+                <p>
+                <p>
+                <p>
+                <p>
+            </div>    
+
+
         </div>
         
         
@@ -155,7 +186,7 @@
                     </div>
                     <div class="col-md-3 mb-4">
                         <h6 class="text-white mb-3">Quick Links</h6>
-                        <ul class="list-unstyled small">
+                       <ul class="list-unstyled small">
                             <li><a href="#" class="text-light text-decoration-none">Home</a></li>
                             <li><a href="#" class="text-light text-decoration-none">About</a></li>
                             <li><a href="#" class="text-light text-decoration-none">Rooms</a></li>

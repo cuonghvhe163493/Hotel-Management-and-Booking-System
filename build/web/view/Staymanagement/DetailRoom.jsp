@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -123,24 +125,26 @@
                 </section>
             </div>
         </div>
-        
+
         <div>
             <h1>Details</h1>
-            Customer:
-            
-                Room Number:
-                Room Id:
-                Room type:
-                Booking Id:
-                Number of people:
-                Service:
-                Capacity
-                Price:
-                Check In Date:
-                Check Out Date:
-                
-            Receptionist:
-            
+            <div>
+                <!--customer-->
+                <p>Room Number: ${room.room}</p>
+                <p>Room Id: ${room.roomId}</p>
+                <p>Room type: ${room.roomType}</p>
+                <p>Booking Id: ${room.bookingId}</p>
+                <p>Number of people: </p>
+                <p>Service: </p>
+                <p>Capacity: ${room.capacity}</p>
+                <p>Price: ${room.pricePerNight}</p>
+                <p>Check In Date: ${room.checkInDate}</p>
+                <p>Check Out Date: ${room.checkOutDate}</p>
+                    
+            </div>
+
+            <!--receptionist-->               
+            <div>
                 Booking ID:
 
                 Booking status:
@@ -172,18 +176,18 @@
                 Email:
 
                 Phone:    
-                
-    
+            </div>            
+
         </div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
                 <div class="row">
