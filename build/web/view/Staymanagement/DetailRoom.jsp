@@ -12,11 +12,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Communication</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" >
-        <link href="css/font-awesome.min.css" rel="stylesheet" >
-        <link href="css/global.css" rel="stylesheet">
-        <link href="css/rooms.css" rel="stylesheet">
-        <link href="css/stay.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/rooms.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Staymanagement/css/checkin.css">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
@@ -127,55 +128,64 @@
         </div>
 
         <div>
-            <h1>Details</h1>
+            <h3>Details</h3>
             <div>
-                <!--customer-->
-                <p>Room Number: ${room.room}</p>
-                <p>Room Id: ${room.roomId}</p>
-                <p>Room type: ${room.roomType}</p>
-                <p>Booking Id: ${room.bookingId}</p>
-                <p>Number of people: </p>
-                <p>Service: </p>
-                <p>Capacity: ${room.capacity}</p>
-                <p>Price: ${room.pricePerNight}</p>
-                <p>Check In Date: ${room.checkInDate}</p>
-                <p>Check Out Date: ${room.checkOutDate}</p>
-                    
+                <c:if test="${sessionScope.role == 'customer'}">
+                    <div>
+                        <p>Room Number: ${room.roomNumber}</p>
+                        <p>Room Id: ${room.roomId}</p>
+                        <p>Room type: ${room.roomType}</p>
+                        <p>Booking Id: ${room.bookingId}</p>
+                        <p>Number of people: </p>
+                        <p>Service: </p>
+                        <p>Capacity: ${room.capacity}</p>
+                        <p>Price: ${room.pricePerNight}</p>
+                        <p>Check In Date: ${room.checkInDate}</p>
+                        <p>Check Out Date: ${room.checkOutDate}</p>
+                    </div>
+                </c:if>
             </div>
 
             <!--receptionist-->               
             <div>
-                Booking ID:
-
-                Booking status:
-
-                Check In Date:
-
-                Check Out Date:
-
-                Room ID:
-
-                Room number:
-
-                Room status:
-
-                Room type:
-
-                Capacity:
-
-                Price Per Night:
-
-                Price:
-
-                Deposit required:
-
-                Customer name:
-
-                Number of people:
-
-                Email:
-
-                Phone:    
+                <c:if test="${sessionScope.role == 'receptionist'}">
+                    <div>
+                        <p>Room Number: ${room.roomNumber}</p>
+                        <p>Room Id: ${room.roomId}</p>
+                        <p>Room type: ${room.roomType}</p>
+                        <p>Booking Id: ${room.bookingId}</p>
+                        <p>Number of people: </p>
+                        <p>Service: </p>
+                        <p>Capacity: ${room.capacity}</p>
+                        <p>Price: ${room.pricePerNight}</p>
+                        <p>Check In Date: ${room.checkInDate}</p>
+                        <p>Check Out Date: ${room.checkOutDate}</p>
+                        <p>Booking status:  ${room.status}</p>
+                        <p>Room status: ${room.roomStatus}</p>
+                        
+                        <p>Customer name: ${room.name}</p>
+                        <p>Number of people: ${room.guestCount}</p>
+                        <p>Email: ${room.gmail}</p>
+                        <p>Phone: ${room.phone}</p>
+                    </div>
+                </c:if>
+                <div>
+                        <p>Room Number: ${room.roomNumber}</p>
+                        <p>Room Id: ${room.roomId}</p>
+                        <p>Room type: ${room.roomType}</p>
+                        <p>Booking Id: ${room.bookingId}</p>
+                        <p>Service: </p>
+                        <p>Capacity: ${room.capacity}</p>
+                        <p>Price: ${room.pricePerNight}</p>
+                        <p>Check In Date: ${room.checkInDate}</p>
+                        <p>Check Out Date: ${room.checkOutDate}</p>         
+                        <p>Booking status:  ${room.status}</p>
+                        <p>Room status: ${room.roomStatus}</p>
+                        <p>Customer name: ${room.name}</p>
+                        <p>Number of people: ${room.guestCount}</p>
+                        <p>Email: ${room.gmail}</p>
+                        <p>Phone: ${room.phone}</p>
+                    </div>
             </div>            
 
         </div>

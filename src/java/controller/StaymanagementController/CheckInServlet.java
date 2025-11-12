@@ -65,7 +65,7 @@ public class CheckInServlet extends HttpServlet {
         
         
 
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckIn.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
             rd.forward(request, response);
     }
 

@@ -115,8 +115,12 @@
         <div class="check-in">
             <div class="check-in-container">
                 
-                <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
-                <input type="submit" class="send-btn" value="Check" />
+                <form action="${pageContext.request.contextPath}/CheckOutServlet" method="get" class="check-in-input-container">
+                    <div id="bookingIdField" style="display:block;">
+                        <p>Phone Number: <input type="text" name="phoneNumber" placeholder="Phone Number" /></p>   
+                        <input type="submit" class="send-btn" value="Check" />
+                    </div>
+                </form>
                     
                 <form action="${pageContext.request.contextPath}/CheckOutServlet" method="post" class="check-in-input-container">
                     <div id="extraFields" style="display:none;">
@@ -160,7 +164,7 @@
                     <label for="selectAll"><strong>Select All Rooms</strong></label>
                 </div>
 
-                <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" id="checkInfoForm">
+                <form action="${pageContext.request.contextPath}/CheckOutServlet" method="post" id="checkInfoForm">
                     <div id="roomListContainer" class="room-list-container">
                         <c:forEach var="room" items="${list}">
                             <div class="room-block" data-roomid="${room.roomId}">                                
@@ -168,8 +172,9 @@
                                 <label for="room_${room.roomId}">
                                     <strong>Booking ID: ${room.bookingId}</strong><br>
                                     <strong>Room: ${room.roomNumber} - Room ID: ${room.roomId}</strong><br>
-                                    Type: ${room.roomType} - Check In Date: ${room.checkInDate}<br>
-                                    Price: ${room.pricePerNight}
+                                    <p>Type: ${room.roomType} </p>
+                                    <p>Check Out Date: ${room.checkInDate}</p>
+                                    <p>Price: ${room.pricePerNight} </p>
                                 </label>
                             </div>
                                 <p>================================================</p>
@@ -177,7 +182,7 @@
                     </div>
 
                     <br>
-                    <input type="submit" class="send-btn" value="Check In">
+                    <input type="submit" class="send-btn" value="Check Out">
                 </form>
             </div>       
         </div>

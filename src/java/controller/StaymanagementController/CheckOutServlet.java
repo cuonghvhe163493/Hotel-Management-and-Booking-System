@@ -44,7 +44,7 @@ public class CheckOutServlet extends HttpServlet {
         request.setAttribute("list", list);
         
         request.setAttribute("info", info);
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckOutForReceptionist.jsp");
         rd.forward(request, response);
     }
     
@@ -60,12 +60,12 @@ public class CheckOutServlet extends HttpServlet {
         StayRoomDAO dao = new StayRoomDAO();
         for (String roomIdStr : roomIdList) {
                 int roomId = Integer.parseInt(roomIdStr);
-                dao.updateRoomStatus(roomId, "occupied");
+                dao.updateRoomStatus(roomId, "maintenance");
             }
         
         
 
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckIn.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckOutForReceptionist.jsp");
             rd.forward(request, response);
     }
 

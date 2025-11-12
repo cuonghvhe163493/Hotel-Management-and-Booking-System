@@ -178,7 +178,7 @@
                         <a href="${pageContext.request.contextPath}/CheckInServletForCustomer?mode=0"><input type="button" value="CHECK-IN" class="func-btn" /></a>
                     </div>
                     <div>
-                        <a href="CheckOut.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
+                        <a href="${pageContext.request.contextPath}/CheckOutServletForCustomer?mode=0"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
                     </div>
                 </div>
 

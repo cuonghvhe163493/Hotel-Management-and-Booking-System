@@ -184,8 +184,9 @@
                                 <label for="room_${room.roomId}">
                                     <strong>Booking ID: ${room.bookingId}</strong><br>
                                     <strong>Room: ${room.roomNumber} - Room ID: ${room.roomId}</strong><br>
-                                    Type: ${room.roomType} - Check In Date: ${room.checkInDate}<br>
-                                    Price: ${room.pricePerNight}
+                                    <p>Type: ${room.roomType} </p> 
+                                    <p>Check In Date: ${room.checkInDate} </p>
+                                    <p>Price: ${room.pricePerNight} </p>
                                 </label>
                             </div>
                                 <p>================================================</p>

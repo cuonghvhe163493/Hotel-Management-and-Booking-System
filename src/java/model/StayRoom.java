@@ -27,15 +27,21 @@ public class StayRoom {
     private int phone;
     private String name;
     private int userId;
+    private double totalDeposit;
     public StayRoom() {
     }
-
-    public StayRoom(int roomId, String roomNumber, Date checkInDate) {
+    //Cho Checkin customer
+    public StayRoom(int bookingId,int roomId, String roomNumber, Date checkInDate,double price, double deposit, double totalDeposit,double pricePerNight) {
+        this.bookingId = bookingId;
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.checkInDate = checkInDate;
+        this.price = price;
+        this.deposit = deposit;
+        this.totalDeposit = totalDeposit;
+        this.pricePerNight = pricePerNight;
     }
-
+    //Lấy thông tin khách trong receptionist
     public StayRoom(String gmail, String name, int userId) {
         this.gmail = gmail;
         this.name = name;
@@ -43,7 +49,7 @@ public class StayRoom {
     }
     
     
-
+    
     public StayRoom(int roomId, String roomNumber, String roomType, double pricePerNight, int bookingId, Date checkInDate) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
@@ -52,6 +58,7 @@ public class StayRoom {
         this.bookingId = bookingId;
         this.checkInDate = checkInDate;
     }
+    
     
     
     public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType) {
@@ -76,7 +83,7 @@ public class StayRoom {
         this.checkOutDate = checkOutDate;
     }
 
-    public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType, int capacity, double pricePerNight, int bookingId, int guestCount, String status, Date checkInDate, Date checkOutDate, double price, double deposit, int citizenID, String gmail, int phone) {
+    public StayRoom(int roomId, String roomNumber, String roomStatus, String roomType, int capacity, double pricePerNight, int bookingId, int guestCount, String status, Date checkInDate, Date checkOutDate, double price,  String gmail, int phone) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.roomStatus = roomStatus;
@@ -89,8 +96,8 @@ public class StayRoom {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.price = price;
-        this.deposit = deposit;
-        this.citizenID = citizenID;
+        
+        
         this.gmail = gmail;
         this.phone = phone;
     }
@@ -126,6 +133,16 @@ public class StayRoom {
         this.checkOutDate = checkOutDate;
     }
 
+    public double getTotalDeposit() {
+        return totalDeposit;
+    }
+
+    public void setTotalDeposit(double totalDeposit) {
+        this.totalDeposit = totalDeposit;
+    }
+    
+    
+    
     public int getUserId() {
         return userId;
     }

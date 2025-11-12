@@ -147,6 +147,7 @@ public class StayRoomDAO {
 
         String sql = "SELECT \n"
                 + "r.room_number, r.room_id, r.room_type, b.booking_id, r.capacity,\n"
+                + "b.status, r.room_status, d.username,d.email,d.phone,br.guests_count,\n"
                 + "r.price_per_night, b.check_in_date, b.check_out_date\n"
                 + "FROM Booking_Rooms br \n"
                 + "JOIN Rooms r ON br.room_id = r.room_id \n"
@@ -159,7 +160,7 @@ public class StayRoomDAO {
             ps.setInt(1, bookingId);
             ps.setInt(2, roomId);
             try (ResultSet rs = ps.executeQuery()) {
-
+                while (rs.next()) {
                 stayroom.setRoomId(rs.getInt("room_id"));
                 stayroom.setRoomNumber(rs.getString("room_number"));
                 stayroom.setRoomType(rs.getString("room_type"));
@@ -167,8 +168,15 @@ public class StayRoomDAO {
                 stayroom.setBookingId(rs.getInt("booking_id"));
                 stayroom.setCheckInDate(rs.getDate("check_in_date"));
                 stayroom.setCheckOutDate(rs.getDate("check_out_date"));
-                stayroom.setBookingId(rs.getInt("booking_id"));
+                stayroom.setCapacity(rs.getInt("capacity"));
                 
+                stayroom.setStatus(rs.getString("status"));
+                stayroom.setRoomStatus(rs.getString("room_status"));
+                stayroom.setName(rs.getString("username"));
+                stayroom.setGmail(rs.getString("email"));
+                stayroom.setPhone(rs.getInt("phone"));
+                stayroom.setGuestCount(rs.getInt("guests_count"));
+                }
 
             }
         } catch (SQLException e) {
@@ -176,5 +184,8 @@ public class StayRoomDAO {
         }
         return stayroom;
     }
+    
+    
+    
 
 }

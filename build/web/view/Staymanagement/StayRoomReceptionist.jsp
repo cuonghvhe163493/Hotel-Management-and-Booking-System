@@ -4,14 +4,8 @@
     Author     : Hoang Viet Cuong
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="dao.Staymanagement.StayRoomDAO"%>
-<%@page import="model.StayRoom"%>
-<%@page import="java.util.List"%>
-
-<%
-    StayRoomDAO d = new StayRoomDAO();
-    List<StayRoom> list = d.getAllRoomsForReceptionist();
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -149,15 +143,18 @@
                     </tr>
                 </thead>
                 <tbody >
-                    <% for (StayRoom r : list) { %>
+                    <tbody >
+                    <c:forEach var="room" items="${stayroom}">
                     <tr>
-                        <td><%= r.getRoomId() %></td>
-                        <td><%= r.getRoomNumber() %></td>
-                        <td><%= r.getRoomStatus() %></td>
-                        <td><%= r.getRoomType() %></td>
-                        <td><input type="submit" value="Details" /></td>
+                        <td>${room.roomId}</td>
+                        <td>${room.roomNumber}</td>
+                        <td>${room.roomStatus}</td>
+                        <td>${room.roomType}</td> 
+                        
+                        <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}"> Details</a></td>
                     </tr>
-                    <% } %>
+                    </c:forEach>
+                </tbody>
                 </tbody>
             </table>
 
@@ -175,10 +172,10 @@
 
                 <div class="func-box">
                     <div>
-                        <a href="CheckInForReceptionist.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
+                        <a href="${pageContext.request.contextPath}/view/Staymanagement/CheckInForReceptionist.jsp"><input type="button" value="CHECK-IN" class="func-btn" /></a>
                     </div>
                     <div>
-                        <a href="CheckOutForReceptionist.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
+                        <a href="${pageContext.request.contextPath}/view/Staymanagement/CheckOutForReceptionist.jsp"><input type="button" value="CHECK-OUT" class="func-btn" /></a>
                     </div>
                 </div>
 
@@ -187,7 +184,7 @@
                         <a href="ChangeRoom.jsp"><input type="button" value="CHANGE ROOM" class="func-btn" /></a>
                     </div>
                     <div>
-                        <a href="ExtendRoom.jsp"><input type="button" value="EXTEND ROOM" class="func-btn" /></a>
+                        <a href="${pageContext.request.contextPath}/view/Staymanagement/ExtendRoomForReceptionist.jsp"><input type="button" value="EXTEND ROOM" class="func-btn" /></a>
                     </div>
                 </div>
             </div>

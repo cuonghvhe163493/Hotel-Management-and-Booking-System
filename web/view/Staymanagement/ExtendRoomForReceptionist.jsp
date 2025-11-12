@@ -124,52 +124,55 @@
                 </section>
             </div>
         </div>
-        
-        
-        
-        
+
+
+
+
         <div>
-<!--            Bảng thông báo -->
+            
             <div>
-                
-            </div>
-            
-<!--            Bảng xử lí-->
+                <p>Thông báo</p>
+            </div>           
             <div>
-                
+                <form action="ExtendServlet" method="post">
+                    <h3>Extend</h3>
+                    <p>Room Id:<input type="text" name="roomId" value="" />
+                    <p>Time to extend:<input type="date" name="time" value="" />
+                    <input type="submit" value="Submit" />
+                </form>
             </div>
-            
-            
-            
-            
+
+
+
+
         </div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
                 <div class="row">
@@ -219,9 +222,9 @@
                 </div>
             </div>
         </section>
-        
-<!--script -->
-<!--sticky navbar-->
+
+        <!--script -->
+        <!--sticky navbar-->
         <script>
             window.onscroll = function () {
                 myFunction()

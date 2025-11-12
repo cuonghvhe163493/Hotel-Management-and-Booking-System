@@ -50,7 +50,7 @@ public class CheckOutServletForCustomer extends HttpServlet {
             }
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForCustomer.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckOutForCustomer.jsp");
         rd.forward(request, response);
     }
 

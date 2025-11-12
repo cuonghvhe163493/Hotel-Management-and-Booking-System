@@ -12,11 +12,12 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Check In</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" >
-        <link href="css/font-awesome.min.css" rel="stylesheet" >
-        <link href="css/global.css" rel="stylesheet">
-        <link href="css/rooms.css" rel="stylesheet">
-        <link href="css/check-in.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/rooms.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Staymanagement/css/checkin.css">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
@@ -129,7 +130,7 @@
                             </c:forEach>
                         </select>   
                         <input type="hidden" name="mode" value="1" />
-                        <input type="submit" value="Check" />
+                        <input type="submit" class="send-btn" value="Check" />
                     </form>    
                 </div>
                 <div>
@@ -139,6 +140,7 @@
                                 <th>Room Id</th> 
                                 <th>Number Room</th>
                                 <th>Check-in Date</th> 
+                                <th>Price Per Night</th> 
                                 <th>Details</th>
                             </tr>
                         </thead>
@@ -147,8 +149,9 @@
                                 <tr>
                                     <td>${room.roomId}</td>                                  
                                     <td>${room.roomNumber}</td>
-                                    <td>${room.checkInDate}</td>                            
-                                    <td>Details</td>
+                                    <td>${room.checkInDate}</td>  
+                                    <td>${room.pricePerNight}</td> 
+                                    <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}"> Details</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -157,10 +160,18 @@
             </div>    
 
             <div>
-                <p>Price Each Room:
-                <p>Deposit:
-                <p>Services:
-                <p>Total Booking:
+                <p>Price Each Room: 
+                    <c:forEach var="room" items="${stayroom}">
+                    <p>Room: ${room.roomNumber} : ${room.price}   </p>
+                    <p>Deposit (10%): ${room.deposit}  </p>
+                    <p>==========================</p>
+                </c:forEach>
+                <p>Services:   
+                <p>The total amount of deposit: 
+                    <c:if test="${not empty stayroom}">
+                        <c:set var="firstRoom" value="${stayroom[0]}" />
+                            ${firstRoom.totalDeposit} 
+                    </c:if>
             </div>    
 
 

@@ -5,16 +5,19 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Check Out</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" >
-        <link href="css/font-awesome.min.css" rel="stylesheet" >
-        <link href="css/global.css" rel="stylesheet">
-        <link href="css/rooms.css" rel="stylesheet">
-        <link href="css/stay.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/font-awesome.min.css" rel="stylesheet" >
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/global.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/rooms.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Staymanagement/css/checkin.css">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
         <script src="js/bootstrap.bundle.min.js"></script>
     </head>
@@ -130,7 +133,7 @@
                             </c:forEach>
                         </select>   
                         <input type="hidden" name="mode" value="1" />
-                        <input type="submit" value="Check" />
+                        <input class="send-btn" type="submit" value="Check" />
                     </form>    
                 </div>
                 <div>
@@ -149,7 +152,7 @@
                                     <td>${room.roomId}</td>                                  
                                     <td>${room.roomNumber}</td>
                                     <td>${room.checkOutDate}</td>                            
-                                    <td>Details</td>
+                                    <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}"> Details</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -158,10 +161,17 @@
             </div>    
 
             <div>
-                <p>
-                <p>
-                <p>
-                <p>
+                <p>Price Each Room: 
+                    <c:forEach var="room" items="${stayroom}">
+                    <p>Room: ${room.roomNumber} : ${room.price}   </p>
+                    <p>==========================</p>
+                </c:forEach>
+                <p>Services:   
+                <p>The total amount of deposit: 
+                    <c:if test="${not empty stayroom}">
+                        <c:set var="firstRoom" value="${stayroom[0]}" />
+                            ${firstRoom.totalDeposit} 
+                    </c:if>
             </div>    
 
 
