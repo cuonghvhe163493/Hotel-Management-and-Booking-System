@@ -33,21 +33,28 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user.getUsername());
             session.setAttribute("role", user.getRole());
+            
+            // Lấy role và chuyển về chữ thường để so sánh
+            String userRole = user.getRole().toLowerCase();
 
-           if ("admin".equalsIgnoreCase(user.getRole()) || "hotel_manager".equalsIgnoreCase(user.getRole())) {
-                
-                // 🟢 FIX CUỐI CÙNG: Dùng FORWARD để buộc Controller tải dữ liệu ngay lập tức
-                // Chuyển hướng xử lý sang Servlet AdminDashboardController
+          
+            if ("admin".equals(userRole)) {
                 request.getRequestDispatcher("/admin-home").forward(request, response);
-                return; // Kết thúc xử lý
-            } else if ("customer".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(ctx + "/view/Customer/customer_homepage.jsp");
-            } else if ("hotel_manager".equalsIgnoreCase(user.getRole())) {
+                return;
+                
+            } else if ("hotel_manager".equals(userRole)) {
+                // Chuyển hướng Manager đến trang Manager Homepage
                 response.sendRedirect(ctx + "/view/HotelManager/manager_homepage.jsp");
+                
+            } else if ("customer".equals(userRole)) {
+                response.sendRedirect(ctx + "/view/Customer/customer_homepage.jsp");
+                
             } else {
-                response.sendRedirect(ctx + "/login?error=true");
+                // Trường hợp vai trò không xác định 
+                response.sendRedirect(ctx + "/login?error=invalid_role");
             }
         } else {
+            // Username/Password sai
             response.sendRedirect(ctx + "/login?error=true");
         }
     }

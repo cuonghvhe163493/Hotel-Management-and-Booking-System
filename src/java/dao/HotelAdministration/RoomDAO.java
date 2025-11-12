@@ -8,7 +8,7 @@ import utils.DBConnection;
 
 public class RoomDAO {
 
-    // Helper method (giữ nguyên)
+ 
     private Room extractRoomFromResultSet(ResultSet rs) throws SQLException {
         Room room = new Room(
             rs.getInt("room_id"),
@@ -23,7 +23,7 @@ public class RoomDAO {
         return room;
     }
 
-    // 🔹 1. Lấy tất cả các phòng (giữ nguyên)
+    //  1. Lấy tất cả các phòng (giữ nguyên)
     public List<Room> getAllRooms() {
         List<Room> rooms = new ArrayList<>();
         String sql = "SELECT * FROM dbo.Rooms ORDER BY room_number ASC";
@@ -40,7 +40,7 @@ public class RoomDAO {
         return rooms;
     }
     
-    // 🔹 2. Lấy phòng theo ID (CẦN THIẾT cho chức năng Sửa/Hiển thị dữ liệu cũ)
+    //  2. Lấy phòng theo ID 
     public Room getRoomById(int roomId) {
         Room room = null;
         String sql = "SELECT * FROM dbo.Rooms WHERE room_id = ?";
@@ -60,14 +60,14 @@ public class RoomDAO {
         return room;
     }
 
-    // 🔹 3. Thêm phòng mới (CREATE - giữ nguyên logic gọi)
+    //  3. Thêm phòng mới
     public boolean createRoom(String roomNumber, String roomType, double pricePerNight, int capacity) {
         String sql = "INSERT INTO dbo.Rooms (room_number, room_status, room_type, capacity, price_per_night, created_at, updated_at) "
                    + "VALUES (?, 'available', ?, ?, ?, GETDATE(), GETDATE())";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            // ... (Logic đã có)
+          
             ps.setString(1, roomNumber);
             ps.setString(2, roomType); 
             ps.setInt(3, capacity);
@@ -82,8 +82,8 @@ public class RoomDAO {
         }
     }
     
-    // 🟢 4. Cập nhật phòng (UPDATE)
-    // 5 fields: RoomNumber, Price, Status, RoomType, Room Description
+    //  Cập nhật phòng (UPDATE)
+    // fields: RoomNumber, Price, Status, RoomType, Room Description
     public boolean updateRoom(int roomId, String roomNumber, String roomType, int capacity, double pricePerNight, String roomStatus) {
         String sql = "UPDATE dbo.Rooms SET room_number=?, room_type=?, capacity=?, price_per_night=?, room_status=?, updated_at=GETDATE() WHERE room_id=?";
         
@@ -106,7 +106,7 @@ public class RoomDAO {
         }
     }
 
-    // 🔹 5. Xóa phòng (DELETE - Thêm logic bắt lỗi Khóa ngoại)
+    // . Xóa phòng 
     public boolean deleteRoom(int roomId) {
         String sql = "DELETE FROM dbo.Rooms WHERE room_id = ?";
         
@@ -123,7 +123,7 @@ public class RoomDAO {
                 return false;
             }
         } catch (SQLException e) {
-            System.err.println("❌ SQL Error in deleteRoom: " + e.getMessage());
+            System.err.println(" SQL Error in deleteRoom: " + e.getMessage());
             e.printStackTrace();
             
             // Xử lý lỗi Khóa Ngoại

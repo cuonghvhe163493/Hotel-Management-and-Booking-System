@@ -15,28 +15,28 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Authentication/css/style.css">
         
         <style>
-            /* 1. GHI ĐÈ CSS GÂY LỖI CHO BODY */
+          
             body {
-                /* Bỏ display:flex, align-items, justify-content, height, overflow từ style.css */
-                background-color: #273733 !important; /* Màu nền body */
+            
+                background-color: #273733 !important; 
                 margin: 0 !important;
                 min-height: 100vh !important;
                 display: flex !important;
-                flex-direction: column !important; /* Xếp Header, Main, Footer theo cột */
-                overflow-x: hidden !important; /* Chỉ ẩn cuộn ngang */
-                height: auto !important; /* Cho phép body tự điều chỉnh chiều cao */
-                overflow-y: auto !important; /* Cho phép cuộn dọc nếu cần */
-                padding-top: 0 !important; /* Reset padding */
+                flex-direction: column !important; 
+                overflow-x: hidden !important; 
+                height: auto !important;
+                overflow-y: auto !important; 
+                padding-top: 0 !important; 
             }
             
-            /* 2. Đảm bảo Header hiển thị đúng */
+            
             .main_1 {
                 position: relative !important; 
                 width: 100%;
                 background-color: #38423f; 
                 padding: 0 !important; 
                 z-index: 10; 
-                height: auto !important; /* Để header tự điều chỉnh chiều cao */
+                height: auto !important; 
             }
             
             .main_1 #top, .main_1 #header {
@@ -45,26 +45,26 @@
                 padding-top: 1rem !important; 
                 padding-bottom: 1rem !important;
                 border-bottom: none; 
-                position: relative !important; /* Bỏ sticky tạm thời */
+                position: relative !important; 
                 top: auto !important;
                 z-index: auto !important;
                  box-shadow: none !important;
             }
-             /* Đảm bảo nav bên trong header cũng hiển thị */
+           
              #navbar_sticky {
                  display: block !important;
                  position: relative !important; 
                  top: auto !important;
-                 background-color: transparent !important; /* Reset màu nền */
+                 background-color: transparent !important;
                  box-shadow: none !important;
              }
-             /* Xóa class sticky nếu nó bị kẹt */
+
             #navbar_sticky.sticky {
                  position: relative !important; 
             }
 
-            /* 3. Cấu hình khu vực Content (Login Form) */
-            .main { /* Đổi tên class content để tránh xung đột */
+   
+            .main { 
                 flex-grow: 1; 
                 display: flex;
                 align-items: center; 
@@ -74,22 +74,22 @@
                 position: relative; 
                 z-index: 1; 
             }
-            /* Giữ nguyên CSS cho login-container và login-card */
+         
              .login-container {
-                position: relative; /* Đảm bảo z-index hoạt động */
+                position: relative; 
                 z-index: 10;
                 width: 100%;
                 max-width: 420px;
              }
-             /* .login-card giữ nguyên từ file style.css của bạn */
+          
              
 
-            /* 4. Footer (giữ nguyên) */
+         
             #footer {
                 background-color: #463b3f; 
                 padding: 1.5rem 0 0.5rem 0; 
                 width: 100%; 
-                margin-top: auto; /* Đảm bảo footer ở cuối trang */
+                margin-top: auto; 
             }
             #footer .container-xl {
                  max-width: 1320px; 
@@ -256,10 +256,10 @@
                     <div class="col-md-3">
                         <div class="footer_1i">
                             <h5 class="text-white mb-3">CONTACT US</h5>
-                            <p class="text-light mb-2">1230 Porta avenue, Semper, New York City, NZ 10117 US</p>
+                            <p class="text-light mb-2">FPT, University, HaNoi City, VN</p>
                             <p class="text-light mb-2"><span class="fw-bold">Tel:</span> +(123) 456 7890 </p>
                             <p class="text-light mb-2"><span class="fw-bold">Fax:</span> +(123) 456 7890 </p>
-                            <p class="mb-0"> <a class="text-light" href="#">info@gmail.com</a> </p>
+                            <p class="mb-0"> <a class="text-light" href="#">vietcuong3032002@gmail.com</a> </p>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -278,7 +278,7 @@
                 <hr class="mt-4 mb-4 hr_1">
                 <div class="row footer_2 text-center">
                     <div class="col-md-12">
-                        <p class="mb-0 text-light">© 2013 Your Website Name. All Rights Reserved | Design by <a class="col_yell fw-bold" href="http://www.templateonweb.com">TemplateOnWeb</a></p>
+                        <p class="mb-0 text-light">All Rights Reserved | Design by SWP Team<a class="col_yell fw-bold" href="http://www.templateonweb.com">Web</a></p>
                     </div>
                 </div>
             </div>

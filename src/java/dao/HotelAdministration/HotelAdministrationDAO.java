@@ -30,31 +30,31 @@ public class HotelAdministrationDAO {
         return count;
     }
     
-    // 🔹 Lấy số lượng Receptionists (Dùng LOWER)
+    //  Lấy số lượng Receptionists 
     public int getReceptionistCount() {
         String query = "SELECT COUNT(*) FROM dbo.Users WHERE LOWER(role) = 'hotel_manager'"; 
         return executeCountQuery(query, "getReceptionistCount");
     }
 
-    // 🔹 Lấy số lượng Customers (Dùng LOWER)
+    //  Lấy số lượng Customers 
     public int getCustomerCount() {
         String query = "SELECT COUNT(*) FROM dbo.Users WHERE LOWER(role) = 'customer'"; 
         return executeCountQuery(query, "getCustomerCount");
     }
 
-    // 🔹 Lấy số lượng phòng còn trống
+    //  Lấy số lượng phòng còn trống
     public int getAvailableRoomsCount() {
         String query = "SELECT COUNT(*) FROM dbo.Rooms WHERE LOWER(room_status) = 'available'";
         return executeCountQuery(query, "getAvailableRoomsCount");
     }
 
-    // 🔹 Lấy số lượng phòng đã đặt
+    //  Lấy số lượng phòng đã đặt
     public int getOccupiedRoomsCount() {
         String query = "SELECT COUNT(*) FROM dbo.Rooms WHERE LOWER(room_status) = 'occupied'";
         return executeCountQuery(query, "getOccupiedRoomsCount");
     }
 
-    // 🔹 Lấy điểm đánh giá trung bình
+    //  Lấy điểm đánh giá trung bình
     public double getAverageRating() {
         double avgRating = 0.0;
         String query = "SELECT AVG(rating) FROM dbo.Feedback"; 

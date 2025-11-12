@@ -17,7 +17,7 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             // Hủy toàn bộ session hiện tại
             session.invalidate(); 
-            System.out.println("✅ User logged out successfully.");
+            System.out.println(" User logged out successfully.");
         }
         
         // Chuyển hướng người dùng về trang đăng nhập

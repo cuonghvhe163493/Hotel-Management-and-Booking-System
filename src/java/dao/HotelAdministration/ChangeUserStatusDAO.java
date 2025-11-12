@@ -6,14 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.User; // Đảm bảo bạn đã import lớp User
-import utils.DBConnection; // Đảm bảo bạn đã import lớp DBConnection
+import model.User; 
+import utils.DBConnection; 
 
 public class ChangeUserStatusDAO {
     
-    /**
-     * Helper method: Ánh xạ ResultSet sang đối tượng User
-     */
+   
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
         User user = new User(); 
         user.setUserId(rs.getInt("user_id"));
@@ -27,9 +25,7 @@ public class ChangeUserStatusDAO {
         return user;
     }
     
-    /**
-     * Phương thức 1: Lấy tất cả Khách hàng (Role = 'customer')
-     */
+   
     public List<User> getAllCustomers() {
         List<User> customers = new ArrayList<>();
         // Lấy tất cả người dùng có vai trò là 'customer'
@@ -43,15 +39,13 @@ public class ChangeUserStatusDAO {
                 customers.add(extractUserFromResultSet(rs)); 
             }
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi lấy tất cả khách hàng: " + e.getMessage());
+            System.out.println(" Lỗi khi lấy tất cả khách hàng: " + e.getMessage());
             // Nên ghi log lỗi chi tiết hơn ở môi trường Production
         }
         return customers;
     }
     
-    /**
-     * Phương thức 2: Lấy User theo ID
-     */
+ 
     public User getUserById(int userId) {
         // Dùng cho trường hợp cần lấy thông tin chi tiết của 1 user cụ thể
         String query = "SELECT * FROM dbo.Users WHERE user_id = ?"; 
@@ -65,16 +59,14 @@ public class ChangeUserStatusDAO {
                 user = extractUserFromResultSet(rs);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi lấy user theo ID: " + e.getMessage());
+            System.out.println(" Lỗi khi lấy user theo ID: " + e.getMessage());
         }
         return user;
     }
     
-    /**
-     * Phương thức 3: Cập nhật trạng thái tài khoản
-     */
+  
     public boolean updateAccountStatus(int userId, String newStatus) {
-        // Cập nhật account_status, chỉ áp dụng cho người dùng có role='customer'
+        
         String sql = "UPDATE dbo.Users SET account_status = ?, updated_at = GETDATE() WHERE user_id = ? AND role = 'customer'";
         
         try (Connection conn = DBConnection.getConnection(); 
@@ -84,11 +76,11 @@ public class ChangeUserStatusDAO {
             stmt.setInt(2, userId);
             
             int rowsAffected = stmt.executeUpdate();
-            System.out.println("✅ Cập nhật trạng thái User ID " + userId + " thành: " + newStatus);
+            System.out.println(" Cập nhật trạng thái User ID " + userId + " thành: " + newStatus);
             return rowsAffected > 0;
             
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi cập nhật trạng thái tài khoản: " + e.getMessage());
+            System.out.println(" Lỗi khi cập nhật trạng thái tài khoản: " + e.getMessage());
         }
         return false;
     }

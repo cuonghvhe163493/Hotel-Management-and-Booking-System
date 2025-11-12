@@ -13,7 +13,7 @@ public class RoomActionController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // **Kiểm tra Session Admin** (giữ nguyên)
+        // **Kiểm tra Session Admin
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("role") == null || 
             !session.getAttribute("role").toString().toLowerCase().contains("admin")) { 
@@ -26,7 +26,7 @@ public class RoomActionController extends HttpServlet {
 
         if ("create".equals(action)) {
             handleCreate(request, response);
-        } else if ("update".equals(action)) { // 🟢 Xử lý Update
+        } else if ("update".equals(action)) { 
             handleUpdate(request, response);
         } else if ("delete".equals(action)) {
             handleDelete(request, response);
@@ -35,13 +35,13 @@ public class RoomActionController extends HttpServlet {
         }
     }
     
-    // 🔹 Xử lý CREATE (giữ nguyên logic đã sửa)
+    // Xử lý CREATE 
     private void handleCreate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String roomNumber = request.getParameter("roomNumber");
         String roomType = request.getParameter("roomType");
         String capacityStr = request.getParameter("capacity");
         String priceStr = request.getParameter("price");
-        // String description = request.getParameter("description"); // Đã bỏ qua
+     
         
         try {
             double price = Double.parseDouble(priceStr);
@@ -60,7 +60,7 @@ public class RoomActionController extends HttpServlet {
         }
     }
     
-    // 🟢 Xử lý UPDATE
+    //  Xử lý UPDATE
     private void handleUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String roomIdStr = request.getParameter("roomId");
         String roomNumber = request.getParameter("roomNumber");
@@ -89,7 +89,7 @@ public class RoomActionController extends HttpServlet {
         }
     }
 
-    // 🔹 Xử lý DELETE (Cập nhật xử lý lỗi)
+    //  Xử lý DELETE
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String roomIdStr = request.getParameter("roomId");
 
@@ -108,7 +108,7 @@ public class RoomActionController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/rooms?error=invalid_id");
         } catch (RuntimeException e) {
             if ("FK_VIOLATION".equals(e.getMessage())) {
-                // Lỗi Khóa ngoại do phòng đang có đặt chỗ/lịch sử
+            
                 response.sendRedirect(request.getContextPath() + "/admin/rooms?error=delete_fk"); 
             } else {
                  response.sendRedirect(request.getContextPath() + "/admin/rooms?error=db_delete");

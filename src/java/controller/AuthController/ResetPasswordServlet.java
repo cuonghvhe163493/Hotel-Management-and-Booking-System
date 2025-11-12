@@ -6,7 +6,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import dao.Authentication.UserDAO;
 
-// Servlet này xử lý BƯỚC 2: Nhập mật khẩu mới và cập nhật
+
 @WebServlet("/reset-password")
 public class ResetPasswordServlet extends HttpServlet {
     @Override
@@ -17,10 +17,10 @@ public class ResetPasswordServlet extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
         
-        // Lấy username từ hidden field của form (được truyền từ bước 1)
+        // Lấy username từ hidden field của form 
         String username = request.getParameter("username_final"); 
 
-        // 1. Kiểm tra xác nhận mật khẩu
+        //  Kiểm tra xác nhận mật khẩu
         if (!newPassword.equals(confirmPassword)) {
             // Trả về trang nhập mật khẩu mới với lỗi
             response.sendRedirect(request.getContextPath() 
@@ -29,19 +29,19 @@ public class ResetPasswordServlet extends HttpServlet {
         }
         
         if (username == null || username.isEmpty()) {
-             // Lỗi: Username không hợp lệ hoặc bị mất
+            //Username không hợp lệ hoặc bị mất
              response.sendRedirect(request.getContextPath() + "/view/Authentication/forgot_password.jsp?error=invalid_flow");
              return;
         }
 
-        // 2. Gọi DAO để cập nhật mật khẩu
+        //  Gọi DAO để cập nhật mật khẩu
         boolean updated = UserDAO.updatePassword(username, newPassword);
 
         if (updated) {
-            // ✅ Thành công: Chuyển hướng về trang login
+            //  Thành công: Chuyển hướng về trang login
             response.sendRedirect(request.getContextPath() + "/login?success=reset");
         } else {
-            // ❌ Thất bại
+            //  Thất bại
             response.sendRedirect(request.getContextPath() 
                     + "/view/Authentication/reset_password_form.jsp?error=db_fail&username=" + username);
         }

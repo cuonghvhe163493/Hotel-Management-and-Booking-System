@@ -158,12 +158,13 @@
                 <h3>Quản Lý Hệ Thống</h3>
                 <p><a href="${pageContext.request.contextPath}/admin/rooms">🛠️ Quản lý Phòng Khách sạn (CRUD)</a></p>
                 <p><a href="${pageContext.request.contextPath}/admin/customer-status">👤 Thay đổi Trạng thái Khách hàng</a></p>
+                <p><a href="${pageContext.request.contextPath}/admin/vouchers">🎟️ Quản lý Mã Giảm Giá (Voucher)</a></p>
                 <p><a href="${pageContext.request.contextPath}/edit_profile">⚙️ Chỉnh sửa hồ sơ Admin</a></p>
             </div>
             
         </div>
     </div>
-    
+
     <script>
         // === LOGIC DROPDOWN ===
         function toggleDropdown() {
@@ -184,4 +185,4 @@
         }
     </script>
 </body>
-</html>
+</html> 

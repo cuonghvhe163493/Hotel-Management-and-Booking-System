@@ -12,7 +12,7 @@ import model.User;
 @WebServlet("/google-login")
 public class GoogleLoginServlet extends HttpServlet {
 
-    // 🔑 Client ID & Secret của bạn từ Google Cloud
+ 
     private static final String CLIENT_ID = "861333935241-fme60hi3sojf9nero06kbd4ll3ohi1fk.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "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";
     private static final String REDIRECT_URI = "http://localhost:9999/HotelManagementandBookingSystem/google-login";
@@ -23,7 +23,7 @@ public class GoogleLoginServlet extends HttpServlet {
 
         String code = request.getParameter("code");
 
-        // ⚙️ Nếu chưa có "code", chuyển hướng sang trang đăng nhập Google
+        // ️  chuyển hướng sang trang đăng nhập Google
         if (code == null || code.isEmpty()) {
             String oauthUrl = "https://accounts.google.com/o/oauth2/v2/auth"
                     + "?client_id=" + CLIENT_ID
@@ -36,7 +36,7 @@ public class GoogleLoginServlet extends HttpServlet {
             return;
         }
 
-        // ⚙️ Nếu có code, gọi Google để lấy access token
+        // ️ Nếu có code, gọi Google để lấy access token
         String tokenResponse = getAccessToken(code);
         if (tokenResponse == null) {
             response.getWriter().println("Error: cannot get token from Google!");
@@ -50,18 +50,18 @@ public class GoogleLoginServlet extends HttpServlet {
             return;
         }
 
-        // ⚙️ Lấy thông tin người dùng từ Google
+        // ️ Lấy thông tin người dùng từ Google
         String userInfo = getUserInfo(accessToken);
         JSONObject userJson = new JSONObject(userInfo);
 
         String email = userJson.optString("email", "unknown");
         String name = userJson.optString("name", "unknown");
 
-        // 🔍 Kiểm tra user trong DB
+        // Kiểm tra user trong DB
         User user = UserDAO.getUserByEmail(email);
 
         if (user == null) {
-            // 🟢 Nếu chưa có → Tự động đăng ký mới với vai trò "customer"
+           
             boolean registered = UserDAO.registerUser(name, "google_login", email);
             if (registered) {
                 user = UserDAO.getUserByEmail(email);
@@ -70,13 +70,13 @@ public class GoogleLoginServlet extends HttpServlet {
             System.out.println("✅ Found existing user: " + user.getEmail() + " | role = " + user.getRole());
         }
 
-        // ❌ Nếu vẫn không tìm thấy user
+        //  Nếu vẫn không tìm thấy user
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/view/Authentication/login.jsp?error=google_failed");
             return;
         }
 
-        // 🟢 Đăng nhập thành công → Lưu session
+        //  Đăng nhập thành công → Lưu session
         HttpSession session = request.getSession();
         session.setAttribute("user", user.getUsername());
         session.setAttribute("email", user.getEmail());
@@ -100,7 +100,7 @@ public class GoogleLoginServlet extends HttpServlet {
         }
     }
 
-    // === HÀM LẤY ACCESS TOKEN ===
+   
     private String getAccessToken(String code) throws IOException {
         URL url = new URL("https://oauth2.googleapis.com/token");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -131,7 +131,7 @@ public class GoogleLoginServlet extends HttpServlet {
         }
     }
 
-    // === HÀM LẤY THÔNG TIN USER GOOGLE ===
+ 
     private String getUserInfo(String accessToken) throws IOException {
         URL url = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

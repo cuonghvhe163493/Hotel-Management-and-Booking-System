@@ -16,7 +16,7 @@ public class CustomerStatusController extends HttpServlet {
                "admin".equalsIgnoreCase(session.getAttribute("role").toString());
     }
 
-    // Xử lý GET (Giữ nguyên)
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class CustomerStatusController extends HttpServlet {
         request.getRequestDispatcher("/view/HotelAdministration/customer_status.jsp").forward(request, response);
     }
 
-    // 🔹 Xử lý POST: Cập nhật trạng thái tài khoản
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class CustomerStatusController extends HttpServlet {
         String userIdStr = request.getParameter("customerID");
         String newStatus = request.getParameter("status"); 
         
-        // 🟢 FIX LOGIC: Nếu giá trị là 'pending' (bị loại bỏ trên UI), chuyển thành 'suspended' (màu vàng)
+      
         if ("pending".equalsIgnoreCase(newStatus)) {
             newStatus = "suspended"; 
         }

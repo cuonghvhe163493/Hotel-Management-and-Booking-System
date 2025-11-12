@@ -14,181 +14,68 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* 1. Reset CSS Body */
+      
         body {
-            background-color: #273733 !important; /* Màu nền body */
+            background-color: #273733 !important; 
             margin: 0 !important;
             min-height: 100vh !important;
             display: flex !important;
-            flex-direction: column !important; /* Xếp Header, Main, Footer theo cột */
-            overflow-x: hidden !important; /* Chỉ ẩn cuộn ngang */
-            height: auto !important; /* Cho phép body tự điều chỉnh chiều cao */
-            overflow-y: auto !important; /* Cho phép cuộn dọc nếu cần */
-            padding-top: 0 !important; /* Reset padding */
-            font-family: 'Inter', sans-serif; /* Font chung */
-            color: white; /* Màu chữ mặc định */
+            flex-direction: column !important; 
+            overflow-x: hidden !important; 
+            height: auto !important; 
+            overflow-y: auto !important; 
+            padding-top: 0 !important; 
+            font-family: 'Inter', sans-serif; 
+            color: white; 
         }
         
-        /* 2. Đảm bảo Header hiển thị đúng */
+        
         .main_1 {
-            position: relative !important; 
-            width: 100%;
-            background-color: #38423f; 
-            padding: 0 !important; 
-            z-index: 10; 
-            height: auto !important; 
+            position: relative !important; width: 100%; background-color: #38423f; padding: 0 !important; z-index: 10; height: auto !important; 
         }
         .main_1 #top, .main_1 #header {
-            display: block !important; 
-            background-color: #38423f; 
-            padding-top: 1rem !important; 
-            padding-bottom: 1rem !important;
-            border-bottom: none; 
-            position: relative !important; 
-            top: auto !important;
-            z-index: auto !important;
-            box-shadow: none !important;
+            display: block !important; background-color: #38423f; padding-top: 1rem !important; padding-bottom: 1rem !important;
+            border-bottom: none; position: relative !important; top: auto !important; z-index: auto !important; box-shadow: none !important;
         }
-        #navbar_sticky {
-             display: block !important;
-             position: relative !important; 
-             top: auto !important;
-             background-color: transparent !important; 
-             box-shadow: none !important;
-         }
-        #navbar_sticky.sticky {
-             position: relative !important; 
+        #navbar_sticky { display: block !important; position: relative !important; top: auto !important; background-color: transparent !important; box-shadow: none !important; }
+        #navbar_sticky.sticky { position: relative !important; }
+
+      
+        .main-content-area { 
+            flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 50px 20px; margin: 0; position: relative; z-index: 1; 
         }
 
-        /* 3. Cấu hình khu vực Content (Register Form) */
-        .main-content-area { /* Class cho vùng chứa form */
-            flex-grow: 1; 
-            display: flex;
-            align-items: center; 
-            justify-content: center; 
-            padding: 50px 20px; 
-            margin: 0;
-            position: relative; 
-            z-index: 1; 
-        }
-
-        /* 4. CSS cho Register Card (Trích từ style.css) */
+     
         .register-card {
-            background: #2A3232;
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 450px; /* Giới hạn chiều rộng tối đa */
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
-            border: 1px solid #2a2a35;
-            transition: all 0.3s ease;
-            margin-left: auto; /* Căn giữa card */
-            margin-right: auto;
+            background: #2A3232; border-radius: 16px; padding: 40px; width: 100%; max-width: 450px; 
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3); border: 1px solid #2a2a35; transition: all 0.3s ease; margin-left: auto; margin-right: auto;
         }
-        .register-card:hover {
-            box-shadow: 0 0 60px rgba(0, 255, 136, 0.35);
-            transform: translateY(-2px);
-        }
-        .register-card h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .form-group label {
-            display: block;
-            color: #a0a0b0;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px;
-            background: #1a1a25;
-            border: 1px solid #2a2a35;
-            border-radius: 6px;
-            color: white;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-        .form-group input:focus {
-            border-color: #00ff88;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-        }
-        .form-group input[type="date"] {
-            color-scheme: dark;
-        }
-        .form-group input[type="date"]:required:invalid::-webkit-datetime-edit {
-             color: #a0a0b0;
-         }
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #00ff88, #0099ff);
-            border: none;
-            padding: 15px;
-            border-radius: 6px;
-            color: #0a0a0f;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-        .submit-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
-        }
-        .error {
-            color: #ff4d6d;
-            font-size: 12px;
-            margin-top: 6px;
-            min-height: 1em;
-        }
-        .register-card p[style*="color"] {
-             font-size: 14px;
-        }
+        .register-card:hover { box-shadow: 0 0 60px rgba(0, 255, 136, 0.35); transform: translateY(-2px); }
+        .register-card h2 { text-align: center; margin-bottom: 30px; color: #fff; }
+        .form-group { margin-bottom: 20px; position: relative; }
+        .form-group label { display: block; color: #a0a0b0; font-size: 14px; margin-bottom: 8px; }
+        .form-group input { width: 100%; padding: 14px; background: #1a1a25; border: 1px solid #2a2a35; border-radius: 6px; color: white; font-size: 15px; transition: all 0.3s ease; outline: none; }
+        .form-group input:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
+        .form-group input[type="date"] { color-scheme: dark; }
+        .form-group input[type="date"]:required:invalid::-webkit-datetime-edit { color: #a0a0b0; }
+        .submit-btn { width: 100%; background: linear-gradient(135deg, #00ff88, #0099ff); border: none; padding: 15px; border-radius: 6px; color: #0a0a0f; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; }
+        .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 0 25px rgba(0, 255, 136, 0.5); }
+        .error { color: #ff4d6d; font-size: 12px; margin-top: 6px; min-height: 1em; }
+        .register-card p[style*="color"] { font-size: 14px; }
 
         /* 5. Footer (giữ nguyên) */
-        #footer {
-            background-color: #463b3f; 
-            padding: 1.5rem 0 0.5rem 0; 
-            width: 100%; 
-            margin-top: auto; /* Đảm bảo footer ở cuối */
-        }
-        #footer .container-xl {
-             max-width: 1320px; 
-             margin-left: auto;
-             margin-right: auto;
-             padding-left: 20px; 
-             padding-right: 20px;
-        }
-        #footer .row.footer_1 {
-            margin-bottom: 10px; 
-        }
-        #footer .hr_1 {
-             margin-top: 10px !important;
-             margin-bottom: 10px !important;
-        }
-        
-        /* Reset khác */
+        #footer { background-color: #463b3f; padding: 1.5rem 0 0.5rem 0; width: 100%; margin-top: auto; }
+        #footer .container-xl { max-width: 1320px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px; }
+        #footer .row.footer_1 { margin-bottom: 10px; }
+        #footer .hr_1 { margin-top: 10px !important; margin-bottom: 10px !important; }
         .top_1m, .top_1r { margin-top: 0 !important; }
         .top_1m a { color: white !important; }
 
-        /* Responsive cho Register Card */
+        /* Responsive */
         @media (max-width: 480px) {
-          .register-card {
-            padding: 25px;
-          }
-           .form-group input, .submit-btn {
-                padding: 12px;
-                font-size: 14px;
-            }
+          .register-card { padding: 25px; }
+          .form-group input, .submit-btn { padding: 12px; font-size: 14px; }
         }
-        
     </style>
 </head>
 <body>
@@ -254,7 +141,7 @@
         <div class="register-card">
             <h2>Register</h2>
             <form id="registerForm" action="<%=request.getContextPath()%>/register" method="post" novalidate>
-              
+                
               <div class="form-group">
                 <label for="username">Username</label> 
                 <input type="text" id="username" name="username" required>
@@ -282,7 +169,7 @@
               <div class="form-group">
                 <label for="dob">Date of Birth</label>
                 <input type="date" id="dob" name="dob" required>
-                 <div class="error" id="dobError"></div> 
+                <div class="error" id="dobError"></div> 
               </div>
         
               <div class="form-group">
@@ -300,17 +187,31 @@
               <button type="submit" class="submit-btn">Create Account</button>
             </form>
         
-            <% if (request.getParameter("error") != null) { %>
-              <p style="color:#ff4d6d;text-align:center;margin-top:15px;">Registration failed or email already exists!</p>
+            <% 
+              if (request.getParameter("error") != null) { 
+                String errorType = request.getParameter("error");
+                String errorMessage = "";
+                if ("missing".equals(errorType)) {
+                    errorMessage = "Vui lòng điền đầy đủ các trường bắt buộc.";
+                } else if ("pass".equals(errorType)) {
+                    errorMessage = "Mật khẩu và xác nhận mật khẩu không khớp.";
+                } else if ("exists".equals(errorType)) {
+                    errorMessage = "Tên đăng nhập hoặc Email này đã tồn tại.";
+                } else {
+                    errorMessage = "Đăng ký thất bại do lỗi hệ thống.";
+                }
+            %>
+            <p style="color:#ff4d6d;text-align:center;margin-top:15px;">❌ <%= errorMessage %></p>
             <% } else if (request.getParameter("success") != null) { %>
                <script>
-                   window.location.href = "<%=request.getContextPath()%>/view/Authentication/login.jsp?success=true"; 
+                    window.location.href = "<%=request.getContextPath()%>/view/Authentication/login.jsp?success=true"; 
                </script>
             <% } %>
           </div>
     </div>
+
     <section id="footer" class="bg_dark">
-         <div class="container-xl">
+        <div class="container-xl">
              <div class="row footer_1">
                 <div class="col-md-3">
                     <div class="footer_1i">
@@ -361,23 +262,43 @@
             </div>
         </div>
     </section>
+
+    <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById("registerForm").addEventListener("submit", function (e) {
             let valid = true;
             let form = e.target;
             document.querySelectorAll(".error").forEach(el => el.textContent = "");
+            
+            // Regex cơ bản
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             const phonePattern = /^[0-9]{9,12}$/;
+            
             const pass = form.password.value.trim();
             const confirm = form.confirmPassword.value.trim();
+            
+            // Validate Username
             if (form.username.value.trim().length < 4) { document.getElementById("usernameError").textContent = "Username must be at least 4 characters."; valid = false; }
+            
+            // Validate Email
             if (!emailPattern.test(form.email.value.trim())) { document.getElementById("emailError").textContent = "Invalid email format."; valid = false; }
+            
+            // Validate Phone
             if (!phonePattern.test(form.phone.value.trim())) { document.getElementById("phoneError").textContent = "Phone must be 9–12 digits."; valid = false; }
+            
+            // Validate Address
             if (form.address.value.trim() === "") { document.getElementById("addressError").textContent = "Address cannot be empty."; valid = false; }
+            
+            // Validate DOB
             if (form.dob.value === "") { document.getElementById("dobError").textContent = "Date of Birth is required."; valid = false; }
+            
+            // Validate Password Length
             if (pass.length < 6) { document.getElementById("passwordError").textContent = "Password must be at least 6 characters."; valid = false; }
+            
+            // Validate Confirm Password
             if (pass !== confirm) { document.getElementById("confirmError").textContent = "Passwords do not match."; valid = false; } 
             else if (confirm === "") { document.getElementById("confirmError").textContent = "Please confirm your password."; valid = false;}
+            
             if (!valid) e.preventDefault();
         });
     </script>

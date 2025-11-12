@@ -14,7 +14,7 @@ public class HotelAdministrationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // **Session Check:** Đảm bảo chỉ Admin/Manager mới truy cập
+       
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("role") == null || 
             !(session.getAttribute("role").toString().toLowerCase().equals("admin") || 
@@ -46,7 +46,14 @@ public class HotelAdministrationController extends HttpServlet {
             request.setAttribute("errorMessage", "Lỗi tải dữ liệu. Vui lòng kiểm tra Console Server.");
         }
 
-        // Forward đến JSP
+       
         request.getRequestDispatcher("/view/HotelAdministration/admin_homepage.jsp").forward(request, response);
+    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        
+        doGet(request, response);
     }
 }

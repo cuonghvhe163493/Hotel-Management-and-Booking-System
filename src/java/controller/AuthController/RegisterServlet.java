@@ -52,10 +52,10 @@ public class RegisterServlet extends HttpServlet {
         boolean success = UserDAO.registerUserFull(username, password, email, phone, address, dob);
 
         if (success) {
-            // ✅ Nếu đăng ký thành công → chuyển hướng về trang login với message
+            //  Nếu đăng ký thành công → chuyển hướng về trang login với message
             response.sendRedirect(request.getContextPath() + "/view/Authentication/login.jsp?success=1");
         } else {
-            // ❌ Nếu lỗi → quay lại form đăng ký
+            //  Nếu lỗi → quay lại form đăng ký
             response.sendRedirect(request.getContextPath() + "/view/Authentication/register.jsp?error=1");
         }
 
