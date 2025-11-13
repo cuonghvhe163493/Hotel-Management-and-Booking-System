@@ -1,0 +1,313 @@
+/* === Neon Login - Fixed & Enhanced === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ❗️❗️ REMOVED problematic body rules below: ❗️❗️
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+*/
+
+/* 🔹 Đảm bảo form nằm trên glow */
+.login-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 420px;
+  /* Add margin auto to center container within the main content area */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-card {
+  background: #2A3232;
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid #2a2a35;
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow: 0 0 60px rgba(0, 255, 136, 0.35);
+  transform: translateY(-2px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h2 {
+  color: #fff;
+  margin-top: 10px; /* Adjusted from original, can remove if logo is not needed */
+}
+
+.login-header p {
+  color: #a0a0b0;
+  font-size: 14px;
+}
+
+/* ================================
+    Input Fields
+================================ */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 16px;
+  background: #1a1a25;
+  border: 1px solid #2a2a35;
+  border-radius: 6px;
+  color: white;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+  /* Add placeholder color if needed */
+  /* &::placeholder { color: transparent; } */
+}
+
+/* hiệu ứng focus */
+.input-wrapper input:focus {
+  border-color: #00ff88;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+/* Label bay lên khi focus hoặc có chữ */
+.input-wrapper label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  color: #a0a0b0;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  pointer-events: none; /* Cho phép click vào input */
+  background-color: transparent; /* Changed from #1a1a25 */
+}
+
+/* Ensure placeholder is treated like empty input for label effect */
+.input-wrapper input:focus + label,
+.input-wrapper input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 12px;
+  font-size: 12px;
+  color: #00ff88;
+  /* Use card background color for floating label background */
+  background-color: #2A3232;
+  padding: 0 6px;
+}
+
+
+/* ================================
+    Password toggle (If using)
+================================ */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0a0b0; /* Match label color */
+  font-size: 18px; /* Adjust size if needed */
+}
+.password-toggle:hover {
+    color: #00ff88;
+}
+
+/* ================================
+    Form options & links
+================================ */
+/* Use the .auth-options class from your HTML */
+.auth-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px; /* Add space above */
+  margin-bottom: 20px; /* Add space below */
+  font-size: 14px;
+}
+
+.forgot-password {
+  color: #00ff88;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  color: #0099ff;
+  text-decoration: underline;
+}
+
+/* ================================
+    Login button
+================================ */
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #00ff88, #0099ff);
+  border: none;
+  color: #0a0a0f;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px; /* Added margin */
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+}
+
+/* ================================
+    Divider + social login
+================================ */
+.divider {
+  text-align: center;
+  color: #a0a0b0;
+  margin: 25px 0; /* Increased margin */
+  position: relative; /* For line effect */
+}
+/* Optional: Add lines beside 'or' */
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #2a2a35;
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.social-btn {
+  background: #1a1a25;
+  border: 1px solid #2a2a35;
+  border-radius: 6px;
+  padding: 12px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none; /* Remove underline from link */
+  margin-bottom: 15px; /* Add space below button */
+}
+
+.social-btn:hover {
+  border-color: #00ff88;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
+  background-color: #222; /* Slight background change on hover */
+}
+
+.social-icon { /* Basic styling for icons if needed */
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    /* Add background images or font icons here */
+}
+/* Example for Google icon - replace with your actual icon method */
+.google-icon::before {
+    content: 'G'; /* Placeholder */
+    font-weight: bold;
+    color: #DB4437;
+}
+
+/* ================================
+    Signup link
+================================ */
+.signup-link {
+  /* text-align: center; */ /* Handled by .auth-options */
+  /* margin-top: 15px; */ /* Handled by .auth-options */
+  color: #a0a0b0;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #00ff88;
+  text-decoration: none;
+  font-weight: 500; /* Slightly bolder */
+}
+
+.signup-link a:hover {
+  color: #0099ff;
+  text-decoration: underline;
+}
+
+/* ================================
+    Background effects (nền neon) - Optional
+================================ */
+/* Keep if you want the subtle background orbs */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.1), transparent 70%);
+  animation: float 8s ease-in-out infinite alternate; /* Slower, alternating animation */
+}
+
+.glow-orb-1 { width: 400px; height: 400px; top: -10%; left: -20%; animation-delay: 0s; }
+.glow-orb-2 { width: 300px; height: 300px; bottom: -15%; right: -15%; animation-delay: 2s; }
+.glow-orb-3 { width: 250px; height: 250px; top: 50%; left: 30%; animation-delay: 4s; }
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(20px, -30px) scale(1.1); }
+}
+
+/* ================================
+    Responsive
+================================ */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 25px; /* Slightly reduced padding on small screens */
+  }
+  .input-wrapper input,
+  .login-btn,
+  .social-btn {
+      padding: 14px; /* Adjust padding */
+      font-size: 14px;
+  }
+  .input-wrapper label {
+      font-size: 14px;
+      top: 14px;
+  }
+  .input-wrapper input:focus + label,
+  .input-wrapper input:not(:placeholder-shown) + label {
+      top: -9px;
+      font-size: 11px;
+  }
+  .auth-options {
+      flex-direction: column; /* Stack options vertically */
+      align-items: flex-start; /* Align left */
+      gap: 8px; /* Add gap between stacked items */
+  }
+  .signup-link {
+      text-align: left; /* Align left */
+  }
+}

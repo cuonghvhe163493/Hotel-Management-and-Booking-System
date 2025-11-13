@@ -1,0 +1,242 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 22, 2025, 9:21:48 AM
+    Author     : Admin
+*/
+/*==========================Stay Room==============================*/
+.stay-room-list-container {
+    margin: 20px;
+}
+.stay-room-list-container h3 {
+    margin-bottom: 10px;
+}
+
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #34495e;
+    color: white;
+}
+.func-chat-container {
+    display: flex;
+    gap: 20px;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+.func-container, .chat-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.word-stay-functions{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.word-chat{
+    
+    margin-bottom: 20px;
+}
+.func-box{
+    display: flex;
+    align-items: center;
+    
+}
+
+
+.func-box {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+
+.func-single {
+    margin-bottom: 15px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+
+.func-btn_1 {
+    width: 535px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 10px;
+    background: #3498db;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease-in-out;
+}
+.func-btn {
+    width: 260px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 10px;
+    background: #3498db;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease-in-out;
+}
+
+
+.func-btn:hover {
+    background: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3);
+}
+.func-btn_1:hover {
+    background: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3);
+}
+
+
+.func-btn :active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+.func-btn_1:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+.send-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.send-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.send-btn:hover {
+    background: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3);
+}
+
+.box {
+    height: 180px;
+    background: #f5f6fa;
+    border-radius: 10px;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Thanh cuộn tinh tế */
+.box::-webkit-scrollbar {
+    width: 6px;
+}
+.box::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 3px;
+}
+
+/* Tin nhắn chung */
+.message {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* Tin nhắn người dùng */
+.message.user {
+    align-self: flex-end;
+    background: #3498db;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+/* Mess */
+.message.staff {
+    align-self: flex-start;
+    background: #ecf0f1;
+    color: #2c3e50;
+    border-bottom-left-radius: 5px;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-wrapper input[type="text"] {
+    
+    padding: 10px 22px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+.input-wrapper input[type="text"]:focus {
+    border-color: #3498db;
+}
+
+
+
+
+
+.table-func-box{
+    display: flex;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

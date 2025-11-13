@@ -1,0 +1,108 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 24, 2025, 11:56:57 AM
+    Author     : Admin
+*/
+
+
+/* --- Container chính chia 2 bên --- */
+.check-in {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 1100px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Bên trái: form nhập thông tin --- */
+.check-in-container {
+  width: 48%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.word-booked {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+.booked-selection {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* --- Form input --- */
+.check-in-input-container p {
+  margin: 10px 0;
+  font-weight: 500;
+  color: #333;
+}
+
+.check-in-input-container input[type="text"],
+.check-in-input-container input[type="email"],
+.check-in-input-container input[type="date"],
+.check-in-input-container select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.check-in-input-container input:focus {
+  border-color: #3498db;
+}
+
+/* --- Nút Check --- */
+.send-btn {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.send-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* --- Bên phải: thông tin phòng/khách --- */
+.check-info-container {
+  width: 48%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
+
+.check-info-container p {
+  margin: 8px 0;
+  color: #2c3e50;
+}
+
+
+
