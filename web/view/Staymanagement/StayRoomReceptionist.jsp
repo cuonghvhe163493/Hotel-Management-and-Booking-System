@@ -21,8 +21,8 @@
     </head>
 
     <body>
-        
-<!--header-->
+
+        <!--header-->
         <div class="main_room">
             <div class="main_o1">
                 <section id="top" class="pt-3 pb-3">
@@ -130,15 +130,15 @@
 
         <div class="stay-room-list-container">
             <h3>Stay Room</h3>
-<!--            list stay room-->
-            <form action="searchBooking" method="get"> </form>   
-                <p><input type="text" name="search" value=""/>   
-                <input type="submit"  class="send-btn" value="Submit" />
-            </form>   
+            <!--            list stay room-->
+            <form action="${pageContext.request.contextPath}/searchBooking" method="get">
+                <input type="text" name="search" placeholder="Enter PhoneNumber" value="${param.search}" />
+                <input type="submit" class="send-btn" value="Search" />
+            </form> 
             <table class="list-table">
                 <thead>
                     <tr>
-                        <th>Booking Id</th>                        
+                        <th>Booking Id</th>
                         <th>Room Id</th>
                         <th>Room Number</th>
                         <th>Status</th>
@@ -146,27 +146,29 @@
                         <th>Check Out Date</th>
                     </tr>
                 </thead>
-                <tbody >
-                    <tbody >
+                <tbody>
                     <c:forEach var="room" items="${stayroom}">
-                    <tr>
-                        <td>${room.bookingId}</td>
-                        <td>${room.roomId}</td>
-                        <td>${room.roomNumber}</td>
-                        <td>${room.status}</td>
-                        <td>${room.checkInDate}</td> 
-                        <td>${room.checkOutDate}</td> 
-                         
+                        <tr>
+                            <td>${room.bookingId}</td>
+                            <td>${room.roomId}</td>
+                            <td>${room.roomNumber}</td>
+                            <td>${room.status}</td>
+                            <td>${room.checkInDate}</td>
+                            <td>${room.checkOutDate}</td>
+                        </tr>
                     </c:forEach>
                 </tbody>
-                </tbody>
             </table>
+
+            <c:if test="${empty stayroom}">
+                <p>No results found.</p>
+            </c:if>
 
         </div>
 
 
         <div class="func-chat-container">
-<!--function for use-->
+            <!--function for use-->
             <div class="func-container">
                 <h4 class="word-stay-functions">Stay Functions</h4>
 
@@ -192,7 +194,7 @@
                     </div>
                 </div>
             </div>
-<!--small chat box-->
+            <!--small chat box-->
             <div class="chat-container">
                 <div>
                     <h4 class="word-chat">Chat Box  <a href="CommunicationChatBox.jsp">CHAT BOX</a></h4>
@@ -214,7 +216,7 @@
                 </div>
             </div>
         </div>
-<!--footer-->
+        <!--footer-->
         <section id="footer" class="p-4 bg-dark text-light">
             <div class="container-xl">
                 <div class="row">
@@ -268,9 +270,9 @@
 
 
 
-<!--script -->
+        <!--script -->
 
-<!--sticky navbar-->
+        <!--sticky navbar-->
         <script>
             window.onscroll = function () {
                 myFunction()
@@ -288,7 +290,7 @@
                 }
             }
         </script>
-        
-        
+
+
     </body>
 </html>

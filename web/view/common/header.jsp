@@ -35,7 +35,7 @@
         font-weight: bold;
         margin-bottom: 10px;
     }
-    /* --- Thêm fix màu ch?, n?n navbar --- */
+    /* --- Th?m fix m?u ch?, n?n navbar --- */
     #navbar_sticky {
         background-color: #222;
     }
@@ -113,6 +113,22 @@
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/about.jsp">About</a></li>
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/rooms">Rooms</a></li>
+                            <li class="nav-item">
+                                        <c:if test="${sessionScope.role == 'customer'}">
+                                            <a class="nav-link" 
+                                               href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
+                                                Stay Room
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${sessionScope.role == 'hotel_manager'}">
+                                            <a class="nav-link" 
+                                               href="${pageContext.request.contextPath}/stayRoomReceptionist">
+                                                Stay Room
+                                            </a>
+                                        </c:if>
+
+
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="services">Services</a>
                             </li>

@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -75,61 +78,54 @@
                                         Rooms
                                     </a>
                                     <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="rooms.jsp"> Rooms</a></li>
-                                        <li><a class="dropdown-item border-0" href="detail.jsp"> Room Detail</a></li>
-                                    </ul>
-                                    <c:choose>
-                                            
-                                            <c:when test="${sessionScope.role == 'customer'}">
-                                                <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
-                                                    Stay Room
-                                                </a>
-                                            </c:when>
+                                        <li>
+                                        <c:if test="${sessionScope.role == 'customer'}">
+                                            <a class="dropdown-item" 
+                                               href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
+                                                Stay Room
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${sessionScope.role == 'hotel_manager'}">
+                                            <a class="dropdown-item" 
+                                               href="${pageContext.request.contextPath}/stayRoomReceptionist">
+                                                Stay Room
+                                            </a>
+                                        </c:if>
 
-                                            
-                                            <c:when test="${sessionScope.role == 'hotel_manager'}">
-                                                <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoomReceptionist">
-                                                    Stay Room
-                                                </a>
-                                            </c:when>
 
-                                        </c:choose>
-                                        <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoom?id=13">
-                                                    Stay Room
-                                                </a>   
-                                        <a class="dropdown-item" 
-                                                   href="${pageContext.request.contextPath}/stayRoomReceptionist">
-                                                    Stay Room
-                                                </a>
                                 </li>
+                                <li><a class="dropdown-item" href="rooms.jsp"> Rooms</a></li>
+                                <li><a class="dropdown-item border-0" href="detail.jsp"> Room Detail</a></li>
+                            </ul>
 
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Blog
-                                    </a>
-                                    <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="blog.jsp"> Blog</a></li>
-                                        <li><a class="dropdown-item border-0" href="blog_detail.jsp"> Blog Detail</a></li>
-                                    </ul>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="services">Services</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="extra-services">Extra Services</a>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="gallery.jsp">Gallery</a>
-                                </li>
+                            </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.jsp">Contact</a>
-                                </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Blog
+                                </a>
+                                <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="blog.jsp"> Blog</a></li>
+                                    <li><a class="dropdown-item border-0" href="blog_detail.jsp"> Blog Detail</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="extra-services">Extra Services</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="gallery.jsp">Gallery</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.jsp">Contact</a>
+                            </li>
 
                             </ul>
                         </div>

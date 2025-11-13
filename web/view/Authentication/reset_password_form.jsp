@@ -27,25 +27,26 @@
             overflow-y: auto !important;
             padding-top: 0 !important;
         }
-        .main { /* Khu vực chứa form login/forgot */
-            flex-grow: 1; 
-            display: flex;
-            align-items: center; 
-            justify-content: center; 
-            padding: 50px 20px; 
+        .main { 
+            flex-grow: 1; display: flex; align-items: center; justify-content: center; 
+            padding: 50px 20px;
         }
-        /* Cấu hình màu cho Header/Footer */
         .main_1 #top, .main_1 #header { background-color: #38423f !important; }
         .main_1 { position: relative !important; width: 100%; background-color: #38423f; }
         .login-container { z-index: 10; } 
         #footer { background-color: #463b3f !important; margin-top: auto !important; }
+        
+        /* FIX: Reset các thuộc tính thừa */
+        .top_1m a, .top_1m { margin-top: 0 !important; }
+        .top_1m a { color: white !important; }
     </style>
 </head>
 <body>
 <% 
-    // Logic lấy username và chuyển hướng nếu không có
+    // 🟢 FIX 1: Lấy username từ Query Parameter (URL)
     String username = request.getParameter("username");
     if (username == null || username.isEmpty()) {
+        // Nếu không có username (người dùng chưa xác thực), chuyển hướng lại
         response.sendRedirect(request.getContextPath() + "/view/Authentication/forgot_password.jsp");
         return;
     }
@@ -145,9 +146,9 @@
                if (error != null) { %>
                 <div style="color: #ff0080; text-align:center; margin-top: 15px;">
                     <% if ("mismatch".equals(error)) { %>
-                         Mật khẩu mới và xác nhận mật khẩu không khớp.
+                        ❌ Mật khẩu mới và xác nhận mật khẩu không khớp.
                     <% } else if ("db_fail".equals(error)) { %>
-                         Lỗi hệ thống: Không thể cập nhật mật khẩu. Vui lòng thử lại.
+                        ❌ Lỗi hệ thống: Không thể cập nhật mật khẩu. Vui lòng thử lại.
                     <% } %>
                 </div>
             <% } %>

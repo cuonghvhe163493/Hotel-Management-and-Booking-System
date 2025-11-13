@@ -20,7 +20,7 @@ import model.StayRoom;
  *
  * @author Admin
  */
-@WebServlet(name = "ChangeStatus", urlPatterns = {"/ChangeStatus"})
+@WebServlet(name = "searchBooking", urlPatterns = {"/searchBooking"})
 public class SearchBooking extends HttpServlet {
 
     @Override
@@ -29,17 +29,21 @@ public class SearchBooking extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        int phone = Integer.parseInt(request.getParameter("searchBooking"));
-        
+        String keyword = request.getParameter("search");
+        int key = Integer.parseInt(keyword);
         
         StayRoomDAO dao = new StayRoomDAO();
-        List<StayRoom> list = dao.getBooking(phone);
-        
-        
+
+        List<StayRoom> list;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            list = dao.getAllBooking(); 
+        } else {
+            list = dao.getBooking(key); 
+        }
         request.setAttribute("stayroom", list);
         
         
-        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/StayRoomForReceptionist.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/StayRoomReceptionist.jsp");
         rd.forward(request, response);
     }
 
