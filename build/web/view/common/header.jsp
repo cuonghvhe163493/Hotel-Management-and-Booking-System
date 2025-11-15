@@ -82,7 +82,7 @@
                     </div>
                     <div class="col-md-4 mt-2 text-end">
                         <ul class="mb-0 list-unstyled">
-<li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
                             <li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-instagram"></i></a></li>
                             <li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-tripadvisor"></i></a></li>
                         </ul>
@@ -94,8 +94,8 @@
         <!-- ======= NAVBAR ======= -->
         <section id="header">
             <c:set var="cartCount" value="0" />
-            <c:if test="${not empty sessionScope.cart}">
-                <c:set var="cartCount" value="${fn:length(sessionScope.cart)}" />
+            <c:if test="${not empty sessionScope.cart || not empty sessionScope.cartServices}">
+                <c:set var="cartCount" value="${fn:length(sessionScope.cart) + fn:length(sessionScope.cartServices)}" />
             </c:if>
 
             <nav class="navbar navbar-expand-md navbar-dark pt-3 pb-3" id="navbar_sticky">
@@ -114,18 +114,18 @@
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/about.jsp">About</a></li>
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/rooms">Rooms</a></li>
                             <li class="nav-item">
-                                        <c:if test="${sessionScope.role == 'customer'}">
-                                            <a class="nav-link" 
-                                               href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
-                                                Stay Room
-                                            </a>
-                                        </c:if>
-                                        <c:if test="${sessionScope.role == 'hotel_manager'}">
-                                            <a class="nav-link" 
-                                               href="${pageContext.request.contextPath}/stayRoomReceptionist">
-                                                Stay Room
-                                            </a>
-                                        </c:if>
+                                <c:if test="${sessionScope.role == 'customer'}">
+                                    <a class="nav-link" 
+                                       href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
+                                        Stay Room
+                                    </a>
+                                </c:if>
+                                <c:if test="${sessionScope.role == 'hotel_manager'}">
+                                    <a class="nav-link" 
+                                       href="${pageContext.request.contextPath}/stayRoomReceptionist">
+                                        Stay Room
+                                    </a>
+                                </c:if>
 
 
                             </li>
