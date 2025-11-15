@@ -171,11 +171,11 @@
                             <div class="room_2il">
                                 <div class="room_2il2 bg-white text-center p-4" style="display: flex; flex-direction: column; justify-content: space-between; height: 250px">
                                     <div >
-                                        <h4 class="mt-2"><a href="#">${service.serviceName} - $${service.price > 0 ? service.price : 'Miễn phí'}</a></h4>
+                                        <h4 class="mt-2"><a href="#">${service.serviceName} - ${service.price > 0 ? service.price : 'Miễn phí'}</a></h4>
                                         <h4 class="mt-2"> 
                                             <c:choose>
                                                 <c:when test="${service.price > 0}">
-                                                    Giá: $${service.price}
+                                                    Giá: ${service.price}
                                                 </c:when>
                                                 <c:otherwise>
                                                     Miễn phí

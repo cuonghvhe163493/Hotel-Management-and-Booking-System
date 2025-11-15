@@ -5,7 +5,6 @@
     <head>
         <title>Room Management</title>
         <style>
-            /* BASE TABLE STYLES */
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -20,7 +19,6 @@
                 background-color: #f2f2f2;
             }
 
-            /* CSS cho màu trạng thái */
             .status-cell {
                 font-weight: bold;
                 padding: 5px 10px;
@@ -31,19 +29,18 @@
                 background-color: #d4edda;
                 color: #155724;
                 border: 1px solid #c3e6cb;
-            } /* Xanh lá */
+            } 
             .status-available {
                 background-color: #fff3cd;
                 color: #856404;
                 border: 1px solid #ffeeba;
-            } /* Vàng */
+            } 
             .status-maintenance {
                 background-color: #f8d7da;
                 color: #721c24;
                 border: 1px solid #f5c6cb;
-            } /* Đỏ */
+            } 
 
-            /* Style cho Modal Sửa */
             .modal {
                 display: none;
                 position: fixed;
@@ -87,36 +84,36 @@
         </style>
     </head>
     <body>
-        <h1>Quản lý Phòng Khách sạn</h1>
+        <h1>Hotel Room Management</h1>
 
         <c:if test="${param.success != null}">
-            <p style="color: green;">✅ Thao tác **${param.success}** thành công!</p>
+            <p style="color: green;">✅ Operation **${param.success}** successful!</p>
         </c:if>
         <c:if test="${param.error != null}">
-            <p style="color: red;">❌ Lỗi: Không thể thực hiện thao tác. 
+            <p style="color: red;"> Error: Could not complete operation. 
                 <c:choose>
-                    <c:when test="${param.error == 'db_create'}">Lỗi cơ sở dữ liệu khi tạo phòng (Có thể trùng Room Number).</c:when>
-                    <c:when test="${param.error == 'delete_fk'}">Lỗi Khóa Ngoại: Phòng đang có đặt chỗ hoặc lịch sử đặt chỗ. Không thể xóa.</c:when>
-                    <c:otherwise>Lỗi không xác định: ${param.error}</c:otherwise>
+                    <c:when test="${param.error == 'db_create'}">Database error during room creation (Room Number might be duplicate).</c:when>
+                    <c:when test="${param.error == 'delete_fk'}">Foreign Key Error: Room has existing bookings or history. Cannot delete.</c:when>
+                    <c:otherwise>Unknown error: ${param.error}</c:otherwise>
                 </c:choose>
             </p>
         </c:if>
 
-        <button onclick="openCreateModal()">➕ Thêm Phòng Mới</button>
+        <button onclick="openCreateModal()"> Add New Room</button>
 
         <div style="margin-bottom: 20px;">
-            <h2>Lọc Theo Trạng thái</h2>
+            <h2>Filter By Status</h2>
             <select id="statusFilter" onchange="filterRooms()">
-                <option value="all">Tất cả Phòng</option>
-                <option value="occupied">🟢 Đã đặt/Có khách (Xanh lá)</option>
-                <option value="available">🟡 Có thể sử dụng (Vàng)</option>
-                <option value="maintenance">🔴 Bảo trì/Hỏng (Đỏ)</option>
+                <option value="all">All Rooms</option>
+                <option value="occupied"> Occupied </option>
+                <option value="available">Available </option>
+                <option value="maintenance"> Maintenance </option>
             </select>
         </div>
 
         <hr>
 
-        <h2>Danh sách Phòng</h2>
+        <h2>Room List</h2>
         <table>
             <thead>
                 <tr>
@@ -132,7 +129,7 @@
             <tbody id="roomTableBody">
                 <c:choose>
                     <c:when test="${empty roomList}">
-                        <tr><td colspan="7">Chưa có phòng nào được thêm vào hệ thống.</td></tr>
+                        <tr><td colspan="7">No rooms have been added to the system yet.</td></tr>
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="room" items="${roomList}">
@@ -161,16 +158,16 @@
                                 </td>
                                 <td>
                                     <button onclick="openEditModal(${room.roomId},
-                                                    '${room.roomNumber}',
-                                                    '${room.roomType}',
-                                            ${room.pricePerNight},
-                                            ${room.capacity},
-                                                    '${room.roomStatus}')">Sửa</button>
+                                                                    '${room.roomNumber}',
+                                                                    '${room.roomType}',
+                                                                    ${room.pricePerNight},
+                                                                    ${room.capacity},
+                                                                    '${room.roomStatus}')">Edit</button>
 
                                     <form method="POST" action="${pageContext.request.contextPath}/admin/rooms/action" style="display: inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="roomId" value="${room.roomId}">
-                                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng ${room.roomNumber}?')">Xóa</button>
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete room ${room.roomNumber}?')">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -183,7 +180,7 @@
         <div id="createRoomModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeCreateModal()">&times;</span>
-                <h2>Thêm Phòng Mới</h2>
+                <h2>Add New Room</h2>
                 <form id="newRoomForm"> 
                     <label>Room Number:</label><br>
                     <input type="text" id="newRoomNumber" required><br><br>
@@ -191,13 +188,13 @@
                     <label>Room Type:</label><br>
                     <input type="text" id="newRoomType" required><br><br>
 
-                    <label>Capacity (Sức chứa):</label><br>
+                    <label>Capacity:</label><br>
                     <input type="number" id="newCapacity" min="1" required><br><br>
 
-                    <label>Price Per Night (Giá/đêm):</label><br>
+                    <label>Price Per Night:</label><br>
                     <input type="number" id="newPrice" step="0.01" required><br><br>
 
-                    <button type="button" class="btn-action" onclick="showConfirmModal()">Tiếp tục (Xác nhận)</button>
+                    <button type="button" class="btn-action" onclick="showConfirmModal()">Continue (Confirm)</button>
                 </form>
             </div>
         </div>
@@ -205,9 +202,9 @@
         <div id="confirmCreateModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeConfirmModal()">&times;</span>
-                <h2>Xác nhận Thêm Phòng</h2>
+                <h2>Confirm Room Addition</h2>
 
-                <p>Bạn có chắc chắn muốn thêm phòng mới vào hệ thống không?</p>
+                <p>Are you sure you want to add this new room to the system?</p>
 
                 <form method="POST" action="${pageContext.request.contextPath}/admin/rooms/action" style="margin-top: 20px;">
                     <input type="hidden" name="action" value="create">
@@ -217,8 +214,8 @@
                     <input type="hidden" id="finalCapacity" name="capacity">
                     <input type="hidden" id="finalPrice" name="price">
 
-                    <button type="button" onclick="closeConfirmModal()" class="btn-action" style="background-color: gray; color: white;">← Quay lại</button>
-                    <button type="submit" class="btn-action" style="background-color: green; color: white;">Thêm Phòng Mới (Chắc chắn)</button>
+                    <button type="button" onclick="closeConfirmModal()" class="btn-action" style="background-color: gray; color: white;">← Go Back</button>
+                    <button type="submit" class="btn-action" style="background-color: green; color: white;">Add New Room (Confirm)</button>
                 </form>
             </div>
         </div>
@@ -226,7 +223,7 @@
         <div id="editRoomModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeEditModal()">&times;</span>
-                <h2>Sửa Thông Tin Phòng</h2>
+                <h2>Edit Room Information</h2>
                 <form id="editRoomForm" method="POST" action="${pageContext.request.contextPath}/admin/rooms/action">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" id="editRoomId" name="roomId">
@@ -237,10 +234,10 @@
                     <label>Room Type (Description):</label><br>
                     <input type="text" id="editRoomType" name="roomType" required><br><br>
 
-                    <label>Capacity (Sức chứa):</label><br>
+                    <label>Capacity:</label><br>
                     <input type="number" id="editCapacity" name="capacity" min="1" required><br><br>
 
-                    <label>Price Per Night (Giá/đêm):</label><br>
+                    <label>Price Per Night:</label><br>
                     <input type="number" id="editPrice" name="price" step="0.01" required><br><br>
 
                     <label>Status:</label><br>
@@ -250,20 +247,18 @@
                         <option value="maintenance">maintenance</option>
                     </select><br><br>
 
-                    <button type="submit" class="btn-action" style="background-color: #3f51b5; color: white;">Lưu Thay Đổi</button>
+                    <button type="submit" class="btn-action" style="background-color: #3f51b5; color: white;">Save Changes</button>
                 </form>
             </div>
         </div>
 
-        <br><a href="${pageContext.request.contextPath}/admin-home">← Quay lại Dashboard</a>
+        <br><a href="${pageContext.request.contextPath}/admin-home">← Back to Dashboard</a>
 
         <script>
-            // === Biến Global ===
             var createModal = document.getElementById("createRoomModal");
             var confirmModal = document.getElementById("confirmCreateModal");
             var editModal = document.getElementById("editRoomModal");
 
-            // === 🟢 LOGIC CREATE (3 BƯỚC) ===
             function openCreateModal() {
                 createModal.style.display = "block";
                 document.getElementById("newRoomForm").reset();
@@ -275,13 +270,11 @@
             function showConfirmModal() {
                 const form = document.getElementById("newRoomForm");
 
-                // 1. Validate đơn giản (Bắt buộc phải điền hết)
                 if (!form.checkValidity()) {
                     form.reportValidity();
                     return;
                 }
 
-                // 2. Lấy dữ liệu và điền vào form ẩn (Vẫn cần làm bước này!)
                 const num = document.getElementById('newRoomNumber').value;
                 const type = document.getElementById('newRoomType').value;
                 const capacity = document.getElementById('newCapacity').value;
@@ -292,10 +285,6 @@
                 document.getElementById('finalCapacity').value = capacity;
                 document.getElementById('finalPrice').value = price;
 
-                // 🟢 FIX: XÓA DÒNG ĐỔ DỮ LIỆU VÀO .innerHTML
-                // document.getElementById('confirmDetails').innerHTML = `...`; // Dòng này đã được loại bỏ
-
-                // 4. Ẩn modal nhập liệu, hiện modal xác nhận
                 closeCreateModal();
                 confirmModal.style.display = "block";
             }
@@ -303,8 +292,6 @@
             function closeConfirmModal() {
                 confirmModal.style.display = "none";
             }
-
-            // === Logic Edit/Filter (Giữ nguyên) ===
 
             function openEditModal(roomId, roomNumber, roomType, price, capacity, status) {
                 document.getElementById("editRoomId").value = roomId;
@@ -327,7 +314,6 @@
                 }
             }
 
-            // === Logic Filter (Giữ nguyên) ===
             function filterRooms() {
                 const filterValue = document.getElementById('statusFilter').value;
                 const rows = document.querySelectorAll('.room-row');
@@ -336,11 +322,11 @@
                     const status = row.getAttribute('data-status');
 
                     if (filterValue === 'all') {
-                        row.style.display = ''; 
+                        row.style.display = ''; 
                     } else if (status === filterValue) {
                         row.style.display = '';
                     } else {
-                        row.style.display = 'none'; 
+                        row.style.display = 'none'; 
                     }
                 });
             }

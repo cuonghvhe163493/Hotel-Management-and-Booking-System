@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import dao.HotelAdministration.HotelAdministrationDAO;
+import java.util.Map;
 import model.User;
 
 @WebServlet("/admin-home")
@@ -25,7 +26,7 @@ public class HotelAdministrationController extends HttpServlet {
 
         try {
             HotelAdministrationDAO dao = new HotelAdministrationDAO();
-
+Map<String, Map<String, Integer>> occupancyByType = dao.getRoomOccupancyByType();
             int availableRooms = dao.getAvailableRoomsCount();
             int bookedRooms = dao.getOccupiedRoomsCount();
             int receptionistCount = dao.getReceptionistCount();
@@ -39,7 +40,7 @@ public class HotelAdministrationController extends HttpServlet {
             request.setAttribute("receptionistCount", receptionistCount);
             request.setAttribute("customerCount", customerCount);
             request.setAttribute("avgRating", averageRating);
-
+request.setAttribute("occupancyByType", occupancyByType);
         } catch (Exception e) {
             System.err.println("🚨 CRITICAL ERROR in AdminDashboardController:");
             e.printStackTrace();

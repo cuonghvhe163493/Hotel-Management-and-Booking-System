@@ -167,7 +167,7 @@
                                         <h4 class="mt-2"> 
                                             <c:choose>
                                                 <c:when test="${service.servicePrice > 0}">
-                                                    Giá: $${service.servicePrice}
+                                                    Giá: ${service.servicePrice}
                                                 </c:when>
                                                 <c:otherwise>
                                                     Miễn phí

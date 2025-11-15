@@ -1,6 +1,8 @@
 package dao.HotelAdministration;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import utils.DBConnection;
 
 public class HotelAdministrationDAO {
@@ -83,4 +85,61 @@ public class HotelAdministrationDAO {
         }
         return avgRating; 
     }
+    
+    // Trong dao/HotelAdministration/HotelAdministrationDAO.java
+
+// 🟢 PHƯƠNG THỨC MỚI: Lấy số lượng đơn đặt chỗ theo trạng thái (Pending, Completed, etc.)
+public Map<String, Integer> getBookingStatusCounts() {
+    Map<String, Integer> counts = new HashMap<>();
+    // Truy vấn SELECT status, COUNT(*) FROM dbo.Bookings GROUP BY status
+    String sql = "SELECT status, COUNT(*) AS status_count FROM dbo.Bookings GROUP BY status";
+    
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            counts.put(rs.getString("status"), rs.getInt("status_count"));
+        }
+    } catch (SQLException e) {
+        System.err.println("❌ SQL Error in getBookingStatusCounts: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return counts;
+}
+// Trong dao/HotelAdministration/HotelAdministrationDAO.java
+
+// 🟢 PHƯƠNG THỨC MỚI: Lấy số lượng phòng theo loại và trạng thái
+public Map<String, Map<String, Integer>> getRoomOccupancyByType() {
+    // Key ngoài: room_type (Suite, Single, Double), Key trong: 'Total', 'Occupied'
+    Map<String, Map<String, Integer>> roomData = new HashMap<>();
+
+    // Truy vấn tổng hợp để lấy tổng số và số lượng occupied cho từng loại
+    String sql = "SELECT room_type, " +
+                 "COUNT(room_id) AS Total, " +
+                 "SUM(CASE WHEN LOWER(room_status) = 'occupied' THEN 1 ELSE 0 END) AS Occupied " +
+                 "FROM dbo.Rooms " +
+                 "GROUP BY room_type";
+    
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            String type = rs.getString("room_type");
+            int total = rs.getInt("Total");
+            int occupied = rs.getInt("Occupied");
+            
+            Map<String, Integer> counts = new HashMap<>();
+            counts.put("Total", total);
+            counts.put("Occupied", occupied);
+            
+            roomData.put(type, counts);
+        }
+    } catch (SQLException e) {
+        System.err.println("❌ SQL Error in getRoomOccupancyByType: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return roomData;
+}
 }

@@ -15,26 +15,23 @@
     </style>
 </head>
 <body>
-    <h1>Quản lý Tài khoản Lễ tân</h1>
+    <h1>Receptionist Account Management</h1>
 
     <c:if test="${param.success != null}">
-        <p style="color: green;">✅ Thao tác **${param.success}** thành công!</p>
+        <p style="color: green;">✅ Operation **${param.success}** successful!</p>
     </c:if>
     <c:if test="${param.error != null}">
-        <p style="color: red;">❌ Lỗi: 
+        <p style="color: red;">❌ Error: 
             <c:choose>
-                <c:when test="${param.error == 'delete_fk'}">Lỗi Khóa Ngoại: Không thể xóa tài khoản vì nó có liên kết dữ liệu khác.</c:when>
+                <c:when test="${param.error == 'delete_fk'}">Foreign Key Error: Cannot delete account as it has associated data.</c:when>
                 <c:otherwise>${param.error}</c:otherwise>
             </c:choose>
         </p>
     </c:if>
 
     <hr>
-   
     
-    <hr>
-    
-    <h2>Danh sách Lễ tân (${receptionistList.size()} người)</h2>
+    <h2>Receptionist List (${receptionistList.size()} employees)</h2>
     <table>
         <thead>
             <tr>
@@ -50,7 +47,7 @@
         <tbody>
             <c:choose>
                 <c:when test="${empty receptionistList}">
-                    <tr><td colspan="7">Chưa có tài khoản lễ tân nào.</td></tr>
+                    <tr><td colspan="7">No receptionist accounts found.</td></tr>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="r" items="${receptionistList}">
@@ -78,12 +75,12 @@
                                     '${r.username}', 
                                     '${r.email}', 
                                     '${r.phone}', 
-                                    '${r.address}')">Sửa</button>
+                                    '${r.address}')">Edit</button>
                                 
                                 <form method="POST" action="${pageContext.request.contextPath}/admin/receptionists" style="display: inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="userId" value="${r.userId}">
-                                    <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản ${r.username}?')">Xóa</button>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete account ${r.username}?')">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -96,7 +93,7 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
-            <h2>Sửa Thông tin Lễ tân</h2>
+            <h2>Edit Receptionist Information</h2>
             <form id="editForm" method="POST" action="${pageContext.request.contextPath}/admin/receptionists">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" id="editUserId" name="userId">
@@ -113,15 +110,15 @@
                 <label>Address:</label><br>
                 <textarea id="editAddress" name="address" rows="2" required></textarea><br><br>
                 
-                <label>Password (Để trống nếu không đổi):</label><br>
+                <label>Password (Leave blank if unchanged):</label><br>
                 <input type="password" id="editPassword" name="password" value="UNCHANGED" required><br><br> 
 
-                <button type="submit">Lưu Thay Đổi</button>
+                <button type="submit">Save Changes</button>
             </form>
         </div>
     </div>
     
-    <br><a href="${pageContext.request.contextPath}/admin-home">← Quay lại Dashboard</a>
+    <br><a href="${pageContext.request.contextPath}/admin-home">← Back to Dashboard</a>
 
     <script>
         var modal = document.getElementById("editModal");
@@ -132,7 +129,7 @@
             document.getElementById("editEmail").value = email;
             document.getElementById("editPhone").value = phone;
             document.getElementById("editAddress").value = address;
-            // Đặt password mặc định là giá trị giả để Controller biết không cần thay đổi
+            
             document.getElementById("editPassword").value = "UNCHANGED"; 
             
             modal.style.display = "block";

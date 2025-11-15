@@ -8,7 +8,6 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         th { background-color: #f2f2f2; }
-        /* Style cho Modal Sửa */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
         .modal-content { background-color: #fefefe; margin: 10% auto; padding: 25px; border: 1px solid #888; width: 400px; border-radius: 8px; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
@@ -17,28 +16,28 @@
     </style>
 </head>
 <body>
-    <h1>Quản lý Dịch vụ Khách sạn</h1>
+    <h1>Hotel Service Management</h1>
 
     <c:if test="${param.success != null}">
-        <p style="color: green;">✅ Thao tác **${param.success}** thành công!</p>
+        <p style="color: green;">✅ **${param.success}** operation successful!</p>
     </c:if>
     <c:if test="${param.error != null}">
-        <p style="color: red;">❌ Lỗi: 
+        <p style="color: red;">❌ Error: 
             <c:choose>
-                <c:when test="${param.error == 'delete_fk'}">Lỗi Khóa Ngoại: Dịch vụ đang được sử dụng.</c:when>
-                <c:when test="${param.error == 'db_create'}">Lỗi tạo dịch vụ: Dữ liệu bị trùng hoặc thiếu.</c:when>
-                <c:otherwise>Lỗi hệ thống: ${param.error}</c:otherwise>
+                <c:when test="${param.error == 'delete_fk'}">Foreign Key Error: Service is currently in use.</c:when>
+                <c:when test="${param.error == 'db_create'}">Service creation error: Duplicate or missing data.</c:when>
+                <c:otherwise>System Error: ${param.error}</c:otherwise>
             </c:choose>
         </p>
     </c:if>
 
     <hr>
     
-    <button onclick="openCreateModal()">➕ Tạo Dịch vụ Mới</button>
+    <button onclick="openCreateModal()">➕ Create New Service</button>
     
     <hr>
     
-    <h2>Danh sách Dịch vụ</h2>
+    <h2>Service List</h2>
     <table>
         <thead>
             <tr>
@@ -52,7 +51,7 @@
         <tbody>
             <c:choose>
                 <c:when test="${empty serviceList}">
-                    <tr><td colspan="5">Chưa có dịch vụ nào được thêm vào hệ thống.</td></tr>
+                    <tr><td colspan="5">No services have been added to the system yet.</td></tr>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="s" items="${serviceList}">
@@ -66,12 +65,12 @@
                                     ${s.serviceId}, 
                                     '${s.serviceName}', 
                                     '${s.description}', 
-                                    ${s.price})">Sửa</button>
+                                    ${s.price})">Edit</button>
                                 
                                 <form method="POST" action="${pageContext.request.contextPath}/admin/services" style="display: inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="serviceId" value="${s.serviceId}">
-                                    <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa dịch vụ ${s.serviceName}?')">Xóa</button>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete the service ${s.serviceName}?')">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -84,7 +83,7 @@
     <div id="createServiceModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeCreateModal()">&times;</span>
-            <h2>Tạo Dịch vụ Mới</h2>
+            <h2>Create New Service</h2>
             <form id="newServiceForm" method="POST" action="${pageContext.request.contextPath}/admin/services">
                 <input type="hidden" name="action" value="create">
                 
@@ -94,10 +93,10 @@
                 <label>Description:</label><br>
                 <textarea name="description" rows="3" required></textarea><br><br>
                 
-                <label>Price (Giá dịch vụ):</label><br>
+                <label>Price:</label><br>
                 <input type="number" name="price" step="0.01" required><br><br>
                 
-                <button type="submit" class="btn-action" style="background-color: green; color: white;">➕ Thêm Dịch vụ</button>
+                <button type="submit" class="btn-action" style="background-color: green; color: white;">➕ Add Service</button>
             </form>
         </div>
     </div>
@@ -105,7 +104,7 @@
     <div id="editServiceModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
-            <h2>Sửa Dịch vụ</h2>
+            <h2>Edit Service</h2>
             <form id="editServiceForm" method="POST" action="${pageContext.request.contextPath}/admin/services">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" id="editServiceId" name="serviceId">
@@ -119,18 +118,17 @@
                 <label>Price:</label><br>
                 <input type="number" id="editPrice" name="price" step="0.01" required><br><br>
 
-                <button type="submit" class="btn-action" style="background-color: #3f51b5; color: white;">Lưu Thay Đổi</button>
+                <button type="submit" class="btn-action" style="background-color: #3f51b5; color: white;">Save Changes</button>
             </form>
         </div>
     </div>
     
-    <br><a href="${pageContext.request.contextPath}/admin-home">← Quay lại Dashboard</a>
+    <br><a href="${pageContext.request.contextPath}/admin-home">← Back to Dashboard</a>
 
     <script>
         var createModal = document.getElementById("createServiceModal");
         var editModal = document.getElementById("editServiceModal");
 
-        // === LOGIC CREATE (Mở Modal) ===
         function openCreateModal() {
             document.getElementById("newServiceForm").reset(); 
             createModal.style.display = "block";
@@ -139,7 +137,6 @@
             createModal.style.display = "none";
         }
         
-        // === Logic Edit ===
         function openEditModal(serviceId, name, description, price) {
             document.getElementById("editServiceId").value = serviceId;
             document.getElementById("editName").value = name;
@@ -153,7 +150,6 @@
             editModal.style.display = "none";
         }
 
-        // Đóng modal khi click ra ngoài
         window.onclick = function(event) {
             if (event.target == createModal || event.target == editModal) {
                 event.target.style.display = "none";
