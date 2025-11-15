@@ -29,15 +29,10 @@ public class StayRoomReceptionist extends HttpServlet {
     throws ServletException, IOException {        
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-//        String userid = request.getParameter("id");
-//        int id = Integer.parseInt(userid);
-        
-        
-        
+
         StayRoomDAO d = new StayRoomDAO();
         List<model.StayRoom> stayroom = d.getAllBooking();
-        
-        
+  
         request.setAttribute("stayroom", stayroom);
 
         RequestDispatcher rd = request.getRequestDispatcher("/view/Staymanagement/StayRoomReceptionist.jsp");

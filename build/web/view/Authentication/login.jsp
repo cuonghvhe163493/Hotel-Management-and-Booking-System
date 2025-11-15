@@ -117,6 +117,21 @@
         </style>
     </head>
     <body>
+        <% 
+            // Logic xử lý thông báo lỗi (error) và thông báo thành công từ register
+            String error = request.getParameter("error");
+            String loginMessage = null;
+            if ("invalid".equals(error)) {
+                loginMessage = "Sai tên đăng nhập hoặc mật khẩu.";
+            } else if ("banned".equals(error)) {
+                loginMessage = "Tài khoản này đã bị BAN và không thể truy cập.";
+            } else if ("google_failed".equals(error)) {
+                loginMessage = "Lỗi đăng nhập Google hoặc tài khoản Google bị BAN.";
+            }
+            
+            // Lấy giá trị redirect nếu có trong query string
+            String redirect = request.getParameter("redirect");
+        %>
 
         <div class="main_1 clearfix">
             <section id="top" class="pt-3 pb-3" style="background-color: #38423f;">
@@ -126,7 +141,7 @@
                             <div class="top_1l">
                                 <span class="d-inline-block bg_yell rounded-circle float-start me-2 text-center"><a href="#"><i class="fa fa-phone text-white"></i></a></span>
                                 <h6 class="mb-0 lh-base font_14"><a class="text-white" href="#">For Further Inquires : <br>
-                                        +(000) 345 67 89</a></h6>
+                                            +(000) 345 67 89</a></h6>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -155,19 +170,32 @@
             <section id="header">
                 <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
                     <div class="container-xl">
-                        <a class="navbar-brand fs-3 p-0 fw-bold text-white" href="<%=request.getContextPath()%>/index.jsp"><i class="fa fa-plane col_yell"></i> Hotels </a>
+                        <a class="navbar-brand fs-3 p-0 fw-bold text-white" href="${pageContext.request.contextPath}/index.jsp"><i class="fa fa-plane col_yell"></i> Hotels </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mb-0">
-                                <li class="nav-item"> <a class="nav-link active" aria-current="page" href="<%=request.getContextPath()%>/index.jsp">Home</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#">About </a> </li>
-                                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="roomsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Rooms </a> <ul class="dropdown-menu drop_1" aria-labelledby="roomsDropdown"> <li><a class="dropdown-item" href="#"> Rooms</a></li> <li><a class="dropdown-item border-0" href="#"> Room Detail</a></li> </ul> </li>
-                                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="blogDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Blog </a> <ul class="dropdown-menu drop_1" aria-labelledby="blogDropdown"> <li><a class="dropdown-item" href="#"> Blog</a></li> <li><a class="dropdown-item border-0" href="#"> Blog Detail</a></li> </ul> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Services</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Gallery</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Contact</a> </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" 
+                                       href="${pageContext.request.contextPath}/index.jsp">Home</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" 
+                                       href="${pageContext.request.contextPath}/rooms">Rooms</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" 
+                                       href="${pageContext.request.contextPath}/services">Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" 
+                                       href="${pageContext.request.contextPath}/extra-services">Extra Services</a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -182,13 +210,14 @@
                         <h2>Sign In</h2>
                         <p>Access your account</p>
                     </div>
-                    <%
-                        // Lấy giá trị redirect nếu có trong query string
-                        String redirect = request.getParameter("redirect");
-                    %>
+
+                    <% if (loginMessage != null) { %>
+                        <div style="color: #ff4d6d; text-align: center; margin-bottom: 15px; font-weight: 600;">
+                            ❌ <%= loginMessage %>
+                        </div>
+                    <% } %>
 
                     <form class="login-form" id="loginForm" action="${pageContext.request.contextPath}/login" method="post" novalidate>
-                        <!-- Input ẩn lưu redirect -->
                         <input type="hidden" name="redirect" value="<%= redirect != null ? redirect : "" %>">
 
                         <div class="form-group">
@@ -209,9 +238,10 @@
 
                         <% if (request.getParameter("success") != null) { %>
                         <div style="color: #00ff88; text-align: center; margin-top: 15px; font-weight: 600;">
-                            Registration successful! Redirecting to login...
+                            ✅ Đăng ký thành công! Đang chuyển hướng...
                         </div>
                         <script>
+                            // Chuyển hướng sau 2 giây
                             setTimeout(function () {
                                 window.location.href = "<%=request.getContextPath()%>/login";
                             }, 2000);
@@ -236,9 +266,6 @@
                         </div>
                     </div>
 
-                    <% if (request.getParameter("error") != null) { %>
-                    <script>alert('Invalid username or password!');</script>
-                    <% } %>
                 </div>
             </div>
         </div>

@@ -29,19 +29,18 @@ public class StayRoomDAO {
                 + "from bookings b\n"
                 + "join booking_rooms br ON b.booking_id = br.booking_id\n"
                 + "join rooms r ON br.room_id = r.room_id\n"
-                + "where b.customer_id = ? and br.status = ?";
+                + "where b.customer_id = ? and br.status = ? and r.room_status = ? ";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             ps.setString(2, status);
-
+            ps.setString(3, "occupied");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom r = new StayRoom();
                     r.setRoomId(rs.getInt("room_id"));
                     r.setRoomNumber(rs.getString("room_number"));
-
                     r.setCheckInDate(rs.getDate("check_in_date"));
                     r.setCheckOutDate(rs.getDate("check_out_date"));
                     r.setBookingId(rs.getInt("booking_id"));
@@ -56,16 +55,17 @@ public class StayRoomDAO {
     }
 
     //Web Receptionist
+    //
     public List<StayRoom> getBooking(int phone) {
         List<StayRoom> list = new ArrayList<>();
 
-        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, br.check_out_date, br.status\n" +
-"                FROM Booking_Rooms br \n" +
-"                JOIN Rooms r ON br.room_id = r.room_id \n" +
-"                JOIN Bookings b ON br.booking_id = b.booking_id \n" +
-"                JOIN Customers c ON b.customer_id = c.customer_id \n" +
-"                JOIN Users d ON c.customer_id = d.user_id\n" +
-"                WHERE d.phone =  ?";
+        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, br.check_out_date, br.status\n"
+                + "                FROM Booking_Rooms br \n"
+                + "                JOIN Rooms r ON br.room_id = r.room_id \n"
+                + "                JOIN Bookings b ON br.booking_id = b.booking_id \n"
+                + "                JOIN Customers c ON b.customer_id = c.customer_id \n"
+                + "                JOIN Users d ON c.customer_id = d.user_id\n"
+                + "                WHERE d.phone =  ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, phone);
@@ -78,7 +78,6 @@ public class StayRoomDAO {
                     r.setStatus(rs.getString("status"));
                     r.setCheckInDate(rs.getDate("check_in_date"));
                     r.setCheckOutDate(rs.getDate("check_out_date"));
-                    
                     list.add(r);
                 }
             }
@@ -87,19 +86,19 @@ public class StayRoomDAO {
         }
         return list;
     }
-    public List<StayRoom> getAllBooking() {
+    public List<StayRoom> getBookingByBookingId(int bookingId) {
         List<StayRoom> list = new ArrayList<>();
 
-        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, br.check_out_date, br.status\n" +
-"                FROM Booking_Rooms br \n" +
-"                JOIN Rooms r ON br.room_id = r.room_id \n" +
-"                JOIN Bookings b ON br.booking_id = b.booking_id \n" +
-"                JOIN Customers c ON b.customer_id = c.customer_id \n" +
-"                JOIN Users d ON c.customer_id = d.user_id\n" +
-"                ";
+        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, br.check_out_date, br.status\n"
+                + "                FROM Booking_Rooms br \n"
+                + "                JOIN Rooms r ON br.room_id = r.room_id \n"
+                + "                JOIN Bookings b ON br.booking_id = b.booking_id \n"
+                + "                JOIN Customers c ON b.customer_id = c.customer_id \n"
+                + "                JOIN Users d ON c.customer_id = d.user_id\n"
+                + "                WHERE b.booking_id =  ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            
+            ps.setInt(1, bookingId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom r = new StayRoom();
@@ -109,7 +108,6 @@ public class StayRoomDAO {
                     r.setStatus(rs.getString("status"));
                     r.setCheckInDate(rs.getDate("check_in_date"));
                     r.setCheckOutDate(rs.getDate("check_out_date"));
-                    
                     list.add(r);
                 }
             }
@@ -118,29 +116,28 @@ public class StayRoomDAO {
         }
         return list;
     }
-    
-    
-    
-    public List<StayRoom> getAllRoomsForReceptionist() {
+    public List<StayRoom> getRoomByRoomId(int roomId) {
         List<StayRoom> list = new ArrayList<>();
 
-        String sql = "select \n"
-                + "    room_id, \n"
-                + "    room_number, \n"
-                + "    room_status, \n"
-                + "    room_type\n"
-                + "   from \n"
-                + "    Rooms;";
+        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, br.check_out_date, br.status\n"
+                + "                FROM Booking_Rooms br \n"
+                + "                JOIN Rooms r ON br.room_id = r.room_id \n"
+                + "                JOIN Bookings b ON br.booking_id = b.booking_id \n"
+                + "                JOIN Customers c ON b.customer_id = c.customer_id \n"
+                + "                JOIN Users d ON c.customer_id = d.user_id\n"
+                + "                WHERE r.room_id =  ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
+            ps.setInt(1, roomId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom r = new StayRoom();
                     r.setRoomId(rs.getInt("room_id"));
                     r.setRoomNumber(rs.getString("room_number"));
-                    r.setRoomStatus(rs.getString("room_status"));
-                    r.setRoomType(rs.getString("room_type"));
+                    r.setBookingId(rs.getInt("booking_id"));
+                    r.setStatus(rs.getString("status"));
+                    r.setCheckInDate(rs.getDate("check_in_date"));
+                    r.setCheckOutDate(rs.getDate("check_out_date"));
                     list.add(r);
                 }
             }
@@ -150,32 +147,32 @@ public class StayRoomDAO {
         return list;
     }
 
-    public List<StayRoom> getCheckInRoomForReceptionist(int phoneNumber) {
+
+    //get booking for stayroom
+    public List<StayRoom> getAllBooking() {
         List<StayRoom> list = new ArrayList<>();
 
-        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, price_per_night, r.room_type\n"
+        String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, br.check_out_date, br.status\n"
                 + "FROM Booking_Rooms br \n"
                 + "JOIN Rooms r ON br.room_id = r.room_id \n"
                 + "JOIN Bookings b ON br.booking_id = b.booking_id \n"
                 + "JOIN Customers c ON b.customer_id = c.customer_id \n"
                 + "JOIN Users d ON c.customer_id = d.user_id\n"
-                + "WHERE d.phone = ? and b.status = ?";
+                + "WHERE b.status = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, phoneNumber);
-            ps.setString(2, "confirmed");
-
+            ps.setString(1, "confirmed");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    StayRoom stayroom = new StayRoom();
-                    stayroom.setRoomId(rs.getInt("room_id"));
-                    stayroom.setRoomNumber(rs.getString("room_number"));
-                    stayroom.setRoomType(rs.getString("room_type"));
-                    stayroom.setPricePerNight(rs.getDouble("price_per_night"));
-                    stayroom.setBookingId(rs.getInt("booking_id"));
-                    stayroom.setCheckInDate(rs.getDate("check_in_date"));
-                    list.add(stayroom);
+                    StayRoom r = new StayRoom();
+                    r.setRoomId(rs.getInt("room_id"));
+                    r.setRoomNumber(rs.getString("room_number"));
+                    r.setBookingId(rs.getInt("booking_id"));
+                    r.setStatus(rs.getString("status"));
+                    r.setCheckInDate(rs.getDate("check_in_date"));
+                    r.setCheckOutDate(rs.getDate("check_out_date"));
 
+                    list.add(r);
                 }
             }
         } catch (SQLException e) {
@@ -184,6 +181,35 @@ public class StayRoomDAO {
         return list;
     }
 
+//    public List<StayRoom> getAllRoomsForReceptionist() {
+//        List<StayRoom> list = new ArrayList<>();
+//
+//        String sql = "select \n"
+//                + "    room_id, \n"
+//                + "    room_number, \n"
+//                + "    room_status, \n"
+//                + "    room_type\n"
+//                + "   from \n"
+//                + "    Rooms;";
+//
+//        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+//
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//                    StayRoom r = new StayRoom();
+//                    r.setRoomId(rs.getInt("room_id"));
+//                    r.setRoomNumber(rs.getString("room_number"));
+//                    r.setRoomStatus(rs.getString("room_status"));
+//                    r.setRoomType(rs.getString("room_type"));
+//                    list.add(r);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error when fetching room list: " + e.getMessage());
+//        }
+//        return list;
+//    }
+//Update Status
     public boolean updateRoomStatus(int roomId, String newStatus) {
         String sql = "UPDATE Rooms SET room_status = ? WHERE room_id = ?";
 
@@ -201,9 +227,38 @@ public class StayRoomDAO {
         return false;
     }
 
-    public StayRoom getRoomDetails() {
+    public boolean updateBookingRoomStatus(int roomId, String newStatus) {
+        String sql = "UPDATE Booking_Rooms SET status = ? WHERE room_id = ?";
 
-        return null;
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newStatus);
+            ps.setInt(2, roomId);
+
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error");
+        }
+        return false;
+    }
+
+    public boolean updateBookingStatus(int booking, String newStatus) {
+        String sql = "";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newStatus);
+            ps.setInt(2, booking);
+
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error");
+        }
+        return false;
     }
 
     //Details Room
@@ -226,31 +281,26 @@ public class StayRoomDAO {
             ps.setInt(2, roomId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                stayroom.setRoomId(rs.getInt("room_id"));
-                stayroom.setRoomNumber(rs.getString("room_number"));
-                stayroom.setRoomType(rs.getString("room_type"));
-                stayroom.setPricePerNight(rs.getDouble("price_per_night"));
-                stayroom.setBookingId(rs.getInt("booking_id"));
-                stayroom.setCheckInDate(rs.getDate("check_in_date"));
-                stayroom.setCheckOutDate(rs.getDate("check_out_date"));
-                stayroom.setCapacity(rs.getInt("capacity"));
-                
-                stayroom.setStatus(rs.getString("status"));
-                stayroom.setRoomStatus(rs.getString("room_status"));
-                stayroom.setName(rs.getString("username"));
-                stayroom.setGmail(rs.getString("email"));
-                stayroom.setPhone(rs.getInt("phone"));
-                stayroom.setGuestCount(rs.getInt("guests_count"));
+                    stayroom.setRoomId(rs.getInt("room_id"));
+                    stayroom.setRoomNumber(rs.getString("room_number"));
+                    stayroom.setRoomType(rs.getString("room_type"));
+                    stayroom.setPricePerNight(rs.getDouble("price_per_night"));
+                    stayroom.setBookingId(rs.getInt("booking_id"));
+                    stayroom.setCheckInDate(rs.getDate("check_in_date"));
+                    stayroom.setCheckOutDate(rs.getDate("check_out_date"));
+                    stayroom.setCapacity(rs.getInt("capacity"));
+                    stayroom.setStatus(rs.getString("status"));
+                    stayroom.setRoomStatus(rs.getString("room_status"));
+                    stayroom.setName(rs.getString("username"));
+                    stayroom.setGmail(rs.getString("email"));
+                    stayroom.setPhone(rs.getInt("phone"));
+                    stayroom.setGuestCount(rs.getInt("guests_count"));
                 }
-
             }
         } catch (SQLException e) {
             System.out.println("Error when fetching room list: " + e.getMessage());
         }
         return stayroom;
     }
-    
-    
-    
 
 }

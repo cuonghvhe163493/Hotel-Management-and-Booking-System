@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Change Room</title>
+        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/stay.css" rel="stylesheet">
     </head>
     <body>
         <p> Current ID Room: <input type="text" name="idroom" value="" placeholder="ID Room" />

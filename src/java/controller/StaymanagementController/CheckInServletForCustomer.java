@@ -34,11 +34,13 @@ public class CheckInServletForCustomer extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         String mode = request.getParameter("mode");
+        String userid = request.getParameter("id");
         int modeId = mode != null ? Integer.parseInt(mode) : 0;
-
+        int id = Integer.parseInt(userid);
+        
         CheckInOut cio = new CheckInOut();
 
-        List<Integer> listbooking = cio.getBooking(13);
+        List<Integer> listbooking = cio.getBooking(id,"reserved");
         request.setAttribute("listbooking", listbooking); 
 
         if (modeId == 1) {

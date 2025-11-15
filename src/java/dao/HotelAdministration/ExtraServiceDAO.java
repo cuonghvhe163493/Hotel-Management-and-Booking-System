@@ -6,6 +6,7 @@ import java.util.List;
 import model.ExtraService; // Dùng model.ExtraService
 import utils.DBConnection;
 import java.util.Date;
+import model.Reservation;
 
 public class ExtraServiceDAO {
     
@@ -115,4 +116,42 @@ public class ExtraServiceDAO {
             return false;
         }
     }
+    
+    public List<Reservation> getAllReservations() {
+    List<Reservation> reservations = new ArrayList<>();
+    // Chỉ lấy các đặt chỗ đang hoạt động (confirmed, checked_in, completed)
+    // SỬA: Lấy tất cả các cột cần thiết, bao gồm cả cột nullable (voucher_id)
+    String sql = "SELECT * FROM dbo.Reservations WHERE status IN ('confirmed', 'completed', 'checked_in') ORDER BY reservation_id DESC";
+    
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            
+            // Xử lý cột nullable (voucher_id) để tránh lỗi NumberFormatException
+            Integer voucherId = rs.getObject("voucher_id") != null ? rs.getInt("voucher_id") : null;
+            
+            // Tạo đối tượng Reservation
+            reservations.add(new Reservation(
+                rs.getInt("reservation_id"),
+                rs.getInt("customer_id"),
+                rs.getInt("room_id"),
+                voucherId, // Dùng Integer cho cột nullable
+                rs.getDate("check_in_date"),
+                rs.getDate("check_out_date"),
+                rs.getInt("number_of_people"),
+                rs.getInt("number_of_rooms"),
+                rs.getString("status"),
+                rs.getTimestamp("created_at"),
+                rs.getTimestamp("updated_at")
+            ));
+        }
+    } catch (SQLException e) {
+        System.err.println("❌ SQL Error in getAllReservations: " + e.getMessage());
+        e.printStackTrace();
+        // Nếu lỗi, nên kiểm tra log server (Console) để biết lỗi chính xác là gì.
+    }
+    return reservations;
+}
 }

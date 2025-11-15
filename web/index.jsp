@@ -40,7 +40,7 @@
                             <div class="col-md-4">
                                 <div class="top_1m text-center mt-2">
                                     <h3 class="mb-0">
-                                        <a class="text-white" href="<%=request.getContextPath()%>/index">
+                                        <a class="text-white" href="<%=request.getContextPath()%>/index.jsp">
                                             <i class="fa fa-plane col_yell"></i> Hotels
                                         </a>
                                     </h3>
@@ -471,5 +471,45 @@
                     }
                 }
             </script>
+            
+            <script>
+    // 1. Ki?m tra session attribute "isSuspended"
+    <% Boolean isSuspended = (Boolean) session.getAttribute("isSuspended"); %>
+    
+    <% if (isSuspended != null && isSuspended) { %>
+        // 2. ??nh ngh?a thông báo và th?i gian
+        const message = "Tài kho?n c?a b?n ?ang b? T?M KHÓA. B?n v?n có th? truy c?p, nh?ng m?t s? tính n?ng có th? b? gi?i h?n. Vui lòng liên h? h? tr?.";
+        const duration = 3000; // 3 giây
+        
+        // --- Hàm hi?n th? Modal/Alert tùy ch?nh (B?n c?n t? ??nh ngh?a CSS) ---
+        function showSuspendedAlert(msg, duration) {
+            // T?O POPUP ??P H?N (Tùy ch?n)
+            const alertDiv = document.createElement('div');
+            alertDiv.id = 'suspended-alert';
+            alertDiv.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 9999;
+                background-color: #ffc107; color: #343a40; padding: 15px 25px;
+                border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                font-weight: bold; border-left: 5px solid #ff9800;
+                transition: opacity 0.5s ease-in-out;
+            `;
+            alertDiv.innerHTML = '?? **T?M KHÓA TÀI KHO?N**' + '<br>' + msg;
+            document.body.appendChild(alertDiv);
+            
+            // T? ??ng ?n sau th?i gian ??nh s?n
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => alertDiv.remove(), 500);
+            }, duration);
+        }
+        
+        // 3. Th?c thi thông báo
+        showSuspendedAlert(message, duration);
+        
+        // 4. Xóa c? kh?i Session ?? không hi?n th? l?i ? l?n t?i trang sau
+        <% session.removeAttribute("isSuspended"); %>
+        
+    <% } %>
+</script>
     </body>
 </html>

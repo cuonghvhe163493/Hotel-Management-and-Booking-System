@@ -69,11 +69,11 @@ public class ServiceConfirmBookingServlet extends HttpServlet {
         
         
         
-        session.setAttribute("successMessage", "Booking successful! Booking ID: " + 1);
+        session.setAttribute("successMessage", "Booking successful! Booking ID: " + customerId);
 
         request.setAttribute("user", user);
         request.setAttribute("bookingSuccess", true);
-        request.setAttribute("bookingId", 1);
+        request.setAttribute("bookingId",  customerId);
         request.setAttribute("grandTotal", total);
         request.getRequestDispatcher("/view/UserService/booking_success.jsp").forward(request, response);
     }

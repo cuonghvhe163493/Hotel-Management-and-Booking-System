@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import dao.HotelAdministration.ExtraServiceDAO;
 import model.ExtraService;
+// Không cần import model.Reservation
 
 @WebServlet("/admin/extra-services")
 public class ExtraServiceController extends HttpServlet {
@@ -20,6 +21,10 @@ public class ExtraServiceController extends HttpServlet {
                "admin".equalsIgnoreCase(session.getAttribute("role").toString());
     }
 
+    private Date parseDateTime(String dateTimeStr) throws Exception {
+        return dateTimeFormat.parse(dateTimeStr);
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,9 +35,11 @@ public class ExtraServiceController extends HttpServlet {
         }
 
         ExtraServiceDAO serviceDAO = new ExtraServiceDAO();
+        // 🛑 BỎ: Không tải List<Reservation> nữa
         List<ExtraService> services = serviceDAO.getAllExtraServices();
         
         request.setAttribute("extraServiceList", services);
+        // Không gán reservationList
         request.getRequestDispatcher("/view/HotelAdministration/extra_service_list.jsp").forward(request, response);
     }
     
@@ -59,27 +66,22 @@ public class ExtraServiceController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/extra-services?error=invalid_action");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/admin/extra-services?error=format");
+            response.sendRedirect(request.getContextPath() + "/admin/extra-services?error=format_number");
         } catch (Exception e) {
             System.err.println("❌ Critical Error in ExtraService Action: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/admin/extra-services?error=system_error");
         }
     }
-    
-    // Helper để Parse DateTime
-    private Date parseDateTime(String dateTimeStr) throws Exception {
-        return dateTimeFormat.parse(dateTimeStr);
-    }
 
     private void handleCreate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String resIdStr = request.getParameter("reservationId"); // Cần ID của đơn đặt chỗ
+        String resIdStr = request.getParameter("reservationId"); 
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
         String startTimeStr = request.getParameter("startTime");
         String endTimeStr = request.getParameter("endTime");
 
-        int reservationId = Integer.parseInt(resIdStr);
+        int reservationId = Integer.parseInt(resIdStr); // Vẫn dùng parse cho input type=number
         double price = Double.parseDouble(priceStr);
         Date startTime = parseDateTime(startTimeStr);
         Date endTime = parseDateTime(endTimeStr);
@@ -94,7 +96,7 @@ public class ExtraServiceController extends HttpServlet {
     
     private void handleUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String serviceIdStr = request.getParameter("serviceId");
-        String resIdStr = request.getParameter("reservationId");
+        String resIdStr = request.getParameter("reservationId"); // Input number/hidden
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
@@ -105,6 +107,7 @@ public class ExtraServiceController extends HttpServlet {
         int serviceId = Integer.parseInt(serviceIdStr);
         int reservationId = Integer.parseInt(resIdStr);
         double price = Double.parseDouble(priceStr);
+        
         Date startTime = parseDateTime(startTimeStr);
         Date endTime = parseDateTime(endTimeStr);
         

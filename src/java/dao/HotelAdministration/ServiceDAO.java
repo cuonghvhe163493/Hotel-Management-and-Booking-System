@@ -42,48 +42,38 @@ public class ServiceDAO {
     }
 
     // 🔹 2. Tạo Service mới (CREATE)
-    public boolean createService(String serviceName, String description, boolean isIncluded, double price) {
-        String sql = "INSERT INTO dbo.Services (service_name, description, is_included, price, created_at, updated_at) "
-                   + "VALUES (?, ?, ?, ?, GETDATE(), GETDATE())";
+   public boolean createService(String serviceName, String description, double price) {
+    // FIX: Loại bỏ tham số boolean và thêm giá trị '0' (false) vào lệnh INSERT
+    String sql = "INSERT INTO dbo.Services (service_name, description, price, is_included, created_at, updated_at) "
+               + "VALUES (?, ?, ?, 0, GETDATE(), GETDATE())"; // Giá trị 0 là mặc định
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
         
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            
-            ps.setString(1, serviceName);
-            ps.setString(2, description);
-            ps.setBoolean(3, isIncluded); // 1 = included, 0 = not included
-            ps.setDouble(4, price);
-
-            return ps.executeUpdate() > 0;
-            
-        } catch (SQLException e) {
-            System.err.println("❌ SQL Error in createService: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // 🔹 3. Cập nhật Service (UPDATE)
-    public boolean updateService(int serviceId, String serviceName, String description, boolean isIncluded, double price) {
-        String sql = "UPDATE dbo.Services SET service_name=?, description=?, is_included=?, price=?, updated_at=GETDATE() WHERE service_id=?";
+        ps.setString(1, serviceName);
+        ps.setString(2, description);
+        ps.setDouble(3, price);
         
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            
-            ps.setString(1, serviceName);
-            ps.setString(2, description);
-            ps.setBoolean(3, isIncluded);
-            ps.setDouble(4, price);
-            ps.setInt(5, serviceId);
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) { /* ... */ return false; }
+}
 
-            return ps.executeUpdate() > 0;
-            
-        } catch (SQLException e) {
-            System.err.println("❌ SQL Error in updateService: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
+// 🔹 UPDATE SERVICE
+public boolean updateService(int serviceId, String serviceName, String description, double price) {
+    // FIX: Loại bỏ tham số boolean và không cần cập nhật cột đó
+    String sql = "UPDATE dbo.Services SET service_name=?, description=?, price=?, updated_at=GETDATE() WHERE service_id=?";
+    
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setString(1, serviceName);
+        ps.setString(2, description);
+        ps.setDouble(3, price);
+        ps.setInt(4, serviceId); // serviceId là tham số thứ 4
+        
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) { /* ... */ return false; }
+}
     
     // 🔹 4. Xóa Service (DELETE)
     public boolean deleteService(int serviceId) {

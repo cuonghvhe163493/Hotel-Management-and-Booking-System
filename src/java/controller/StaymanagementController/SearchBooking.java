@@ -29,20 +29,26 @@ public class SearchBooking extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
+        String searchType = request.getParameter("searchType");
         String keyword = request.getParameter("search");
-        int key = Integer.parseInt(keyword);
-        
-        StayRoomDAO dao = new StayRoomDAO();
-
         List<StayRoom> list;
+        StayRoomDAO dao = new StayRoomDAO();
+        int key = Integer.parseInt(keyword);
         if (keyword == null || keyword.trim().isEmpty()) {
-            list = dao.getAllBooking(); 
+            list = dao.getAllBooking();
         } else {
-            list = dao.getBooking(key); 
+            if (searchType == "phone") {
+                list = dao.getBooking(key);
+                request.setAttribute("stayroom", list);
+            } else if (searchType == "bookingId") {
+                list = dao.getBookingByBookingId(key);
+                request.setAttribute("stayroom", list);
+            } else {
+                list = dao.getRoomByRoomId(key);
+                request.setAttribute("stayroom", list);
+            }
         }
-        request.setAttribute("stayroom", list);
-        
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/StayRoomReceptionist.jsp");
         rd.forward(request, response);
     }

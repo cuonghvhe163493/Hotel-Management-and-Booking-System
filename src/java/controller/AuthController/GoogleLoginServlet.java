@@ -80,37 +80,52 @@ public class GoogleLoginServlet extends HttpServlet {
             System.out.println("✅ Found existing user: " + user.getEmail() + " | role = " + user.getRole());
         }
 
-        // 5. Nếu vẫn không tìm thấy user
-        if (user == null) {
+        // 5. Kiểm tra trạng thái tài khoản (Đồng nhất với LoginServlet)
+        if (user != null) {
+             String status = user.getAccountStatus().toLowerCase();
+             if ("banned".equals(status)) {
+                // Tài khoản Google bị BAN trong DB -> không cho đăng nhập
+                response.sendRedirect(request.getContextPath() + "/login?error=banned");
+                return;
+            }
+            
+            // 6. Đăng nhập thành công → Lưu session (Đồng nhất với LoginServlet)
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user); // Lưu đối tượng User
+            session.setAttribute("customerId", user.getUserId()); // Lưu userId
+            session.setAttribute("role", user.getRole()); // Lưu Role
+            
+            // Xử lý thông báo Suspended (Đồng nhất với LoginServlet)
+            if ("suspended".equals(status)) {
+                session.setAttribute("loginAlertMessage", "Tài khoản của bạn đang bị TẠM KHÓA. Vui lòng liên hệ hỗ trợ để biết thêm chi tiết.");
+            } else {
+                session.removeAttribute("loginAlertMessage"); // Clear any prior status
+            }
+
+            // 7. Điều hướng (logic giống với LoginServlet)
+            String ctx = request.getContextPath();
+            String redirectUrl = (String) session.getAttribute("redirectAfterLogin"); // Lấy URL đã lưu trước đó
+
+            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                // Nếu có redirect → quay về trang trước
+                session.removeAttribute("redirectAfterLogin"); // Xóa URL sau khi sử dụng
+                response.sendRedirect(redirectUrl);
+                return;
+            }
+
+            // Không có redirect → redirect theo role (logic đồng nhất với LoginServlet)
+            String role = user.getRole().toLowerCase();
+            if ("admin".equals(role)) {
+                // Redirect đến path controller của Admin
+                response.sendRedirect(ctx + "/admin-home"); 
+            } else {
+                // Redirect đến trang chủ (áp dụng cho customer, hotel_manager, và các role khác)
+                response.sendRedirect(ctx + "/index.jsp");
+            }
+        } else {
+             // 5. Nếu vẫn không tìm thấy user hoặc lỗi hệ thống
             response.sendRedirect(request.getContextPath() + "/view/Authentication/login.jsp?error=google_failed");
             return;
-        }
-
-        // 6. Đăng nhập thành công → Lưu session (Đồng nhất với LoginServlet)
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user); // Lưu đối tượng User
-        session.setAttribute("customerId", user.getUserId()); // Lưu userId
-        session.setAttribute("role", user.getRole()); // Lưu Role
-
-        // 7. Điều hướng (logic giống với LoginServlet)
-        String ctx = request.getContextPath();
-        String redirectUrl = (String) session.getAttribute("redirectAfterLogin"); // Lấy URL đã lưu trước đó
-
-        if (redirectUrl != null && !redirectUrl.isEmpty()) {
-            // Nếu có redirect → quay về trang trước
-            session.removeAttribute("redirectAfterLogin"); // Xóa URL sau khi sử dụng
-            response.sendRedirect(redirectUrl);
-            return;
-        }
-
-        // Không có redirect → redirect theo role (logic đồng nhất với LoginServlet)
-        String role = user.getRole().toLowerCase();
-        if ("admin".equals(role)) {
-            // Redirect đến path controller của Admin
-            response.sendRedirect(ctx + "/admin-home"); 
-        } else {
-            // Redirect đến trang chủ (áp dụng cho customer, hotel_manager, và các role khác)
-            response.sendRedirect(ctx + "/index.jsp");
         }
     }
 

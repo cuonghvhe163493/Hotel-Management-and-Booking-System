@@ -49,24 +49,36 @@ public class CheckOutServlet extends HttpServlet {
     }
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        
-        String[] selectedRoomIds = request.getParameterValues("selectedRooms");
-        List<String> roomIdList = Arrays.asList(selectedRoomIds);
-        StayRoomDAO dao = new StayRoomDAO();
-        for (String roomIdStr : roomIdList) {
-                int roomId = Integer.parseInt(roomIdStr);
-                dao.updateRoomStatus(roomId, "maintenance");
-            }
-        
-        
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
 
+    String[] selectedRoomIds = request.getParameterValues("selectedRooms");
+    
+    StayRoomDAO dao = new StayRoomDAO();
+
+    
+    if (selectedRoomIds == null || selectedRoomIds.length == 0) {
+        
+        request.setAttribute("errorMessage", "Please select at least one room to check-out.");
         RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckOutForReceptionist.jsp");
-            rd.forward(request, response);
+        rd.forward(request, response);
+        return; 
     }
+    for (String roomIdStr : selectedRoomIds) {
+        
+            int roomId = Integer.parseInt(roomIdStr.trim());
+            dao.updateRoomStatus(roomId, "maintenance");
+            dao.updateBookingRoomStatus(roomId, "checked_out");    
+    }
+
+    request.setAttribute("successMessage", "Check-out successful");
+
+    RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
+    rd.forward(request, response);
+}
 
 }

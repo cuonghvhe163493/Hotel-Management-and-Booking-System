@@ -3,7 +3,7 @@ package dao.Authentication;
 import java.sql.*;
 import model.User;
 import utils.DBConnection;
-import java.util.Date; // Giữ nguyên import này
+import java.util.Date;
 
 public class UserDAO {
 
@@ -23,6 +23,7 @@ public class UserDAO {
     }
     
     // 🔹 1. Login thường: username + password
+    // Lấy user bằng username và password (cần thiết cho bước kiểm tra trạng thái trong Servlet)
     public static User getUserByUsernameAndPassword(String username, String password) {
         String sql = "SELECT * FROM dbo.Users WHERE LOWER(username)=LOWER(?) AND password=?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -64,7 +65,7 @@ public class UserDAO {
         return null;
     }
     
-    // 🟢 3. Lấy User theo ID (FIX: Hàm đã bị thiếu)
+    // 🟢 3. Lấy User theo ID
     public static User getUserById(int userId) {
         String query = "SELECT * FROM dbo.Users WHERE user_id = ?"; 
         try (Connection conn = DBConnection.getConnection(); 
@@ -82,7 +83,7 @@ public class UserDAO {
         return null;
     }
 
-    // 🔹 4. Đăng ký user mới
+    // 🔹 4. Đăng ký user mới (cho Google login)
     public static boolean registerUser(String username, String password, String email) {
         String sql = "INSERT INTO dbo.Users (username, password, email, role, account_status, created_at, updated_at) "
                 + "VALUES (?, ?, ?, 'customer', 'active', GETDATE(), GETDATE())";

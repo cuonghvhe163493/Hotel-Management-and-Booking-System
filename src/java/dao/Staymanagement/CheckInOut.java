@@ -15,10 +15,8 @@ import utils.DBConnection;
 
 public class CheckInOut {
     //Web Customer
-
     public List<StayRoom> getCheckInRoomForCustomer(int booking_id) {
         List<StayRoom> stayroom = new ArrayList<>();
-
         String sql = "SELECT\n"
                 + "	b.booking_id,\n"
                 + "    br.check_in_date,\n"
@@ -37,9 +35,7 @@ public class CheckInOut {
                 + "JOIN rooms r ON br.room_id = r.room_id\n"
                 + "WHERE b.booking_id = ? \n"
                 + "  AND br.status = ?";
-
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, booking_id);
             ps.setString(2, "reserved");
             try (ResultSet rs = ps.executeQuery()) {
@@ -54,7 +50,6 @@ public class CheckInOut {
                     r.setDeposit(rs.getDouble("deposit"));
                     r.setTotalDeposit(rs.getDouble("total_deposit"));
                     stayroom.add(r);
-
                 }
             }
         } catch (SQLException e) {
@@ -86,7 +81,6 @@ public class CheckInOut {
                 + "JOIN rooms r ON br.room_id = r.room_id\n"
                 + "WHERE b.booking_id = ? \n"
                 + "  AND br.status = ?";
-
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, booking_id);
@@ -103,7 +97,6 @@ public class CheckInOut {
                     r.setDeposit(rs.getDouble("deposit"));
                     r.setTotalDeposit(rs.getDouble("total_all_price"));
                     stayroom.add(r);
-
                 }
             }
         } catch (SQLException e) {
@@ -111,22 +104,23 @@ public class CheckInOut {
         }
         return stayroom;
     }
-
-    public List<Integer> getBooking(int id) {
+    
+    public List<Integer> getBooking(int id,String status) {
         List<Integer> list = new ArrayList<>();
 
         String sql = "SELECT distinct br.booking_id \n"
                 + "FROM Booking_Rooms br \n"
                 + "JOIN Bookings b ON br.booking_id = b.booking_id \n"
                 + "JOIN Customers c ON b.customer_id = c.customer_id \n"
-                + "WHERE c.customer_id = ? and b.status = ?";
+                + "WHERE c.customer_id = ? and b.status = ? and br.status = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
             ps.setString(2, "confirmed");
-//            confirmed
+            ps.setString(3, status);
+//confirmed
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     list.add(rs.getInt("booking_id"));
@@ -140,21 +134,21 @@ public class CheckInOut {
     }
 
     //Web Receptionist
-    public List<StayRoom> getCheckInRoomForReceptionist(int phoneNumber) {
+    public List<StayRoom> getCheckInRoomForReceptionist(long phoneNumber) {
         List<StayRoom> list = new ArrayList<>();
 
         String sql = "SELECT  b.booking_id, r.room_id, br.check_in_date, r.room_number, price_per_night, r.room_type\n"
                 + "FROM Booking_Rooms br \n"
                 + "JOIN Rooms r ON br.room_id = r.room_id \n"
-                + "JOIN Bookings b ON br.booking_id = b.booking_id \n"
+                + "JOIN Bookings b ON br.booking_id = b.booking_id\n"
                 + "JOIN Customers c ON b.customer_id = c.customer_id \n"
                 + "JOIN Users d ON c.customer_id = d.user_id\n"
-                + "WHERE d.phone = ? and b.status = ?";
+                + "WHERE d.phone = ? and b.status = ? and br.status = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, phoneNumber);
+            ps.setLong(1, phoneNumber);
             ps.setString(2, "confirmed");
-
+            ps.setString(3, "reserved");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom stayroom = new StayRoom();
@@ -173,6 +167,7 @@ public class CheckInOut {
         }
         return list;
     }
+
     public List<StayRoom> getCheckOutRoomForReceptionist(int phoneNumber) {
         List<StayRoom> list = new ArrayList<>();
 
@@ -224,7 +219,7 @@ public class CheckInOut {
         return false;
     }
 
-    public StayRoom getInfoCustomer(int phoneNumber) {
+    public StayRoom getInfoCustomer(long phoneNumber) {
         StayRoom stayroom = new StayRoom();
 
         String sql = "SELECT d.username, d.email, d.user_id \n"
@@ -232,7 +227,7 @@ public class CheckInOut {
                 + "WHERE d.phone = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, phoneNumber);
+            ps.setLong(1, phoneNumber);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

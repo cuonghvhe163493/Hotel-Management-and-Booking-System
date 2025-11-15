@@ -10,9 +10,10 @@
         th { background-color: #f2f2f2; }
         /* Style cho Modal Sửa */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 50%; }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 25px; border: 1px solid #888; width: 400px; border-radius: 8px; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
         .close:hover, .close:focus { color: black; text-decoration: none; cursor: pointer; }
+        .btn-action { padding: 10px 15px; margin-top: 10px; cursor: pointer; border: none; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -24,7 +25,7 @@
     <c:if test="${param.error != null}">
         <p style="color: red;">❌ Lỗi: 
             <c:choose>
-                <c:when test="${param.error == 'delete_fk'}">Lỗi Khóa Ngoại: Dịch vụ đang được sử dụng trong các Đặt chỗ (Reservations) hoặc Phòng (Rooms). Không thể xóa.</c:when>
+                <c:when test="${param.error == 'delete_fk'}">Lỗi Khóa Ngoại: Dịch vụ đang được sử dụng.</c:when>
                 <c:when test="${param.error == 'db_create'}">Lỗi tạo dịch vụ: Dữ liệu bị trùng hoặc thiếu.</c:when>
                 <c:otherwise>Lỗi hệ thống: ${param.error}</c:otherwise>
             </c:choose>
@@ -33,24 +34,7 @@
 
     <hr>
     
-    <h2>Tạo Dịch vụ Mới</h2>
-    <form method="POST" action="${pageContext.request.contextPath}/admin/services" style="max-width: 600px;">
-        <input type="hidden" name="action" value="create">
-        
-        <label>Service Name:</label><br>
-        <input type="text" name="name" required><br><br>
-        
-        <label>Description:</label><br>
-        <textarea name="description" rows="3" required></textarea><br><br>
-        
-        <label>Price (Giá dịch vụ):</label><br>
-        <input type="number" name="price" step="0.01" required><br><br>
-
-        <label>Included in Room Price (Tích hợp trong giá phòng):</label><br>
-        <input type="checkbox" name="isIncluded" value="1"> *Nếu không tích, giá sẽ được tính riêng.<br><br>
-        
-        <button type="submit">➕ Thêm Dịch vụ</button>
-    </form>
+    <button onclick="openCreateModal()">➕ Tạo Dịch vụ Mới</button>
     
     <hr>
     
@@ -62,14 +46,13 @@
                 <th>Service Name</th>
                 <th>Price</th>
                 <th>Description</th>
-                <th>Included?</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <c:choose>
                 <c:when test="${empty serviceList}">
-                    <tr><td colspan="6">Chưa có dịch vụ nào được thêm vào hệ thống.</td></tr>
+                    <tr><td colspan="5">Chưa có dịch vụ nào được thêm vào hệ thống.</td></tr>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="s" items="${serviceList}">
@@ -79,18 +62,11 @@
                             <td><fmt:formatNumber value="${s.price}" pattern="#,##0"/> VND</td>
                             <td>${s.description}</td>
                             <td>
-                                <c:choose>
-                                    <c:when test="${s.isIncluded == true}">✅ Đã tích hợp</c:when>
-                                    <c:otherwise>❌ Tính phí riêng</c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td>
                                 <button onclick="openEditModal(
                                     ${s.serviceId}, 
                                     '${s.serviceName}', 
                                     '${s.description}', 
-                                    ${s.price}, 
-                                    ${s.isIncluded})">Sửa</button>
+                                    ${s.price})">Sửa</button>
                                 
                                 <form method="POST" action="${pageContext.request.contextPath}/admin/services" style="display: inline;">
                                     <input type="hidden" name="action" value="delete">
@@ -105,6 +81,27 @@
         </tbody>
     </table>
     
+    <div id="createServiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCreateModal()">&times;</span>
+            <h2>Tạo Dịch vụ Mới</h2>
+            <form id="newServiceForm" method="POST" action="${pageContext.request.contextPath}/admin/services">
+                <input type="hidden" name="action" value="create">
+                
+                <label>Service Name:</label><br>
+                <input type="text" name="name" required><br><br>
+                
+                <label>Description:</label><br>
+                <textarea name="description" rows="3" required></textarea><br><br>
+                
+                <label>Price (Giá dịch vụ):</label><br>
+                <input type="number" name="price" step="0.01" required><br><br>
+                
+                <button type="submit" class="btn-action" style="background-color: green; color: white;">➕ Thêm Dịch vụ</button>
+            </form>
+        </div>
+    </div>
+
     <div id="editServiceModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
@@ -118,14 +115,11 @@
                 
                 <label>Description:</label><br>
                 <textarea id="editDescription" name="description" rows="3" required></textarea><br><br>
-                
+
                 <label>Price:</label><br>
                 <input type="number" id="editPrice" name="price" step="0.01" required><br><br>
 
-                <label>Included in Room Price:</label><br>
-                <input type="checkbox" id="editIsIncluded" name="isIncluded" value="1"><br><br>
-
-                <button type="submit">Lưu Thay Đổi</button>
+                <button type="submit" class="btn-action" style="background-color: #3f51b5; color: white;">Lưu Thay Đổi</button>
             </form>
         </div>
     </div>
@@ -133,27 +127,36 @@
     <br><a href="${pageContext.request.contextPath}/admin-home">← Quay lại Dashboard</a>
 
     <script>
-        var modal = document.getElementById("editServiceModal");
+        var createModal = document.getElementById("createServiceModal");
+        var editModal = document.getElementById("editServiceModal");
 
-        function openEditModal(serviceId, name, description, price, isIncluded) {
+        // === LOGIC CREATE (Mở Modal) ===
+        function openCreateModal() {
+            document.getElementById("newServiceForm").reset(); 
+            createModal.style.display = "block";
+        }
+        function closeCreateModal() {
+            createModal.style.display = "none";
+        }
+        
+        // === Logic Edit ===
+        function openEditModal(serviceId, name, description, price) {
             document.getElementById("editServiceId").value = serviceId;
             document.getElementById("editName").value = name;
             document.getElementById("editDescription").value = description;
             document.getElementById("editPrice").value = price;
             
-            // Xử lý checkbox (isIncluded là boolean/int)
-            document.getElementById("editIsIncluded").checked = (isIncluded === true || isIncluded === 1 || isIncluded === '1');
-            
-            modal.style.display = "block";
+            editModal.style.display = "block";
         }
 
         function closeEditModal() {
-            modal.style.display = "none";
+            editModal.style.display = "none";
         }
 
+        // Đóng modal khi click ra ngoài
         window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == createModal || event.target == editModal) {
+                event.target.style.display = "none";
             }
         }
     </script>

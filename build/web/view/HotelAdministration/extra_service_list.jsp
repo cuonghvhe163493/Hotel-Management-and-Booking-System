@@ -5,14 +5,17 @@
 <head>
     <title>Extra Service Management</title>
     <style>
+        /* BASE CSS */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         th { background-color: #f2f2f2; }
-        /* Style cho Modal Sửa */
+        
+        /* MODAL STYLES */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 50%; }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 50%; max-width: 600px; border-radius: 8px; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
         .close:hover, .close:focus { color: black; text-decoration: none; cursor: pointer; }
+        .btn-action { padding: 10px 15px; margin-top: 10px; cursor: pointer; border: none; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -22,19 +25,23 @@
         <p style="color: green;">✅ Thao tác **${param.success}** thành công!</p>
     </c:if>
     <c:if test="${param.error != null}">
-        <p style="color: red;">❌ Lỗi: ${param.error}</p>
+        <p style="color: red;">❌ Lỗi: 
+            <c:choose>
+                <c:when test="${param.error == 'delete_fk'}">Lỗi Khóa Ngoại: Dịch vụ đang được sử dụng.</c:when>
+                <c:when test="${param.error == 'format_number'}">Lỗi định dạng: Reservation ID hoặc Giá phải là số hợp lệ.</c:when>
+                <c:otherwise>Lỗi hệ thống: ${param.error}</c:otherwise>
+            </c:choose>
+        </p>
     </c:if>
 
     <hr>
-    
+
     <h2>Thêm Dịch vụ Thêm Mới</h2>
     <form method="POST" action="${pageContext.request.contextPath}/admin/extra-services" style="max-width: 600px;">
         <input type="hidden" name="action" value="create">
         
         <label>Reservation ID (Mã đặt chỗ liên quan):</label><br>
-        <input type="number" name="reservationId" required><br><br>
-        
-        <label>Service Name:</label><br>
+        <input type="number" name="reservationId" required><br><br> <label>Service Name:</label><br>
         <input type="text" name="name" required><br><br>
         
         <label>Description:</label><br>
@@ -53,15 +60,14 @@
     </form>
     
     <hr>
-    
+
     <h2>Danh sách Dịch vụ Thêm</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Res. ID</th>
-                <th>Service Name</th>
-                <th>Description</th> <%-- Sửa: Đã thêm cột Description --%>
+                <th>Res. ID</th> <th>Service Name</th>
+                <th>Description</th> 
                 <th>Price</th>
                 <th>Time Range</th>
                 <th>Status</th>
@@ -77,9 +83,8 @@
                     <c:forEach var="s" items="${extraServiceList}">
                         <tr>
                             <td>${s.extraServiceId}</td>
-                            <td>${s.reservationId}</td>
-                            <td>${s.serviceName}</td>
-                            <td>${s.serviceDescription}</td> <%-- 🟢 ĐÃ SỬA: Dùng serviceDescription --%>
+                            <td>${s.reservationId}</td> <td>${s.serviceName}</td>
+                            <td>${s.serviceDescription}</td> 
                             <td><fmt:formatNumber value="${s.servicePrice}" pattern="#,##0"/> VND</td>
                             <td>
                                 <fmt:formatDate value="${s.serviceStartTime}" pattern="HH:mm dd/MM"/> - 
@@ -91,7 +96,7 @@
                                     ${s.extraServiceId}, 
                                     ${s.reservationId},
                                     '${s.serviceName}', 
-                                    '${s.serviceDescription}',  <%-- 🟢 ĐÃ SỬA: Dùng serviceDescription --%>
+                                    '${s.serviceDescription}', 
                                     ${s.servicePrice}, 
                                     '<fmt:formatDate value="${s.serviceStartTime}" pattern="yyyy-MM-dd'T'HH:mm"/>',
                                     '<fmt:formatDate value="${s.serviceEndTime}" pattern="yyyy-MM-dd'T'HH:mm"/>',
@@ -144,7 +149,7 @@
                     <option value="cancelled">Cancelled</option>
                 </select><br><br>
                 
-                <button type="submit">Lưu Thay Đổi</button>
+                <button type="submit" class="btn-action" style="background-color: #3f51b5; color: white;">Lưu Thay Đổi</button>
             </form>
         </div>
     </div>
@@ -152,33 +157,28 @@
     <br><a href="${pageContext.request.contextPath}/admin-home">← Quay lại Dashboard</a>
 
     <script>
-        var modal = document.getElementById("editServiceModal");
+        var editModal = document.getElementById("editServiceModal");
 
         function openEditModal(serviceId, reservationId, name, description, price, startTime, endTime, status) {
             document.getElementById("editServiceId").value = serviceId;
-            document.getElementById("editReservationId").value = reservationId;
+            document.getElementById("editReservationId").value = reservationId; // SỬA: Đổ giá trị Res ID vào input number
             document.getElementById("editName").value = name;
-            // Dùng tham số description để điền vào form Description
-            document.getElementById("editDescription").value = description; 
+            document.getElementById("editDescription").value = description;
             document.getElementById("editPrice").value = price;
-            
-            // Đặt giá trị datetime-local
             document.getElementById("editStartTime").value = startTime;
             document.getElementById("editEndTime").value = endTime;
-            
-            // Đặt trạng thái
             document.getElementById("editStatus").value = status;
             
-            modal.style.display = "block";
+            editModal.style.display = "block";
         }
 
         function closeEditModal() {
-            modal.style.display = "none";
+            editModal.style.display = "none";
         }
 
         window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == editModal) {
+                editModal.style.display = "none";
             }
         }
     </script>

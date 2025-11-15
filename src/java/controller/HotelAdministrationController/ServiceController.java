@@ -66,12 +66,13 @@ public class ServiceController extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
-        boolean isIncluded = "1".equals(request.getParameter("isIncluded")); // Checkbox value
+        // BỎ: boolean isIncluded = "1".equals(request.getParameter("isIncluded")); 
 
         double price = Double.parseDouble(priceStr);
         ServiceDAO dao = new ServiceDAO();
         
-        if (dao.createService(name, description, isIncluded, price)) {
+        // 🟢 GỌI DAO KHÔNG CÓ isIncluded
+        if (dao.createService(name, description, price)) {
             response.sendRedirect(request.getContextPath() + "/admin/services?success=create");
         } else {
             response.sendRedirect(request.getContextPath() + "/admin/services?error=db_create");
@@ -83,13 +84,14 @@ public class ServiceController extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
-        boolean isIncluded = "1".equals(request.getParameter("isIncluded"));
+        // BỎ: boolean isIncluded = "1".equals(request.getParameter("isIncluded")); 
 
         int serviceId = Integer.parseInt(serviceIdStr);
         double price = Double.parseDouble(priceStr);
         ServiceDAO dao = new ServiceDAO();
         
-        if (dao.updateService(serviceId, name, description, isIncluded, price)) {
+        // 🟢 GỌI DAO KHÔNG CÓ isIncluded
+        if (dao.updateService(serviceId, name, description, price)) {
             response.sendRedirect(request.getContextPath() + "/admin/services?success=update");
         } else {
             response.sendRedirect(request.getContextPath() + "/admin/services?error=db_update");
@@ -98,15 +100,18 @@ public class ServiceController extends HttpServlet {
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String serviceIdStr = request.getParameter("serviceId");
-        int serviceId = Integer.parseInt(serviceIdStr);
-        ServiceDAO dao = new ServiceDAO();
         
         try {
+            int serviceId = Integer.parseInt(serviceIdStr);
+            ServiceDAO dao = new ServiceDAO();
+            
             if (dao.deleteService(serviceId)) {
                 response.sendRedirect(request.getContextPath() + "/admin/services?success=delete");
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/services?error=not_found");
             }
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/admin/services?error=invalid_id");
         } catch (RuntimeException e) {
              if ("FK_VIOLATION".equals(e.getMessage())) {
                  response.sendRedirect(request.getContextPath() + "/admin/services?error=delete_fk"); 
