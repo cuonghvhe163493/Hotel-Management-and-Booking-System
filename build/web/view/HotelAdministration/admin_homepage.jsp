@@ -159,7 +159,6 @@
                 <p><a href="${pageContext.request.contextPath}/admin/rooms">🛠️ Quản lý Phòng Khách sạn (CRUD)</a></p>
                 <p><a href="${pageContext.request.contextPath}/admin/customer-status">👤 Thay đổi Trạng thái Khách hàng</a></p>
                 <p><a href="${pageContext.request.contextPath}/admin/vouchers">🎟️ Quản lý Mã Giảm Giá (Voucher)</a></p>
-                <p><a href="${pageContext.request.contextPath}/edit_profile">⚙️ Chỉnh sửa hồ sơ Admin</a></p>
                 <p><a href="${pageContext.request.contextPath}/admin/services">⚙️ Quản lý Dịch vụ (Services)</a></p>
                 <p><a href="${pageContext.request.contextPath}/admin/extra-services">🍴 Quản lý Dịch vụ Thêm (Extra Services)</a></p>
                 <p><a href="${pageContext.request.contextPath}/admin/receptionists">💼 Quản lý Tài khoản Lễ tân</a></p>

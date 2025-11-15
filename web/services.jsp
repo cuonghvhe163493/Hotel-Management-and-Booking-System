@@ -1,4 +1,4 @@
-    <%-- 
+<%-- 
     Document   : services
     Created on : Oct 20, 2025, 10:52:31 AM
     Author     : Hoang Viet Cuong
@@ -115,95 +115,7 @@
 
         <div class="main_serv">
             <div class="main_o1">
-                <section id="top" class="pt-3 pb-3">
-                    <div class="container-xl">
-                        <div class="row top_1">
-                            <div class="col-md-4">
-                                <div class="top_1l">
-                                    <span class="d-inline-block bg_yell  rounded-circle float-start me-2 text-center"><a href="#"><i class="fa fa-phone text-white"></i></a></span>
-                                    <h6 class="mb-0 lh-base font_14"><a class="text-white" href="#">For Further Inquires : <br>
-                                            +(000) 345 67 89</a></h6>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="top_1m text-center mt-2">
-                                    <h3 class="mb-0"><a class="text-white" href="index.html"><i class="fa fa-plane col_yell"></i> Hotells</a></h3>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="top_1r mt-2 text-end">
-                                    <ul class="mb-0">
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-instagram"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-tripadvisor"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-pinterest"></i></a></li>
-                                        <li class="d-inline-block"><a class="text-white" href="#"><i class="fa fa-tumblr"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="header">
-                    <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
-                        <div class="container-xl">
-                            <a class="navbar-brand fs-3 p-0 fw-bold text-white" href="index.html"><i class="fa fa-plane col_yell"></i> Hotells </a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav mb-0">
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="index.jsp">Home</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="about.html">About </a>
-                                    </li>
-
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Rooms
-                                        </a>
-                                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="rooms.html"> Rooms</a></li>
-                                            <li><a class="dropdown-item border-0" href="detail.html"> Room Detail</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Blog
-                                        </a>
-                                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="blog.html"> Blog</a></li>
-                                            <li><a class="dropdown-item border-0" href="blog_detail.html"> Blog Detail</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="services">Services</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="extra-services">Extra Services</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="gallery.html">Gallery</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="contact.html">Contact</a>
-                                    </li>
-
-                                </ul>
-                        
-                            </div>
-                        </div>
-                    </nav>
-                </section>
+               <jsp:include page="/view/common/header.jsp" />
                 <section id="center" class="center_o pt-4 pb-5">
                     <div class="container-xl">
                         <div class="row center_o1 text-center">

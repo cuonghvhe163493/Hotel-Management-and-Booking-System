@@ -42,14 +42,14 @@
     </style>
 </head>
 <body>
-<% 
-    // 🟢 FIX 1: Lấy username từ Query Parameter (URL)
-    String username = request.getParameter("username");
-    if (username == null || username.isEmpty()) {
-        // Nếu không có username (người dùng chưa xác thực), chuyển hướng lại
-        response.sendRedirect(request.getContextPath() + "/view/Authentication/forgot_password.jsp");
-        return;
-    }
+<%
+    // Logic lấy username từ Query Parameter (URL)
+    String username = request.getParameter("username");
+    if (username == null || username.isEmpty()) {
+        // Nếu không có username (người dùng chưa xác thực), chuyển hướng lại
+        response.sendRedirect(request.getContextPath() + "/view/Authentication/forgot_password.jsp");
+        return;
+    }
 %>
 
 <div class="main_1 clearfix">

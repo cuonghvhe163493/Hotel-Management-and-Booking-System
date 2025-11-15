@@ -104,29 +104,30 @@
     </table>
     
     <div id="editVoucherModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
-            <h2>Cập nhật Voucher</h2>
-            <form id="editVoucherForm" method="POST" action="${pageContext.request.contextPath}/admin/vouchers/action">
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" id="editVoucherId" name="voucherId">
-                
-                <label>1. Voucher Code:</label><br>
-                <input type="text" id="editCode" name="code" required><br><br>
-                
-                <label>2. Discount Value:</label><br>
-                <input type="number" id="editDiscountValue" name="discountValue" step="0.01" required><br><br>
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2>Cập nhật Voucher</h2>
+        
+        <form id="editVoucherForm" method="POST" action="${pageContext.request.contextPath}/admin/vouchers/action">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" id="editVoucherId" name="voucherId">
+            
+            <label>1. Voucher Code:</label><br>
+            <input type="text" id="editCode" name="code" required><br><br>
+            
+            <label>2. Discount Value:</label><br>
+            <input type="number" id="editDiscountValue" name="discountValue" step="0.01" required><br><br>
 
-                <label>3. Expiry Date:</label><br>
-                <input type="date" id="editEndDate" name="endDate" required><br><br>
-                
-                <label>4. Description:</label><br>
-                <textarea id="editDescription" name="description" rows="3" required></textarea><br><br>
-                
-                <button type="submit">Cập nhật (Update button)</button>
-            </form>
-        </div>
+            <label>3. Expiry Date:</label><br>
+            <input type="date" id="editEndDate" name="endDate" required><br><br>
+            
+            <label>4. Description:</label><br>
+            <textarea id="editDescription" name="description" rows="3" required></textarea><br><br>
+            
+            <button type="submit">Cập nhật (Update button)</button>
+        </form>
     </div>
+</div>
     
     <br><a href="${pageContext.request.contextPath}/admin-home">← Quay lại Dashboard</a>
 

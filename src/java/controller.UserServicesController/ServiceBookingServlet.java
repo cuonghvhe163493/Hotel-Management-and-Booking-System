@@ -41,26 +41,12 @@ public class ServiceBookingServlet extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         
-        // --- Fake login tạm thời (xóa/comment khi test xong) ---
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setUserId(5);
-            user.setUsername("alice");
-            user.setPassword("alicepwd");
-            user.setEmail("alice@mail.com");
-            user.setRole("customer");
-            user.setProfileData("{\"fullname\":\"Alice\"}");
-            user.setAccountStatus("active");
-
-            session.setAttribute("user", user);
-            System.out.println("Alice đang login"); // log console
-        }
-        
-        /*if (customerId == null) {
-            response.sendRedirect("login.jsp");
+      Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            response.sendRedirect("/HotelManagementandBookingSystem/view/Authentication/login.jsp");
             return;
-        }*/
+        }
         
         this.cartServices = getCart(request);
 

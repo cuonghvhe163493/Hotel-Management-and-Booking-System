@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.UserServicesController;
 
 import dao.Authentication.UserDAO;
 import dao.UserSerives.ExtraServiceDAO;
@@ -43,8 +43,7 @@ public class ExtraServiceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //check login thi bỏ comment
-        User user = (User) request.getSession().getAttribute("user");
-        
+
         // Get parameters from query string
         String nameKeyword = request.getParameter("name");
         String minPriceStr = request.getParameter("minPrice");

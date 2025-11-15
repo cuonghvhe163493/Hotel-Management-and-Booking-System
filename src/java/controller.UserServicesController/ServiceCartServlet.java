@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.net.URLEncoder; // Cần import cho URLEncoder
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -55,6 +56,20 @@ public class ServiceCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // --- BẮT ĐẦU: Logic kiểm tra đăng nhập ---
+        Object user = request.getSession().getAttribute("user");
+        if (user == null) {
+            String currentUrl = request.getHeader("Referer"); // Quay về trang trước
+            if (currentUrl == null) {
+                // Nếu không có Referer (ví dụ: truy cập trực tiếp), lấy URL hiện tại
+                currentUrl = request.getRequestURL().toString();
+            }
+            // Chuyển hướng đến trang login, kèm theo tham số redirect
+            response.sendRedirect(request.getContextPath() + "/login?redirect=" + URLEncoder.encode(currentUrl, "UTF-8"));
+            return; // Dừng xử lý khi chưa đăng nhập
+        }
+        // --- KẾT THÚC: Logic kiểm tra đăng nhập ---
         
         this.cartServices = getCart(request);
 
@@ -63,7 +78,8 @@ public class ServiceCartServlet extends HttpServlet {
             if (index >= 0 && index < this.cartServices.size()) {
                 this.cartServices.remove(index);
                 request.getSession().setAttribute("cartServices", cartServices);
-                response.sendRedirect("cart");
+                response.sendRedirect("service-cart?status=remove");
+
                 return;
             } else {
                 String error = "Invalid delete action";
@@ -82,7 +98,21 @@ public class ServiceCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        // --- BẮT ĐẦU: Logic kiểm tra đăng nhập ---
+        Object user = request.getSession().getAttribute("user");
+        if (user == null) {
+            String currentUrl = request.getHeader("Referer"); // Quay về trang trước
+            if (currentUrl == null) {
+                // Nếu không có Referer, lấy URL hiện tại
+                currentUrl = request.getRequestURL().toString();
+            }
+            // Chuyển hướng đến trang login, kèm theo tham số redirect
+            response.sendRedirect(request.getContextPath() + "/login?redirect=" + URLEncoder.encode(currentUrl, "UTF-8"));
+            return; // Dừng xử lý khi chưa đăng nhập
+        }
+        // --- KẾT THÚC: Logic kiểm tra đăng nhập ---
+        
         String action = request.getParameter("action");
         this.cartServices = getCart(request);
         HttpSession session = request.getSession();
@@ -109,7 +139,7 @@ public class ServiceCartServlet extends HttpServlet {
 
             System.out.println("cartServices: " + cartServices.toString());
 
-            response.sendRedirect("service-detail?id=" + serviceId);
+            response.sendRedirect("service-detail?id=" + serviceId+"&success");
         } else if (action.equalsIgnoreCase("update")) {
             int index = Integer.parseInt(request.getParameter("index"));
             int guestCount = Integer.parseInt(request.getParameter("guestcount"));
@@ -142,7 +172,8 @@ public class ServiceCartServlet extends HttpServlet {
             item.setCheckInDate(checkIn);
             item.setCheckOutDate(checkOut);
             session.setAttribute("cartServices", cartServices);
-            response.sendRedirect("cart");
+            response.sendRedirect("service-cart?status=update");
+
         }
 
     }

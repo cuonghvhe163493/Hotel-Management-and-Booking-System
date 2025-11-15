@@ -23,7 +23,7 @@ public class BookingServlet extends HttpServlet {
         Integer customerId = (Integer) session.getAttribute("customerId");
         
         if (customerId == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("/HotelManagementandBookingSystem/view/Authentication/login.jsp");
             return;
         }
 

@@ -1,11 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dao.UserSerives;
-
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import model.ExtraService;
-
+import model.HotelService;
 import utils.DBConnection;
-
 /**
  *
  * @author Legion
@@ -43,15 +46,13 @@ public class ExtraServiceDAO {
         
         sql.append("ORDER BY created_at DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
         
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             if (conn == null) {
                 System.out.println("❌ Không thể kết nối tới Database.");
                 return null;
             }
-            
-            int index = 1;
+              int index = 1;
 
             if (nameKeyword != null && !nameKeyword.isEmpty()) {
                 ps.setString(index++, "%" + nameKeyword + "%");
@@ -96,11 +97,12 @@ public class ExtraServiceDAO {
     }
     
     
-    public ExtraService getExtraServiceById(int id) {
+    public ExtraService getExtraServiceById(
+        int id
+    ) {
         String sql = "SELECT extra_service_id, service_name, service_description, service_price, status, service_start_time, service_end_time, created_at, updated_at, service_type " +
                 "FROM [Extra_Services] WHERE extra_service_id = ? ";
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             if (conn == null) {
                 System.out.println("❌ Không thể kết nối tới Database.");
@@ -131,4 +133,5 @@ public class ExtraServiceDAO {
         }
         return null;
     }
+    
 }

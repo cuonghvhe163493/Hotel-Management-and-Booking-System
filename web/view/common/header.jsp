@@ -1,41 +1,20 @@
-<%-- 
-    Document   : header.jsp
-    Created on : Nov 4, 2025, 7:20:00 PM
-    Author     : taqua
---%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<!-- ======= HEADER START ======= -->
+<!-- CSS / JS -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/global.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/rooms.css" rel="stylesheet">
-
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 
 <style>
-    .room-count {
-        color: #fff;
-        margin-bottom: 15px;
-    }
-    .room-attr i {
-        margin-right: 5px;
+    .col_yell {
         color: #ffb800;
     }
-    .pagination .page-link.active,
-    .pagination .active>.page-link {
+    .bg_yell {
         background-color: #ffb800;
-        border-color: #ffb800;
-        color: #fff;
     }
-    .floor-label {
-        color: #fff;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    /* --- Th?m fix m?u ch?, n?n navbar --- */
     #navbar_sticky {
         background-color: #222;
     }
@@ -49,17 +28,12 @@
     #top {
         background-color: #111;
     }
-    .col_yell {
-        color: #ffb800;
-    }
-    .bg_yell {
-        background-color: #ffb800;
-    }
 </style>
 
 <div class="main_room_dt">
     <div class="main_o1">
-        <!-- ======= TOP CONTACT BAR ======= -->
+
+        <!-- ===== TOP CONTACT BAR ===== -->
         <section id="top" class="pt-3 pb-3">
             <div class="container-xl">
                 <div class="row top_1">
@@ -69,7 +43,7 @@
                                 <a href="#"><i class="fa fa-phone text-white"></i></a>
                             </span>
                             <h6 class="mb-0 lh-base font_14">
-                                <a class="text-white" href="#">For Further Inquiries : <br> +(012) 345 67 89</a>
+                                <a class="text-white" href="#">For Further Inquiries : <br> </a>
                             </h6>
                         </div>
                     </div>
@@ -81,26 +55,51 @@
                         </h3>
                     </div>
                     <div class="col-md-4 mt-2 text-end">
-                        <ul class="mb-0 list-unstyled">
-<li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <ul class="mb-0 list-unstyled d-inline-block">
+                            <li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-facebook"></i></a></li>
                             <li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-instagram"></i></a></li>
                             <li class="d-inline-block mx-2"><a class="text-white" href="#"><i class="fa fa-tripadvisor"></i></a></li>
+                        </ul>
+
+                        <!-- Login / Logout -->
+                        <ul class="mb-0 list-unstyled d-inline-block ms-3">
+                            <c:choose>
+                                <c:when test="${empty sessionScope.user}">
+                                    <li class="d-inline-block">
+                                        <a href="${pageContext.request.contextPath}/login" class="text-warning fw-bold me-2">Login</a>
+                                    </li>
+                                    <li class="d-inline-block">
+                                        <a href="${pageContext.request.contextPath}/view/Authentication/register.jsp" class="text-white fw-bold">Register</a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="d-inline-block">
+                                        <a href="${pageContext.request.contextPath}/logout" 
+                                           class="fw-bold me-2" 
+                                           style="color:#ffb800;">Logout</a>
+                                    </li>
+
+                                    <li class="d-inline-block text-white ms-2">
+                                        Hello, ${sessionScope.user.username}
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ======= NAVBAR ======= -->
+        <!-- ===== NAVBAR ===== -->
         <section id="header">
             <c:set var="cartCount" value="0" />
-            <c:if test="${not empty sessionScope.cart}">
-                <c:set var="cartCount" value="${fn:length(sessionScope.cart)}" />
+            <c:if test="${not empty sessionScope.cart || not empty sessionScope.cartServices}">
+                <c:set var="cartCount" value="${fn:length(sessionScope.cart) + fn:length(sessionScope.cartServices)}" />
             </c:if>
 
             <nav class="navbar navbar-expand-md navbar-dark pt-3 pb-3" id="navbar_sticky">
                 <div class="container-xl">
-                    <a class="navbar-brand fs-3 fw-bold text-white" href="${pageContext.request.contextPath}/index.jsp">
+                    <a class="navbar-brand fs-3 fw-bold text-white" href="${pageContext.request.contextPath}/index">
                         <i class="fa fa-plane col_yell"></i> Hotells
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -110,40 +109,39 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mb-0">
-                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/about.jsp">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home</a></li>                          
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/rooms">Rooms</a></li>
-                            <li class="nav-item">
-                                        <c:if test="${sessionScope.role == 'customer'}">
-                                            <a class="nav-link" 
-                                               href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">
-                                                Stay Room
-                                            </a>
-                                        </c:if>
-                                        <c:if test="${sessionScope.role == 'hotel_manager'}">
-                                            <a class="nav-link" 
-                                               href="${pageContext.request.contextPath}/stayRoomReceptionist">
-                                                Stay Room
-                                            </a>
-                                        </c:if>
 
+                            <c:choose>
+                                <c:when test="${sessionScope.role == 'customer'}">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/stayRoom?id=${sessionScope.customerId}">Stay Room</a>
+                                    </li>
+                                </c:when>
+                                <c:when test="${sessionScope.role == 'hotel_manager'}">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/stayRoomReceptionist">Stay Room</a>
+                                    </li>
+                                </c:when>
+                            </c:choose>
 
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="services">Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="extra-services">Extra Services</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="services">Services</a></li>
+                            <li class="nav-item"><a class="nav-link" href="extra-services">Extra Services</a></li>
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/booking-list">Booking History</a></li>
                         </ul>
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/cart">
-                                    Cart <span class="badge bg-warning text-dark">${cartCount}</span>
-                                </a>
-                            </li>
-                        </ul>
+
+                        <!-- Cart icon ch? hi?n th? khi login -->
+                        <c:if test="${not empty sessionScope.user}">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/cart">
+                                        <i class="fa fa-shopping-cart me-1"></i> Cart 
+                                        <span class="badge bg-warning text-dark">${cartCount}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </c:if>
+
                     </div>
                 </div>
             </nav>

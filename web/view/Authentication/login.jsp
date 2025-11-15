@@ -5,111 +5,115 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Neon Login - Hotel Management</title>
-        
+
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/css/font-awesome.min.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/css/global.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/index.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
-        
+
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/Authentication/css/style.css">
-        
+
         <style>
-          
+
             body {
-            
-                background-color: #273733 !important; 
+
+                background-color: #273733 !important;
                 margin: 0 !important;
                 min-height: 100vh !important;
                 display: flex !important;
-                flex-direction: column !important; 
-                overflow-x: hidden !important; 
+                flex-direction: column !important;
+                overflow-x: hidden !important;
                 height: auto !important;
-                overflow-y: auto !important; 
-                padding-top: 0 !important; 
+                overflow-y: auto !important;
+                padding-top: 0 !important;
             }
-            
-            
+
+
             .main_1 {
-                position: relative !important; 
+                position: relative !important;
                 width: 100%;
-                background-color: #38423f; 
-                padding: 0 !important; 
-                z-index: 10; 
-                height: auto !important; 
+                background-color: #38423f;
+                padding: 0 !important;
+                z-index: 10;
+                height: auto !important;
             }
-            
+
             .main_1 #top, .main_1 #header {
-                display: block !important; 
-                background-color: #38423f; 
-                padding-top: 1rem !important; 
+                display: block !important;
+                background-color: #38423f;
+                padding-top: 1rem !important;
                 padding-bottom: 1rem !important;
-                border-bottom: none; 
-                position: relative !important; 
+                border-bottom: none;
+                position: relative !important;
                 top: auto !important;
                 z-index: auto !important;
-                 box-shadow: none !important;
+                box-shadow: none !important;
             }
-           
-             #navbar_sticky {
-                 display: block !important;
-                 position: relative !important; 
-                 top: auto !important;
-                 background-color: transparent !important;
-                 box-shadow: none !important;
-             }
+
+            #navbar_sticky {
+                display: block !important;
+                position: relative !important;
+                top: auto !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+            }
 
             #navbar_sticky.sticky {
-                 position: relative !important; 
+                position: relative !important;
             }
 
-   
-            .main { 
-                flex-grow: 1; 
+
+            .main {
+                flex-grow: 1;
                 display: flex;
-                align-items: center; 
-                justify-content: center; 
-                padding: 50px 20px; 
+                align-items: center;
+                justify-content: center;
+                padding: 50px 20px;
                 margin: 0;
-                position: relative; 
-                z-index: 1; 
+                position: relative;
+                z-index: 1;
             }
-         
-             .login-container {
-                position: relative; 
+
+            .login-container {
+                position: relative;
                 z-index: 10;
                 width: 100%;
                 max-width: 420px;
-             }
-          
-             
+            }
 
-         
+
+
+
             #footer {
-                background-color: #463b3f; 
-                padding: 1.5rem 0 0.5rem 0; 
-                width: 100%; 
-                margin-top: auto; 
+                background-color: #463b3f;
+                padding: 1.5rem 0 0.5rem 0;
+                width: 100%;
+                margin-top: auto;
             }
             #footer .container-xl {
-                 max-width: 1320px; 
-                 margin-left: auto;
-                 margin-right: auto;
-                 padding-left: 20px; 
-                 padding-right: 20px;
+                max-width: 1320px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 20px;
+                padding-right: 20px;
             }
             #footer .row.footer_1 {
-                margin-bottom: 10px; 
+                margin-bottom: 10px;
             }
             #footer .hr_1 {
-                 margin-top: 10px !important;
-                 margin-bottom: 10px !important;
+                margin-top: 10px !important;
+                margin-bottom: 10px !important;
             }
-            
+
             /* Reset khác */
-            .top_1m, .top_1r { margin-top: 0 !important; }
-            .top_1m a { color: white !important; }
-            
+            .top_1m, .top_1r {
+                margin-top: 0 !important;
+            }
+            .top_1m a {
+                color: white !important;
+            }
+
         </style>
     </head>
     <body>
@@ -131,7 +135,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                           <div class="top_1r mt-2 text-end">
+                            <div class="top_1r mt-2 text-end">
                                 <ul class="mb-0">
                                     <li class="d-inline-block">
                                         <a href="<%=request.getContextPath()%>/view/Authentication/login.jsp" 
@@ -147,7 +151,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <section id="header">
                 <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
                     <div class="container-xl">
@@ -178,8 +182,15 @@
                         <h2>Sign In</h2>
                         <p>Access your account</p>
                     </div>
+                    <%
+                        // Lấy giá trị redirect nếu có trong query string
+                        String redirect = request.getParameter("redirect");
+                    %>
 
                     <form class="login-form" id="loginForm" action="${pageContext.request.contextPath}/login" method="post" novalidate>
+                        <!-- Input ẩn lưu redirect -->
+                        <input type="hidden" name="redirect" value="<%= redirect != null ? redirect : "" %>">
+
                         <div class="form-group">
                             <div class="input-wrapper">
                                 <input type="text" id="username" name="username" required autocomplete="username" value="admin" placeholder=" ">
@@ -191,13 +202,14 @@
                             <div class="input-wrapper password-wrapper">
                                 <input type="password" id="password" name="password" required autocomplete="current-password" value="••••••" placeholder=" ">
                                 <label for="password">Password</label>
-                                </div>
+                            </div>
                         </div>
 
                         <button type="submit" class="login-btn btn">Sign In</button>
+
                         <% if (request.getParameter("success") != null) { %>
                         <div style="color: #00ff88; text-align: center; margin-top: 15px; font-weight: 600;">
-                            ✅ Registration successful! Redirecting to login...
+                            Registration successful! Redirecting to login...
                         </div>
                         <script>
                             setTimeout(function () {
@@ -205,7 +217,6 @@
                             }, 2000);
                         </script>
                         <% } %>
-
                     </form>
 
                     <div class="divider"><span>or</span></div>
@@ -233,7 +244,7 @@
         </div>
         <section id="footer" class="bg_dark">
             <div class="container-xl">
-                 <div class="row footer_1">
+                <div class="row footer_1">
                     <div class="col-md-3">
                         <div class="footer_1i">
                             <h3 class="mb-0 mb-3"><a class="text-white" href="<%=request.getContextPath()%>/index.jsp"><i class="fa fa-plane col_yell"></i> Hotells</a></h3>
@@ -283,5 +294,5 @@
                 </div>
             </div>
         </section>
-        </body>
+    </body>
 </html>

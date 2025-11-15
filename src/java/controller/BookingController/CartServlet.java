@@ -4,10 +4,12 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Room;
+import model.User;
 import dao.Booking.RoomDAO;
 import utils.DBConnection;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -20,7 +22,6 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Forward đến JSP cart
         request.getRequestDispatcher("/view/Booking/cart.jsp").forward(request, response);
     }
 
@@ -28,8 +29,23 @@ public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+        User user = null;
+        if (session != null) {
+            Object obj = session.getAttribute("user");
+            if (obj instanceof User) {
+                user = (User) obj;
+            }
+        }
+
+        // Nếu chưa login → redirect sang login với redirect URL
+        if (user == null) {
+            String currentUrl = request.getHeader("Referer"); // quay về trang trước
+            response.sendRedirect(request.getContextPath() + "/login?redirect=" + URLEncoder.encode(currentUrl, "UTF-8"));
+            return;
+        }
+
         String action = request.getParameter("action");
-        HttpSession session = request.getSession();
 
         try {
             @SuppressWarnings("unchecked")
@@ -67,7 +83,6 @@ public class CartServlet extends HttpServlet {
                     }
 
                     if (error != null) {
-                        // --- Lấy dữ liệu giống RoomDetailServlet ---
                         List<Room> similarRooms = roomDAO.getSimilarRooms(roomId);
                         boolean isBooked = roomDAO.isRoomBooked(roomId, checkIn, checkOut);
 

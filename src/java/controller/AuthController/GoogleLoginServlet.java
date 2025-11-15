@@ -12,7 +12,7 @@ import model.User;
 @WebServlet("/google-login")
 public class GoogleLoginServlet extends HttpServlet {
 
- 
+    // ⚠️ LƯU Ý: Thay thế bằng Client ID, Client Secret và REDIRECT_URI của bạn
     private static final String CLIENT_ID = "861333935241-fme60hi3sojf9nero06kbd4ll3ohi1fk.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "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";
     private static final String REDIRECT_URI = "http://localhost:9999/HotelManagementandBookingSystem/google-login";
@@ -20,10 +20,14 @@ public class GoogleLoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Thiết lập mã hóa và Content Type
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         String code = request.getParameter("code");
 
-        // ️  chuyển hướng sang trang đăng nhập Google
+        // 1. Chuyển hướng sang trang đăng nhập Google (nếu chưa có code)
         if (code == null || code.isEmpty()) {
             String oauthUrl = "https://accounts.google.com/o/oauth2/v2/auth"
                     + "?client_id=" + CLIENT_ID
@@ -31,12 +35,18 @@ public class GoogleLoginServlet extends HttpServlet {
                     + "&response_type=code"
                     + "&scope=email%20profile"
                     + "&access_type=offline";
+            
+            // Nếu có tham số 'redirect' trong request ban đầu, lưu vào session
+            String redirectParam = request.getParameter("redirect");
+            if (redirectParam != null && !redirectParam.isEmpty()) {
+                request.getSession().setAttribute("redirectAfterLogin", redirectParam);
+            }
 
             response.sendRedirect(oauthUrl);
             return;
         }
 
-        // ️ Nếu có code, gọi Google để lấy access token
+        // 2. Nếu có code, gọi Google để lấy access token
         String tokenResponse = getAccessToken(code);
         if (tokenResponse == null) {
             response.getWriter().println("Error: cannot get token from Google!");
@@ -50,18 +60,18 @@ public class GoogleLoginServlet extends HttpServlet {
             return;
         }
 
-        // ️ Lấy thông tin người dùng từ Google
+        // 3. Lấy thông tin người dùng từ Google
         String userInfo = getUserInfo(accessToken);
         JSONObject userJson = new JSONObject(userInfo);
 
         String email = userJson.optString("email", "unknown");
         String name = userJson.optString("name", "unknown");
 
-        // Kiểm tra user trong DB
+        // 4. Kiểm tra user trong DB
         User user = UserDAO.getUserByEmail(email);
 
         if (user == null) {
-           
+            // Đăng ký user mới nếu chưa tồn tại
             boolean registered = UserDAO.registerUser(name, "google_login", email);
             if (registered) {
                 user = UserDAO.getUserByEmail(email);
@@ -70,37 +80,41 @@ public class GoogleLoginServlet extends HttpServlet {
             System.out.println("✅ Found existing user: " + user.getEmail() + " | role = " + user.getRole());
         }
 
-        //  Nếu vẫn không tìm thấy user
+        // 5. Nếu vẫn không tìm thấy user
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/view/Authentication/login.jsp?error=google_failed");
             return;
         }
 
-        //  Đăng nhập thành công → Lưu session
+        // 6. Đăng nhập thành công → Lưu session (Đồng nhất với LoginServlet)
         HttpSession session = request.getSession();
-        session.setAttribute("user", user.getUsername());
-        session.setAttribute("email", user.getEmail());
-        session.setAttribute("role", user.getRole());
+        session.setAttribute("user", user); // Lưu đối tượng User
+        session.setAttribute("customerId", user.getUserId()); // Lưu userId
+        session.setAttribute("role", user.getRole()); // Lưu Role
 
-        // 🧭 Điều hướng dựa theo role trong DB
+        // 7. Điều hướng (logic giống với LoginServlet)
         String ctx = request.getContextPath();
-        String role = user.getRole().toLowerCase();
+        String redirectUrl = (String) session.getAttribute("redirectAfterLogin"); // Lấy URL đã lưu trước đó
 
-        switch (role) {
-            case "admin":
-                response.sendRedirect(ctx + "/view/HotelAdministration/admin_homepage.jsp");
-                break;
-            case "hotel_manager":
-                response.sendRedirect(ctx + "/view/HotelManager/manager_homepage.jsp");
-                break;
-            case "customer":
-            default:
-                response.sendRedirect(ctx + "/view/Customer/customer_homepage.jsp");
-                break;
+        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+            // Nếu có redirect → quay về trang trước
+            session.removeAttribute("redirectAfterLogin"); // Xóa URL sau khi sử dụng
+            response.sendRedirect(redirectUrl);
+            return;
+        }
+
+        // Không có redirect → redirect theo role (logic đồng nhất với LoginServlet)
+        String role = user.getRole().toLowerCase();
+        if ("admin".equals(role)) {
+            // Redirect đến path controller của Admin
+            response.sendRedirect(ctx + "/admin-home"); 
+        } else {
+            // Redirect đến trang chủ (áp dụng cho customer, hotel_manager, và các role khác)
+            response.sendRedirect(ctx + "/index.jsp");
         }
     }
 
-   
+    
     private String getAccessToken(String code) throws IOException {
         URL url = new URL("https://oauth2.googleapis.com/token");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -131,7 +145,7 @@ public class GoogleLoginServlet extends HttpServlet {
         }
     }
 
- 
+    
     private String getUserInfo(String accessToken) throws IOException {
         URL url = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

@@ -21,7 +21,7 @@
     <body>
         <!-- Include header -->
         <jsp:include page="/view/common/header.jsp" />
-        
+
         <!-- Page Banner -->
         <section id="center" class="center_o pt-4 pb-5 text-center bg-dark text-white">
             <div class="container-xl">
@@ -32,7 +32,7 @@
                 </h6>
             </div>
         </section>
-        
+
         <section id="room" class="p_3">
             <div class="container-xl">
                 <c:if test="${not empty service}">
@@ -76,7 +76,14 @@
                                         <button type="submit" class="btn btn-warning">
                                             Add to Cart
                                         </button>
+
                                     </div>
+
+                                    <c:if test="${param.success ne null}">
+                                        <div class="alert alert-success" role="alert">
+                                            Add to cart successfully
+                                        </div>
+                                    </c:if>
                                 </div>
                             </form>
                         </div>

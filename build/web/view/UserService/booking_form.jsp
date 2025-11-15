@@ -38,7 +38,7 @@
                 <c:if test="${empty sessionScope.cartServices}">
                     <div class="alert alert-warning text-center">
                         Your cart is empty. 
-                        <a href="${pageContext.request.contextPath}/services" class="alert-link">Go back to choose </a>.
+                        <a href="${pageContext.request.contextPath}/rooms" class="alert-link">Go back to choose services</a>.
                     </div>
                 </c:if>
 
@@ -100,7 +100,7 @@
                                 <input type="hidden" name="roomId_${status.index}" value="<c:out value='${item.service.serviceId}' />"/>
 
                                 <!-- Tính số đêm và tổng tiền tạm thời cho phòng này -->
-                                <c:set var="roomTotal" value="${item.service.price * (item.guestsCount > 0 ? item.guestsCount : 1)}" />
+                                <c:set var="roomTotal" value="${item.service.price}" />
                                 <c:set var="grandTotal" value="${grandTotal + roomTotal}" />
 
                                 <p class="text-end text-primary fw-semibold">Subtotal for this service: ${item.service.price} ₫</p>
