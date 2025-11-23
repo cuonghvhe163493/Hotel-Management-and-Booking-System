@@ -68,17 +68,38 @@ public class CartServlet extends HttpServlet {
 
                     // Kiểm tra lỗi
                     String error = null;
+
+                    // Check room tồn tại
                     if (room == null) {
                         error = "Room not found.";
-                    } else if (!"Available".equalsIgnoreCase(room.getRoomStatus())) {
+                    } // Check room status
+                    else if (!"Available".equalsIgnoreCase(room.getRoomStatus())) {
                         error = "This room is not available.";
-                    } else if (checkIn.before(today)) {
+                    } // Check-in không được trong quá khứ
+                    else if (checkIn.before(today)) {
                         error = "Check-in date cannot be in the past.";
-                    } else if (!checkOut.after(checkIn)) {
+                    } // Check-out phải sau check-in
+                    else if (!checkOut.after(checkIn)) {
                         error = "Check-out date must be after check-in date.";
-                    } else if (guestsCount <= 0 || guestsCount > room.getCapacity()) {
+                    } // Không cho đặt quá xa (tối đa trước 1 năm) và giới hạn số đêm là 30 đêm
+                    else {
+                        long diffDaysCheckIn = (checkIn.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+                        long stayNights = (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24);
+
+                        if (diffDaysCheckIn > 365) {
+                            error = "You can only book up to 12 months in advance for Check-in.";
+                        } else if (stayNights > 30) {
+                            error = "You can only stay up to 30 nights per booking.";
+                        }
+                    }
+
+                    // Số lượng khách không hợp lệ
+                    if (error == null && (guestsCount <= 0 || guestsCount > room.getCapacity())) {
                         error = "Number of guests must be between 1 and " + room.getCapacity() + ".";
-                    } else if (roomDAO.isRoomBooked(roomId, checkIn, checkOut)) {
+                    }
+
+                    // Kiểm tra phòng đã bị đặt trong khoảng đó chưa
+                    if (error == null && roomDAO.isRoomBooked(roomId, checkIn, checkOut)) {
                         error = "This room is already booked for the selected dates.";
                     }
 
@@ -94,7 +115,7 @@ public class CartServlet extends HttpServlet {
                         request.setAttribute("checkOutDate", request.getParameter("checkOutDate"));
 
                         request.getRequestDispatcher("/view/Booking/room_detail.jsp")
-                               .forward(request, response);
+                                .forward(request, response);
                         return;
                     }
 

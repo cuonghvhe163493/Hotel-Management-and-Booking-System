@@ -112,7 +112,7 @@ public class RoomListServlet extends HttpServlet {
         final String filterType = type;
         final boolean onlyAvailable = "on".equalsIgnoreCase(availableOnly);
 
-// --- tạo bản sao final cho lambda ---
+        // --- tạo bản sao final cho lambda ---
         final Date finalCheckInDate = checkInDate;
         final Date finalCheckOutDate = checkOutDate;
 
@@ -135,7 +135,7 @@ public class RoomListServlet extends HttpServlet {
                 .collect(Collectors.toList());
 
         // --- Sort ---
-        Comparator<Room> comparator = Comparator.comparing(Room::getRoomNumber);
+        Comparator<Room> comparator = Comparator.comparingInt(r -> Integer.parseInt(r.getRoomNumber()));
         if ("priceAsc".equals(sort)) {
             comparator = Comparator.comparing(Room::getPricePerNight);
         } else if ("priceDesc".equals(sort)) {
