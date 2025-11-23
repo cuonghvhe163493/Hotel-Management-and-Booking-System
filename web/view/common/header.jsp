@@ -93,8 +93,8 @@
         <!-- ===== NAVBAR ===== -->
         <section id="header">
             <c:set var="cartCount" value="0" />
-            <c:if test="${not empty sessionScope.cart || not empty sessionScope.cartServices}">
-                <c:set var="cartCount" value="${fn:length(sessionScope.cart) + fn:length(sessionScope.cartServices)}" />
+            <c:if test="${not empty sessionScope.cart || not empty sessionScope.cartServices || not empty sessionScope.cartExtraServices}">
+                <c:set var="cartCount" value="${fn:length(sessionScope.cart) + fn:length(sessionScope.cartServices) + fn:length(sessionScope.cartExtraServices)}" />
             </c:if>
 
             <nav class="navbar navbar-expand-md navbar-dark pt-3 pb-3" id="navbar_sticky">
@@ -128,6 +128,7 @@
                             <li class="nav-item"><a class="nav-link" href="services">Services</a></li>
                             <li class="nav-item"><a class="nav-link" href="extra-services">Extra Services</a></li>
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/booking-list">Booking History</a></li>
+                            
                         </ul>
 
                         <!-- Cart icon ch? hi?n th? khi login -->

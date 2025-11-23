@@ -23,19 +23,19 @@
     </head>
 
     <body>
-        
+
         <jsp:include page="/view/common/header.jsp" />
         <h3>Check In</h3>
         <div class="check-in">
             <div class="check-in-container">
 
-                
-<!--                <p class="word-booked">Booked</p>
-                <select class="booked-selection" name="Booked" id="bookedSelect">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>-->
-                
+
+                <!--                <p class="word-booked">Booked</p>
+                                <select class="booked-selection" name="Booked" id="bookedSelect">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>-->
+
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="get" class="check-in-input-container">
                     <div id="bookingIdField" style="display:block;">
                         <input type="text" 
@@ -52,7 +52,7 @@
                     </div>
                 </form>
 
-                
+
                 <form action="${pageContext.request.contextPath}/CheckInServlet" method="post" class="check-in-input-container">
                     <div id="extraFields" style="display:none;">
                         <p>Room ID: <input type="text" name="idroom" placeholder="ID Room" required /></p>
@@ -108,11 +108,19 @@
                                     <p>Price: ${room.pricePerNight} </p>
                                 </label>
                             </div>
-                                <p>================================================</p>
+                            <p>================================================</p>
                         </c:forEach>
                     </div>
 
                     <br>
+                    <c:if test="${not empty successMessage}">
+                        <div class="alert alert-success">
+                            ${successMessage}
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty errorMessage}">
+                        <p style="color:red;">${errorMessage}</p>
+                    </c:if>
                     <input type="submit" class="send-btn" value="Check In">
                 </form>
             </div>       

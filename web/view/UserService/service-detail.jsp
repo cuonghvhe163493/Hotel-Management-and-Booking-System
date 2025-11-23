@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,7 +47,7 @@
                             <h1 class="mb-3">${service.serviceName}</h1>
                             <ul class="list-unstyled mb-3">
                                 <li><i class="fa fa-user me-2 col_yell"></i> ${service.serviceType}</li>
-                                <li><i class="fa fa-money me-2 col_yell"></i> ${service.price} $/night</li>
+                                <li><i class="fa fa-money me-2 col_yell"></i> ${service.price} VND/night</li>
                                 <li><i class="fa fa-info-circle me-2 col_yell"></i> Description ${service.description}</li>
                             </ul>
 

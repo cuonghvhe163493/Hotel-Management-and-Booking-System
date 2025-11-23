@@ -8,10 +8,10 @@ import utils.DBConnection;
 
 public class ReceptionistDAO {
     
-    // Tên vai trò lễ tân trong DB
+    
     private static final String RECEPTIONIST_ROLE = "hotel_manager";
 
-    // Helper method (Dùng để ánh xạ ResultSet sang đối tượng User)
+   
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
         User u = new User();
         u.setUserId(rs.getInt("user_id"));
@@ -25,7 +25,7 @@ public class ReceptionistDAO {
         return u;
     }
 
-    // 🔹 1. Lấy tất cả Lễ tân
+    
     public List<User> getAllReceptionists() {
         List<User> receptionists = new ArrayList<>();
         String sql = "SELECT * FROM dbo.Users WHERE role = ? ORDER BY user_id ASC";
@@ -47,16 +47,15 @@ public class ReceptionistDAO {
         return receptionists;
     }
 
-    // 🔹 2. Tạo tài khoản Lễ tân mới (CREATE)
-    // Fields cần thiết: Username, Password, Email, Phone, Address
+    
     public boolean createReceptionist(String username, String password, String email, String phone, String address) {
         
-        // 1. Tạo bản ghi trong bảng Users (Cần trả về ID để tạo FK)
+       
         String sqlUser = "INSERT INTO dbo.Users (username, password, email, role, account_status, phone, address, created_at, updated_at) "
                    + "OUTPUT INSERTED.user_id " // Lệnh SQL Server để lấy ID vừa tạo
                    + "VALUES (?, ?, ?, ?, 'active', ?, ?, GETDATE(), GETDATE())";
         
-        // 2. Tạo bản ghi trong bảng Hotel_Managers (Khóa ngoại)
+        
         String sqlManager = "INSERT INTO dbo.Hotel_Managers (manager_id, created_at, updated_at) VALUES (?, GETDATE(), GETDATE())";
         
         int userId = 0;
@@ -64,9 +63,9 @@ public class ReceptionistDAO {
         
         try {
             conn = DBConnection.getConnection();
-            conn.setAutoCommit(false); // Bắt đầu giao dịch (Transaction)
+            conn.setAutoCommit(false); 
             
-            // --- A. INSERT VÀO USERS ---
+            
             try (PreparedStatement psUser = conn.prepareStatement(sqlUser)) {
                 psUser.setString(1, username);
                 psUser.setString(2, password); 
@@ -82,17 +81,17 @@ public class ReceptionistDAO {
             }
             
             if (userId > 0) {
-                // --- B. INSERT VÀO HOTEL_MANAGERS (Khóa ngoại) ---
+              
                 try (PreparedStatement psManager = conn.prepareStatement(sqlManager)) {
                     psManager.setInt(1, userId);
                     psManager.executeUpdate();
                 }
             } else {
-                 conn.rollback(); // Nếu không lấy được ID, hủy giao dịch
+                 conn.rollback();
                  return false;
             }
             
-            conn.commit(); // Hoàn tất giao dịch
+            conn.commit(); 
             return true;
             
         } catch (SQLException e) {
@@ -106,7 +105,7 @@ public class ReceptionistDAO {
         }
     }
     
-    // 🔹 3. Xóa Lễ tân (Giả định: Xóa khỏi Users sẽ tự động xóa khỏi Hotel_Managers nếu có ON DELETE CASCADE)
+    
     public boolean updateReceptionist(int userId, String username, String email, String phone, String address, String password) {
         String sql = "UPDATE dbo.Users SET username=?, email=?, phone=?, address=?, password=?, updated_at=GETDATE() WHERE user_id=? AND role=?";
         
@@ -117,9 +116,9 @@ public class ReceptionistDAO {
             ps.setString(2, email);
             ps.setString(3, phone);
             ps.setString(4, address);
-            ps.setString(5, password); // Cần truyền password cũ/mới
+            ps.setString(5, password); 
             ps.setInt(6, userId);
-            ps.setString(7, RECEPTIONIST_ROLE); // Chỉ cập nhật nếu đúng vai trò
+            ps.setString(7, RECEPTIONIST_ROLE); 
 
             return ps.executeUpdate() > 0;
             
@@ -130,9 +129,9 @@ public class ReceptionistDAO {
         }
     }
     
-    // 🟢 4. Cập nhật trạng thái tài khoản Lễ tân (Đặt lại Status)
+  
     public boolean updateReceptionistStatus(int userId, String status) {
-        // Trạng thái: 'active', 'suspended', 'banned'
+        
         String sql = "UPDATE dbo.Users SET account_status=?, updated_at=GETDATE() WHERE user_id=? AND role=?";
         
         try (Connection conn = DBConnection.getConnection();
@@ -151,9 +150,9 @@ public class ReceptionistDAO {
         }
     }
     
-    // 🟢 5. Xóa tài khoản Lễ tân (DELETE)
+    
     public boolean deleteReceptionist(int userId) {
-        // Chỉ xóa user nếu có vai trò là Lễ tân
+        
         String sql = "DELETE FROM dbo.Users WHERE user_id = ? AND role = ?";
         
         try (Connection conn = DBConnection.getConnection();
@@ -167,7 +166,7 @@ public class ReceptionistDAO {
         } catch (SQLException e) {
             System.err.println("❌ SQL Error in deleteReceptionist: " + e.getMessage());
             e.printStackTrace();
-            // Nếu lỗi Khóa ngoại (547)
+            
             if (e.getErrorCode() == 547 || e.getMessage().contains("REFERENCE constraint")) { 
                 throw new RuntimeException("FK_VIOLATION"); 
             }

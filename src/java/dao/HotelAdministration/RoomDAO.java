@@ -23,11 +23,11 @@ public class RoomDAO {
         return room;
     }
 
-    //  1. Lấy tất cả các phòng (giữ nguyên)
+   
     public List<Room> getAllRooms() {
         List<Room> rooms = new ArrayList<>();
         String sql = "SELECT * FROM dbo.Rooms ORDER BY room_number ASC";
-        // ... (Logic đã có)
+       
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -40,7 +40,7 @@ public class RoomDAO {
         return rooms;
     }
     
-    //  2. Lấy phòng theo ID 
+    
     public Room getRoomById(int roomId) {
         Room room = null;
         String sql = "SELECT * FROM dbo.Rooms WHERE room_id = ?";
@@ -60,7 +60,7 @@ public class RoomDAO {
         return room;
     }
 
-    //  3. Thêm phòng mới
+   
     public boolean createRoom(String roomNumber, String roomType, double pricePerNight, int capacity) {
         String sql = "INSERT INTO dbo.Rooms (room_number, room_status, room_type, capacity, price_per_night, created_at, updated_at) "
                    + "VALUES (?, 'available', ?, ?, ?, GETDATE(), GETDATE())";
@@ -82,8 +82,7 @@ public class RoomDAO {
         }
     }
     
-    //  Cập nhật phòng (UPDATE)
-    // fields: RoomNumber, Price, Status, RoomType, Room Description
+    
     public boolean updateRoom(int roomId, String roomNumber, String roomType, int capacity, double pricePerNight, String roomStatus) {
         String sql = "UPDATE dbo.Rooms SET room_number=?, room_type=?, capacity=?, price_per_night=?, room_status=?, updated_at=GETDATE() WHERE room_id=?";
         
@@ -106,7 +105,7 @@ public class RoomDAO {
         }
     }
 
-    // . Xóa phòng 
+   
     public boolean deleteRoom(int roomId) {
         String sql = "DELETE FROM dbo.Rooms WHERE room_id = ?";
         
@@ -119,17 +118,16 @@ public class RoomDAO {
             if (rowsAffected > 0) {
                 return true;
             } else {
-                // Trường hợp không tìm thấy ID để xóa
+               
                 return false;
             }
         } catch (SQLException e) {
             System.err.println(" SQL Error in deleteRoom: " + e.getMessage());
             e.printStackTrace();
             
-            // Xử lý lỗi Khóa Ngoại
-            // Kiểm tra mã lỗi SQL Server cho lỗi khóa ngoại (thường là 547)
+           
             if (e.getErrorCode() == 547 || e.getMessage().contains("REFERENCE constraint")) { 
-                throw new RuntimeException("FK_VIOLATION"); // Ném một ngoại lệ đặc biệt để Controller bắt
+                throw new RuntimeException("FK_VIOLATION"); 
             }
             return false;
         }

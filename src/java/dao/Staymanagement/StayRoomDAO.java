@@ -86,6 +86,7 @@ public class StayRoomDAO {
         }
         return list;
     }
+
     public List<StayRoom> getBookingByBookingId(int bookingId) {
         List<StayRoom> list = new ArrayList<>();
 
@@ -116,6 +117,7 @@ public class StayRoomDAO {
         }
         return list;
     }
+
     public List<StayRoom> getRoomByRoomId(int roomId) {
         List<StayRoom> list = new ArrayList<>();
 
@@ -147,7 +149,6 @@ public class StayRoomDAO {
         return list;
     }
 
-
     //get booking for stayroom
     public List<StayRoom> getAllBooking() {
         List<StayRoom> list = new ArrayList<>();
@@ -158,10 +159,11 @@ public class StayRoomDAO {
                 + "JOIN Bookings b ON br.booking_id = b.booking_id \n"
                 + "JOIN Customers c ON b.customer_id = c.customer_id \n"
                 + "JOIN Users d ON c.customer_id = d.user_id\n"
-                + "WHERE b.status = ?";
+                + "WHERE b.status = ? ";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, "confirmed");
+            
+            ps.setString(1, "pending");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom r = new StayRoom();
@@ -179,6 +181,29 @@ public class StayRoomDAO {
             System.out.println("Error when fetching room list: " + e.getMessage());
         }
         return list;
+    }
+
+    public boolean checkBooking(int bookingId) {
+        String sql = "SELECT COUNT(*) \n" +
+"        FROM booking_rooms \n" +
+"        WHERE booking_id = ? \n" +
+"          AND status != ?";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, bookingId);
+            ps.setString(2, "checked_out");
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int notCheckedOutCount = rs.getInt(1);
+                return notCheckedOutCount == 0; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 //    public List<StayRoom> getAllRoomsForReceptionist() {
@@ -245,7 +270,7 @@ public class StayRoomDAO {
     }
 
     public boolean updateBookingStatus(int booking, String newStatus) {
-        String sql = "";
+        String sql = "UPDATE Bookings SET status = ? WHERE booking_id = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 

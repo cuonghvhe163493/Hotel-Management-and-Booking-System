@@ -66,12 +66,12 @@ public class ServiceController extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
-        // BỎ: boolean isIncluded = "1".equals(request.getParameter("isIncluded")); 
+        
 
         double price = Double.parseDouble(priceStr);
         ServiceDAO dao = new ServiceDAO();
         
-        // 🟢 GỌI DAO KHÔNG CÓ isIncluded
+      
         if (dao.createService(name, description, price)) {
             response.sendRedirect(request.getContextPath() + "/admin/services?success=create");
         } else {
@@ -84,13 +84,13 @@ public class ServiceController extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
-        // BỎ: boolean isIncluded = "1".equals(request.getParameter("isIncluded")); 
+      
 
         int serviceId = Integer.parseInt(serviceIdStr);
         double price = Double.parseDouble(priceStr);
         ServiceDAO dao = new ServiceDAO();
         
-        // 🟢 GỌI DAO KHÔNG CÓ isIncluded
+      
         if (dao.updateService(serviceId, name, description, price)) {
             response.sendRedirect(request.getContextPath() + "/admin/services?success=update");
         } else {

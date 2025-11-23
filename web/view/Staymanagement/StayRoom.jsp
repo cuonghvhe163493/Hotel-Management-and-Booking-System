@@ -51,7 +51,7 @@
                                 <td>${room.checkInDate}</td>
                                 <td>${room.checkOutDate}</td>   
 
-                                <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}"> Details</a></td>
+                                <td><a class="dropdown-item" href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}&role=0"> Details</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -78,14 +78,14 @@
                         </div>
                     </div>
 
-                    <div class="func-box">
+<!--                    <div class="func-box">
                         <div>
                             <a href="ChangeRoom.jsp"><input type="button" value="CHANGE ROOM" class="func-btn" /></a>
                         </div>
                         <div>
                             <a href="ExtendRoom.jsp"><input type="button" value="EXTEND ROOM" class="func-btn" /></a>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
 

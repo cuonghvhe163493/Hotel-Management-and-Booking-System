@@ -12,9 +12,9 @@ import dao.HotelAdministration.VoucherDAO;
 public class VoucherActionController extends HttpServlet {
 
  
-    // Tách riêng hàm này để tránh lặp lại code
+   
     private Date parseDate(String dateStr) throws Exception {
-        // Date format từ HTML input type="date" là yyyy-MM-dd
+        
         return new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
     }
     
@@ -43,7 +43,7 @@ public class VoucherActionController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/vouchers?error=invalid_action");
             }
         } catch (NumberFormatException e) {
-            // Xử lý lỗi khi người dùng nhập chữ vào trường số (Discount value)
+          
             System.err.println(" Format Error (Number): " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/admin/vouchers?error=format_number");
         } 

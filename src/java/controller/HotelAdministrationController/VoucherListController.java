@@ -15,7 +15,7 @@ public class VoucherListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // **Kiểm tra Session Admin**
+        
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("role") == null || 
             !session.getAttribute("role").toString().toLowerCase().contains("admin")) { 
@@ -25,13 +25,13 @@ public class VoucherListController extends HttpServlet {
 
         VoucherDAO voucherDAO = new VoucherDAO();
         
-        // 1. Lấy danh sách voucher
+       
         List<Voucher> vouchers = voucherDAO.getAllVouchers();
         
-        // 2. Gán vào request
+      
         request.setAttribute("voucherList", vouchers);
         
-        // 3. Chuyển tiếp đến JSP
+      
         request.getRequestDispatcher("/view/HotelAdministration/voucher_list.jsp").forward(request, response);
     }
 }

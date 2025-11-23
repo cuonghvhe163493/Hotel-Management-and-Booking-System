@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class UserDAO {
 
-    // 🟢 Hàm Hỗ trợ: Ánh xạ ResultSet sang đối tượng User
+    
     private static User extractUserFromResultSet(ResultSet rs) throws SQLException {
         User u = new User();
         u.setUserId(rs.getInt("user_id"));
@@ -22,14 +22,13 @@ public class UserDAO {
         return u;
     }
     
-    // 🔹 1. Login thường: username + password
-    // Lấy user bằng username và password (cần thiết cho bước kiểm tra trạng thái trong Servlet)
+    
     public static User getUserByUsernameAndPassword(String username, String password) {
         String sql = "SELECT * FROM dbo.Users WHERE LOWER(username)=LOWER(?) AND password=?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             if (conn == null) {
-                System.out.println("❌ Không thể kết nối tới Database.");
+                System.out.println(" Không thể kết nối tới Database.");
                 return null;
             }
             stmt.setString(1, username.trim());
@@ -37,11 +36,11 @@ public class UserDAO {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                System.out.println("✅ Login OK: " + rs.getString("username") + " | role=" + rs.getString("role"));
-                // Sử dụng Helper để trả về đối tượng User
+                System.out.println(" Login OK: " + rs.getString("username") + " | role=" + rs.getString("role"));
+                
                 return extractUserFromResultSet(rs);
             } else {
-                System.out.println("⚠️ Không tìm thấy user trong database.");
+                System.out.println("️ Không tìm thấy user trong database.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,7 +48,7 @@ public class UserDAO {
         return null;
     }
 
-    // 🔹 2. Lấy user bằng email (Google login)
+   
     public static User getUserByEmail(String email) {
         String query = "SELECT * FROM dbo.Users WHERE LOWER(email)=LOWER(?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -65,7 +64,7 @@ public class UserDAO {
         return null;
     }
     
-    // 🟢 3. Lấy User theo ID
+    
     public static User getUserById(int userId) {
         String query = "SELECT * FROM dbo.Users WHERE user_id = ?"; 
         try (Connection conn = DBConnection.getConnection(); 
@@ -74,57 +73,57 @@ public class UserDAO {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                // Sử dụng Helper
+              
                 return extractUserFromResultSet(rs);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi lấy user theo ID: " + e.getMessage());
+            System.out.println(" Lỗi khi lấy user theo ID: " + e.getMessage());
         }
         return null;
     }
 
-    // 🔹 4. Đăng ký user mới (cho Google login)
+   
     public static boolean registerUser(String username, String password, String email) {
         String sql = "INSERT INTO dbo.Users (username, password, email, role, account_status, created_at, updated_at) "
                 + "VALUES (?, ?, ?, 'customer', 'active', GETDATE(), GETDATE())";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) { System.out.println("❌ Không thể kết nối Database khi đăng ký."); return false; }
+            if (conn == null) { System.out.println(" Không thể kết nối Database khi đăng ký."); return false; }
             stmt.setString(1, username.trim());
             stmt.setString(2, password.trim());
             stmt.setString(3, email.trim());
 
             int rows = stmt.executeUpdate();
-            if (rows > 0) { System.out.println("✅ Đã đăng ký mới user: " + email); return true; }
+            if (rows > 0) { System.out.println(" Đã đăng ký mới user: " + email); return true; }
         } catch (SQLException e) {
-            if (e.getMessage().contains("UNIQUE")) { System.out.println("⚠️ Username hoặc Email đã tồn tại: " + email); } else { System.out.println("❌ Lỗi khi thêm user: " + e.getMessage()); }
+            if (e.getMessage().contains("UNIQUE")) { System.out.println("️ Username hoặc Email đã tồn tại: " + email); } else { System.out.println("❌ Lỗi khi thêm user: " + e.getMessage()); }
         }
         return false;
     }
 
-    // 🔹 5. Kiểm tra username đã tồn tại chưa
+  
     public static boolean isUsernameExists(String username) {
         String sql = "SELECT user_id FROM dbo.Users WHERE LOWER(username)=LOWER(?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username.trim());
             ResultSet rs = stmt.executeQuery();
             return rs.next();
-        } catch (SQLException e) { System.out.println("❌ Lỗi khi kiểm tra username: " + e.getMessage()); }
+        } catch (SQLException e) { System.out.println(" Lỗi khi kiểm tra username: " + e.getMessage()); }
         return false;
     }
 
-    // 🔹 6. Kiểm tra email đã tồn tại chưa
+  
     public static boolean isEmailExists(String email) {
         String sql = "SELECT user_id FROM dbo.Users WHERE LOWER(email)=LOWER(?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email.trim());
             ResultSet rs = stmt.executeQuery();
             return rs.next();
-        } catch (SQLException e) { System.out.println("❌ Lỗi khi kiểm tra email: " + e.getMessage()); }
+        } catch (SQLException e) { System.out.println(" Lỗi khi kiểm tra email: " + e.getMessage()); }
         return false;
     }
 
-    // 🔹 7. Đăng ký đầy đủ
+
     public static boolean registerUserFull(String username, String password, String email, String phone, String address, String dob) {
         String sql = "INSERT INTO dbo.Users (username, password, email, phone, address, date_of_birth, role, account_status, created_at, updated_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?, 'customer', 'active', GETDATE(), GETDATE())";
@@ -141,12 +140,12 @@ public class UserDAO {
             int rows = stmt.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi đăng ký đầy đủ: " + e.getMessage());
+            System.out.println(" Lỗi khi đăng ký đầy đủ: " + e.getMessage());
         }
         return false;
     }
 
-    // 🔹 8. Reset mật khẩu (Giữ nguyên)
+   
     public static boolean resetPassword(String username, String newPassword) {
         String sql = "UPDATE Users SET password = ?, updated_at = GETDATE() WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -158,7 +157,7 @@ public class UserDAO {
         return false;
     }
     
-    // 🔹 9. Kiểm tra thông tin xác thực (Giữ nguyên)
+   
     public static boolean checkUserCredentials(String username, String email, String phone) {
         String sql = "SELECT user_id FROM dbo.Users WHERE LOWER(username) = LOWER(?) AND LOWER(email) = LOWER(?) AND phone = ?";
         
@@ -171,11 +170,11 @@ public class UserDAO {
             
             ResultSet rs = stmt.executeQuery();
             return rs.next();
-        } catch (SQLException e) { System.out.println("❌ Lỗi khi kiểm tra thông tin xác thực: " + e.getMessage()); }
+        } catch (SQLException e) { System.out.println(" Lỗi khi kiểm tra thông tin xác thực: " + e.getMessage()); }
         return false;
     }
 
-    // 🔹 10. Cập nhật mật khẩu cuối cùng (Giữ nguyên)
+   
     public static boolean updatePassword(String username, String newPassword) {
         String sql = "UPDATE dbo.Users SET password = ?, updated_at = GETDATE() WHERE LOWER(username) = LOWER(?)";
         
@@ -187,11 +186,11 @@ public class UserDAO {
             
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
-        } catch (SQLException e) { System.out.println("❌ Lỗi khi cập nhật mật khẩu cuối cùng: " + e.getMessage()); }
+        } catch (SQLException e) { System.out.println(" Lỗi khi cập nhật mật khẩu cuối cùng: " + e.getMessage()); }
         return false;
     }
 
-    // 🟢 11. Cập nhật Hồ sơ Người dùng (Update Profile)
+   
     public static boolean updateUserProfile(int userId, String username, String email, String phone, String password) {
         String sql = "UPDATE dbo.Users "
                    + "SET username = ?, email = ?, phone = ?, password = ?, updated_at = GETDATE() "

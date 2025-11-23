@@ -118,9 +118,9 @@ public class CheckInOut {
 
             ps.setInt(1, id);
 
-            ps.setString(2, "confirmed");
+            ps.setString(2, "pending");
             ps.setString(3, status);
-//confirmed
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     list.add(rs.getInt("booking_id"));
@@ -147,7 +147,7 @@ public class CheckInOut {
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, phoneNumber);
-            ps.setString(2, "confirmed");
+            ps.setString(2, "pending");
             ps.setString(3, "reserved");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -168,7 +168,7 @@ public class CheckInOut {
         return list;
     }
 
-    public List<StayRoom> getCheckOutRoomForReceptionist(int phoneNumber) {
+    public List<StayRoom> getCheckOutRoomForReceptionist(long phoneNumber) {
         List<StayRoom> list = new ArrayList<>();
 
         String sql = "SELECT  b.booking_id, r.room_id, br.check_out_date, r.room_number, price_per_night, r.room_type\n"
@@ -177,12 +177,12 @@ public class CheckInOut {
                 + "JOIN Bookings b ON br.booking_id = b.booking_id \n"
                 + "JOIN Customers c ON b.customer_id = c.customer_id \n"
                 + "JOIN Users d ON c.customer_id = d.user_id\n"
-                + "WHERE d.phone = ? and b.status = ?";
+                + "WHERE d.phone = ? and b.status = ? and br.status = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, phoneNumber);
-            ps.setString(2, "confirmed");
-
+            ps.setLong(1, phoneNumber);
+            ps.setString(2, "pending");
+            ps.setString(3, "checked_in");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     StayRoom stayroom = new StayRoom();

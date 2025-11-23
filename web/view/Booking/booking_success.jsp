@@ -73,10 +73,13 @@
                             <button type="submit" class="btn btn-theme btn-lg">Go to Payment</button>
                         </form>
 
-                        <!-- Nút đi tới Booking List / Order List -->
-                        <a href="${pageContext.request.contextPath}/booking-list" 
-                           class="btn btn-secondary btn-lg">View My Bookings</a>
+                        <!-- Nút đi tới Booking History -->
+                        <a id="btnViewMyServices" href="${pageContext.request.contextPath}/booking-list" class="btn btn-secondary btn-lg"
+                           onclick="window.location.href='${pageContext.request.contextPath}/booking-list'; return false;">
+                            View My Bookings
+                        </a>
                     </div>
+
                 </c:if>
             </div>
         </div>

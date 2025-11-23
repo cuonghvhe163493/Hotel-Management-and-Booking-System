@@ -33,14 +33,16 @@ public class SearchBooking extends HttpServlet {
         String keyword = request.getParameter("search");
         List<StayRoom> list;
         StayRoomDAO dao = new StayRoomDAO();
-        int key = Integer.parseInt(keyword);
+        
         if (keyword == null || keyword.trim().isEmpty()) {
             list = dao.getAllBooking();
+            request.setAttribute("stayroom", list);
         } else {
-            if (searchType == "phone") {
+            int key = Integer.parseInt(keyword);
+            if ("phone".equals(searchType)) {
                 list = dao.getBooking(key);
                 request.setAttribute("stayroom", list);
-            } else if (searchType == "bookingId") {
+            } else if ("bookingId".equals(searchType)) {
                 list = dao.getBookingByBookingId(key);
                 request.setAttribute("stayroom", list);
             } else {

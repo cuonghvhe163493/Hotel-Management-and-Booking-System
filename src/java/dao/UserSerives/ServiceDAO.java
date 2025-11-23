@@ -7,6 +7,7 @@ package dao.UserSerives;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import model.ExtraServiceCartItem;
 import model.HotelService;
 import model.ServiceCartItems;
 import utils.DBConnection;
@@ -156,8 +157,8 @@ public class ServiceDAO {
             ps.setDouble(6, total);
 
             ps.setString(7, "checked_in"); // or any default status
-            
-            //TODO: need remove to real booking_id
+
+            // booking id must be provided; default to 1 when not available
             ps.setInt(8, 1);
 
             ps.executeUpdate();
@@ -167,4 +168,74 @@ public class ServiceDAO {
         }
     }
 
+    // Overload that accepts bookingId so services are linked to the real booking
+    public void bookingService(ServiceCartItems item, int bookingId) {
+        String sql = "INSERT INTO booking_service "
+                + "(service_id, service_name, check_in_date, check_out_date, guests_count, price, total, status, booking_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (conn == null) {
+                System.out.println("❌ Không thể kết nối tới Database.");
+                return;
+            }
+
+            ps.setInt(1, item.getService().getServiceId());
+            ps.setString(2, item.getService().getServiceName()); // Add service_name
+            ps.setDate(3, new java.sql.Date(item.getCheckInDate().getTime()));
+            ps.setDate(4, new java.sql.Date(item.getCheckOutDate().getTime()));
+            ps.setInt(5, item.getGuestsCount());
+
+            double price = item.getService().getPrice();
+            ps.setDouble(6, price);
+
+            double total = price * item.getGuestsCount();
+            ps.setDouble(7, total);
+
+            ps.setString(8, "checked_in");
+
+            ps.setInt(9, bookingId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Overload for ExtraServiceCartItem
+    public void bookingService(ExtraServiceCartItem item, int bookingId) {
+        String sql = "INSERT INTO booking_service "
+                + "(service_id, service_name, check_in_date, check_out_date, guests_count, price, total, status, booking_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (conn == null) {
+                System.out.println("❌ Không thể kết nối tới Database.");
+                return;
+            }
+
+            ps.setInt(1, item.getService().getExtraServiceId());
+            ps.setString(2, item.getService().getServiceName());
+            ps.setDate(3, new java.sql.Date(item.getCheckInDate().getTime()));
+            ps.setDate(4, new java.sql.Date(item.getCheckOutDate().getTime()));
+            ps.setInt(5, item.getGuestsCount());
+
+            double price = item.getService().getServicePrice();
+            ps.setDouble(6, price);
+
+            double total = price * item.getGuestsCount();
+            ps.setDouble(7, total);
+
+            ps.setString(8, "checked_in");
+            ps.setInt(9, bookingId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

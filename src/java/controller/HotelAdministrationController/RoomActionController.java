@@ -13,7 +13,7 @@ public class RoomActionController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // **Kiểm tra Session Admin
+      
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("role") == null || 
             !session.getAttribute("role").toString().toLowerCase().contains("admin")) { 
@@ -35,7 +35,7 @@ public class RoomActionController extends HttpServlet {
         }
     }
     
-    // Xử lý CREATE 
+  
     private void handleCreate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String roomNumber = request.getParameter("roomNumber");
         String roomType = request.getParameter("roomType");
@@ -60,7 +60,7 @@ public class RoomActionController extends HttpServlet {
         }
     }
     
-    //  Xử lý UPDATE
+  
     private void handleUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String roomIdStr = request.getParameter("roomId");
         String roomNumber = request.getParameter("roomNumber");
@@ -89,7 +89,7 @@ public class RoomActionController extends HttpServlet {
         }
     }
 
-    //  Xử lý DELETE
+   
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String roomIdStr = request.getParameter("roomId");
 

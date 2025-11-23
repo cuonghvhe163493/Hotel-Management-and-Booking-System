@@ -32,14 +32,21 @@ public class Details extends HttpServlet {
         
         String roomId = request.getParameter("roomId");
         String bookingId = request.getParameter("bookingId");
-        
+        String role = request.getParameter("role");
         int roomid = Integer.parseInt(roomId);
         int bookingid = Integer.parseInt(bookingId);
-        
+        int rl = Integer.parseInt(role);
         StayRoomDAO d = new StayRoomDAO();
         
         StayRoom room = d.getDetails(bookingid, roomid);
         request.setAttribute("room", room);
+        if(rl==1){
+            request.setAttribute("role", "hotel_manager");
+        }
+        else{
+            request.setAttribute("role", "customer");
+        }
+        
         
         
 

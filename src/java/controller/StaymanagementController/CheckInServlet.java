@@ -4,7 +4,7 @@
  */
 package controller.StaymanagementController;
 
-import static com.microsoft.sqlserver.jdbc.StringUtils.isEmpty;
+
 import dao.Staymanagement.CheckInOut;
 import dao.Staymanagement.StayRoomDAO;
 import jakarta.servlet.RequestDispatcher;

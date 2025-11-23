@@ -148,6 +148,7 @@ public class BookingListServlet extends HttpServlet {
             BookingDAO bookingDAO = new BookingDAO(conn);
             BookingRoomDAO bookingRoomDAO = new BookingRoomDAO();
 
+            // Xử lý actions.
             if ("delete".equals(action)) {
                 bookingRoomDAO.deleteByBookingId(bookingId);
                 bookingDAO.deleteBooking(bookingId);

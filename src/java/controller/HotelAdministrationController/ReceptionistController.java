@@ -16,7 +16,7 @@ public class ReceptionistController extends HttpServlet {
         return "admin".equalsIgnoreCase(session.getAttribute("role").toString());
     }
 
-    // 🔹 Xử lý GET: Hiển thị danh sách Lễ tân
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class ReceptionistController extends HttpServlet {
         request.getRequestDispatcher("/view/HotelAdministration/receptionist_list.jsp").forward(request, response);
     }
     
-    // 🔹 Xử lý POST: Tạo Lễ tân mới
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class ReceptionistController extends HttpServlet {
                 handleCreate(request, response);
             } else if ("update".equals(action)) {
                 handleUpdate(request, response);
-            } else if ("update_status".equals(action)) { // 🟢 HÀNH ĐỘNG MỚI: Đổi trạng thái
+            } else if ("update_status".equals(action)) { 
                 handleUpdateStatus(request, response);
             } else if ("delete".equals(action)) {
                 handleDelete(request, response);
@@ -59,7 +59,7 @@ public class ReceptionistController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/receptionists?error=invalid_action");
             }
         } catch (RuntimeException e) {
-            // Xử lý lỗi Khóa ngoại (ví dụ: Admin không thể xóa nếu Lễ tân có Reservation)
+           
             if ("FK_VIOLATION".equals(e.getMessage())) {
                 response.sendRedirect(request.getContextPath() + "/admin/receptionists?error=delete_fk"); 
             } else {
@@ -71,25 +71,24 @@ public class ReceptionistController extends HttpServlet {
         }
     }
     
-    // 🔹 handleCreate (Giữ nguyên)
+   
     private void handleCreate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // ... (Logic đã có)
-        // ...
+        
     }
     
-    // 🟢 Xử lý UPDATE (Sửa thông tin cá nhân)
+  
     private void handleUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userIdStr = request.getParameter("userId");
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
-        String password = request.getParameter("password"); // Password cũ/mới
+        String password = request.getParameter("password"); 
         
         int userId = Integer.parseInt(userIdStr);
         ReceptionistDAO dao = new ReceptionistDAO();
         
-        // LƯU Ý: Phải đảm bảo password không bị mất. Giả sử form gửi password cũ nếu không đổi.
+        
         boolean success = dao.updateReceptionist(userId, username, email, phone, address, password);
         
         if (success) {
@@ -99,10 +98,10 @@ public class ReceptionistController extends HttpServlet {
         }
     }
     
-    // 🟢 Xử lý UPDATE STATUS (Đặt lại Status)
+   
     private void handleUpdateStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userIdStr = request.getParameter("userId");
-        String newStatus = request.getParameter("newStatus"); // active, suspended, banned
+        String newStatus = request.getParameter("newStatus"); 
         
         int userId = Integer.parseInt(userIdStr);
         ReceptionistDAO dao = new ReceptionistDAO();
@@ -116,7 +115,7 @@ public class ReceptionistController extends HttpServlet {
         }
     }
 
-    // 🔹 handleDelete (Cập nhật logic)
+    
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userIdStr = request.getParameter("userId");
         int userId = Integer.parseInt(userIdStr);

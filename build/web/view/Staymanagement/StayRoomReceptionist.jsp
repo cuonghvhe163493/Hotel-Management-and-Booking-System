@@ -34,6 +34,7 @@
                             <option value="phone" ${param.searchType == 'phone' ? 'selected' : ''}>Phone</option>
                             <option value="bookingId" ${param.searchType == 'bookingId' ? 'selected' : ''}>Booking Id</option>
                             <option value="roomId" ${param.searchType == 'roomId' ? 'selected' : ''}>Room Id</option>
+                            
                         </select>
                     </div>
                     <div>
@@ -65,15 +66,11 @@
                             <td>${room.bookingId}</td>
                             <td>${room.roomId}</td>
                             <td>${room.roomNumber}</td>
-                            <td>
-                                <span class="status-badge status-${room.status.toLowerCase()}">
-                                    ${room.status}
-                                </span>
-                            </td>
+                            <td>${room.status}</td>
                             <td>${room.checkInDate}</td>
                             <td>${room.checkOutDate}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}"
+                                <a href="${pageContext.request.contextPath}/details?roomId=${room.roomId}&bookingId=${room.bookingId}&role=1"
                                    class="link-details">Details</a>
                             </td>
                         </tr>
@@ -108,7 +105,7 @@
 
                 <div class="func-box">
                     <div>
-                        <a href="ChangeRoom.jsp"><input type="button" value="CHANGE ROOM" class="func-btn" /></a>
+                        <a href="${pageContext.request.contextPath}/ChangeRoom"><input type="button" value="CHANGE ROOM" class="func-btn" /></a>
                     </div>
                     <div>
                         <a href="${pageContext.request.contextPath}/view/Staymanagement/ExtendRoomForReceptionist.jsp"><input type="button" value="EXTEND ROOM" class="func-btn" /></a>

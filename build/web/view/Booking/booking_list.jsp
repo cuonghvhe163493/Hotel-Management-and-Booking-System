@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>My Booking History</title>
-        <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -37,7 +37,6 @@
             }
             .table th, .table td {
                 vertical-align: middle;
-                text-align: center;
             }
             .table tbody tr:hover {
                 background-color: #f1f1f1;
@@ -50,6 +49,7 @@
     <body>
         <jsp:include page="/view/common/header.jsp" />
 
+        <!-- Page Banner -->
         <section class="center_o text-center">
             <div class="container-xl">
                 <h2 class="text-uppercase">My Booking History</h2>
@@ -60,6 +60,7 @@
             </div>
         </section>
 
+        <!-- Bookings Section -->
         <section class="py-5">
             <div class="container">
                 <div class="card shadow-lg border-0">
@@ -79,101 +80,53 @@
                                         <option value="pending" ${param.statusFilter=='pending' ? 'selected' : ''}>Pending</option>
                                         <option value="completed" ${param.statusFilter=='completed' ? 'selected' : ''}>Completed</option>
                                         <option value="cancelled" ${param.statusFilter=='cancelled' ? 'selected' : ''}>Cancelled</option>
-                                        <option value="balance_due" ${param.statusFilter=='balance_due' ? 'selected' : ''}>Balance Due</option>
-                                        <option value="draft" ${param.statusFilter=='draft' ? 'selected' : ''}>Draft</option>
                                     </select>
                                     <button type="submit" class="btn btn-primary btn-sm">Apply</button>
                                 </form>
 
                                 <div class="table-responsive">
-                                    <table class="table table-bordered align-middle text-center">
+                                    <table class="table table-bordered align-middle">
                                         <thead class="table-warning">
                                             <tr>
-                                                <th>
-                                                    Check-in
-                                                    <c:url var="sortDateAscUrl" value="booking-list">
-                                                        <c:param name="sortBy" value="dateAsc" />
-                                                        <c:if test="${not empty param.statusFilter}">
-                                                            <c:param name="statusFilter" value="${param.statusFilter}" />
-                                                        </c:if>
-                                                    </c:url>
-                                                    <a href="${sortDateAscUrl}">&#9650;</a>
-
-                                                    <c:url var="sortDateDescUrl" value="booking-list">
-                                                        <c:param name="sortBy" value="dateDesc" />
-                                                        <c:if test="${not empty param.statusFilter}">
-                                                            <c:param name="statusFilter" value="${param.statusFilter}" />
-                                                        </c:if>
-                                                    </c:url>
-                                                    <a href="${sortDateDescUrl}">&#9660;</a>
-                                                </th>
-
+                                                <th>Booking ID</th>
+                                                <th>Check-in</th>
                                                 <th>Check-out</th>
-                                                <th>Status Booking</th>
-                                                <th>
-                                                    Total
-                                                    <c:url var="sortPriceAscUrl" value="booking-list">
-                                                        <c:param name="sortBy" value="priceAsc" />
-                                                        <c:if test="${not empty param.statusFilter}">
-                                                            <c:param name="statusFilter" value="${param.statusFilter}" />
-                                                        </c:if>
-                                                    </c:url>
-                                                    <a href="${sortPriceAscUrl}">&#9650;</a>
-
-                                                    <c:url var="sortPriceDescUrl" value="booking-list">
-                                                        <c:param name="sortBy" value="priceDesc" />
-                                                        <c:if test="${not empty param.statusFilter}">
-                                                            <c:param name="statusFilter" value="${param.statusFilter}" />
-                                                        </c:if>
-                                                    </c:url>
-                                                    <a href="${sortPriceDescUrl}">&#9660;</a>
-                                                </th>
-
-                                                <th>Detail</th>
+                                                <th>Status</th>
+                                                <th>Total</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <c:forEach var="b" items="${bookings}">
                                                 <tr>
-                                                    <td>${b.checkInDate}</td>
-                                                    <td>${b.checkOutDate}</td>
+                                                    <td>#${b.bookingId}</td>
+                                                    <td><fmt:formatDate value="${b.checkInDate}" pattern="yyyy-MM-dd"/></td>
+                                                    <td><fmt:formatDate value="${b.checkOutDate}" pattern="yyyy-MM-dd"/></td>
                                                     <td>
                                                         <span class="badge
                                                               <c:choose>
                                                                   <c:when test="${b.status == 'completed'}">bg-success</c:when>
-                                                                  <c:when test="${b.status == 'pending'}">bg-secondary</c:when>
+                                                                  <c:when test="${b.status == 'pending'}">bg-warning</c:when>
                                                                   <c:when test="${b.status == 'cancelled'}">bg-danger</c:when>
-                                                                  <c:otherwise>bg-info</c:otherwise>
+                                                                  <c:otherwise>bg-secondary</c:otherwise>
                                                               </c:choose>">
                                                             ${b.status}
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <fmt:formatNumber value="${b.grandTotal}" type="currency" currencySymbol="VNĐ" />
+                                                        <fmt:formatNumber value="${b.grandTotal}" type="number" maxFractionDigits="0"/> VNĐ
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                                        <button type="button" class="btn btn-sm btn-outline-primary" 
                                                                 data-bs-toggle="modal" data-bs-target="#bookingModal${b.bookingId}">
                                                             View Details
                                                         </button>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${b.status == 'pending' || b.status == 'balance_due'}">
+                                                        <c:if test="${b.status == 'pending'}">
                                                             <form action="${pageContext.request.contextPath}/payment" method="post" style="display:inline;">
                                                                 <input type="hidden" name="bookingId" value="${b.bookingId}">
                                                                 <input type="hidden" name="grandTotal" value="${b.grandTotal}">
                                                                 <input type="hidden" name="orderInfo" value="Payment for booking #${b.bookingId}">
-                                                                <button type="submit" class="btn btn-sm btn-warning">Pay Now</button>
-                                                            </form>
-                                                            <form action="${pageContext.request.contextPath}/booking-list" method="post" style="display:inline;">
-                                                                <input type="hidden" name="bookingId" value="${b.bookingId}">
-                                                                <input type="hidden" name="action" value="delete">
-                                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                                        onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                                                    Cancel
-                                                                </button>
+                                                                <button type="submit" class="btn btn-sm btn-warning">Pay</button>
                                                             </form>
                                                         </c:if>
                                                     </td>
@@ -189,56 +142,97 @@
             </div>
         </section>
 
-        <!-- Modal for each booking -->
+        <!-- Modals for each booking -->
         <c:forEach var="b" items="${bookings}">
-            <div class="modal fade" id="bookingModal${b.bookingId}" tabindex="-1" aria-labelledby="bookingModalLabel${b.bookingId}" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal fade" id="bookingModal${b.bookingId}" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title" id="bookingModalLabel${b.bookingId}">Booking's Details</h5>
+                            <h5 class="modal-title">Booking #${b.bookingId} Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-center align-middle mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Room Number</th>
-                                            <th>Check-in</th>
-                                            <th>Check-out</th>
-                                            <th>Nights</th>
-                                            <th>Guests</th>
-                                            <th>Rate per Night</th>
-                                            <th>Total</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="r" items="${not empty roomsMap[b.bookingId] ? roomsMap[b.bookingId] : emptyList}">
-                                            <tr>
-                                                <td>${r.roomNumber}</td>
-                                                <td>${r.checkInDate}</td>
-                                                <td>${r.checkOutDate}</td>
-                                                <td>${r.nights}</td>
-                                                <td>${r.guestsCount}</td>
-                                                <td>${r.ratePerNight}</td>
-                                                <td>${r.lineTotal}</td>
-                                                <td>
-                                                    <span class="badge
-                                                          <c:choose>
-                                                              <c:when test="${r.status == 'reserved'}">bg-secondary</c:when>
-                                                              <c:when test="${r.status == 'checked_in'}">bg-info</c:when>
-                                                              <c:when test="${r.status == 'checked_out'}">bg-success</c:when>
-                                                              <c:when test="${r.status == 'cancelled'}">bg-danger</c:when>
-                                                              <c:otherwise>bg-light text-dark</c:otherwise>
-                                                          </c:choose>">
-                                                        ${r.status}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                            <h6 class="mb-3">Room(s) Booked</h6>
+                            <c:choose>
+                                <c:when test="${not empty roomsMap[b.bookingId] && roomsMap[b.bookingId].size() > 0}">
+                                    <div class="table-responsive mb-4">
+                                        <table class="table table-bordered table-sm">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Room</th>
+                                                    <th>Check-in</th>
+                                                    <th>Check-out</th>
+                                                    <th>Guests</th>
+                                                    <th>Price/Night</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="r" items="${roomsMap[b.bookingId]}">
+                                                    <tr>
+                                                        <td>#${r.roomNumber}</td>
+                                                        <td><fmt:formatDate value="${r.checkInDate}" pattern="yyyy-MM-dd"/></td>
+                                                        <td><fmt:formatDate value="${r.checkOutDate}" pattern="yyyy-MM-dd"/></td>
+                                                        <td>${r.guestsCount}</td>
+                                                        <td><fmt:formatNumber value="${r.ratePerNight}" type="number" maxFractionDigits="0"/> VNĐ</td>
+                                                        <td><fmt:formatNumber value="${r.lineTotal}" type="number" maxFractionDigits="0"/> VNĐ</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="text-muted">No rooms booked for this booking.</p>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <h6 class="mb-3 mt-4">Services Booked</h6>
+                            <c:choose>
+                                <c:when test="${not empty servicesMap[b.bookingId] && servicesMap[b.bookingId].size() > 0}">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Service Name</th>
+                                                    <th>Check-in</th>
+                                                    <th>Check-out</th>
+                                                    <th>Guests</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="s" items="${servicesMap[b.bookingId]}">
+                                                    <tr>
+                                                        <td>${s.serviceName}</td>
+                                                        <td><fmt:formatDate value="${s.checkInDate}" pattern="yyyy-MM-dd"/></td>
+                                                        <td><fmt:formatDate value="${s.checkOutDate}" pattern="yyyy-MM-dd"/></td>
+                                                        <td>${s.guestsCount}</td>
+                                                        <td><fmt:formatNumber value="${s.price}" type="number" maxFractionDigits="0"/> VNĐ</td>
+                                                        <td><fmt:formatNumber value="${s.total}" type="number" maxFractionDigits="0"/> VNĐ</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="text-muted">No services booked for this booking.</p>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <hr/>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <p><strong>Check-in Date:</strong> <fmt:formatDate value="${b.checkInDate}" pattern="yyyy-MM-dd"/></p>
+                                    <p><strong>Check-out Date:</strong> <fmt:formatDate value="${b.checkOutDate}" pattern="yyyy-MM-dd"/></p>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <p><strong>Subtotal:</strong> <fmt:formatNumber value="${b.subtotal}" type="number" maxFractionDigits="0"/> VNĐ</p>
+                                    <p><strong>Discount:</strong> <fmt:formatNumber value="${b.discountTotal}" type="number" maxFractionDigits="0"/> VNĐ</p>
+                                    <p class="fs-5"><strong>Grand Total:</strong> <fmt:formatNumber value="${b.grandTotal}" type="number" maxFractionDigits="0"/> VNĐ</p>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -6,13 +6,13 @@ import java.util.List;
 import model.Voucher; 
 import utils.DBConnection;
 import java.util.Calendar;
-import java.util.Date; // Thêm import này
+import java.util.Date; 
 
 public class VoucherDAO {
     
-    // Helper method (giữ nguyên)
+   
     private Voucher extractVoucherFromResultSet(ResultSet rs) throws SQLException {
-        // Dùng rs.getDate() cho các trường ngày tháng
+     
         return new Voucher(
             rs.getInt("voucher_id"),
             rs.getString("code"),
@@ -47,13 +47,11 @@ public class VoucherDAO {
         return vouchers;
     }
     
-    // 🟢 FIX: Thêm tham số minSpend (giá trị mặc định)
-    // 🟢 FIX: Sử dụng DATEADD(year, 1, GETDATE()) để gán end_date tự động
+   
     public boolean createVoucher(String code, double discountValue, String description) {
         String discountType = (discountValue <= 1.0 && discountValue > 0) ? "percentage" : "fixed"; 
         
-        // FIX: Thêm min_spend vào danh sách cột và tham số
-        // Lệnh SQL Server của bạn có min_spend (decimal(10, 2))
+       
         String sql = "INSERT INTO dbo.Vouchers (code, description, discount_type, discount_value, min_spend, start_date, end_date, usage_limit, created_at, updated_at) "
                    + "VALUES (?, ?, ?, ?, 0.00, GETDATE(), DATEADD(year, 1, GETDATE()), 100, GETDATE(), GETDATE())"; // min_spend = 0.00, usage_limit = 100
         
@@ -74,11 +72,11 @@ public class VoucherDAO {
         }
     }
 
-    // 🟢 FIX: Thêm tham số minSpend (giá trị mặc định)
+   
     public boolean updateVoucher(int voucherId, String code, double discountValue, String description) {
         String discountType = (discountValue <= 1.0 && discountValue > 0) ? "percentage" : "fixed"; 
         
-        // Sửa: Thêm min_spend = 0.00 vào lệnh UPDATE (nếu cần thiết) và đảm bảo các tham số khớp
+       
         String sql = "UPDATE dbo.Vouchers SET code=?, description=?, discount_type=?, discount_value=?, min_spend=0.00, updated_at=GETDATE() WHERE voucher_id=?";
         
         try (Connection conn = DBConnection.getConnection();
@@ -99,7 +97,7 @@ public class VoucherDAO {
         }
     }
     
-    // 🟢 HOÀN THIỆN: Thêm logic DELETE
+  
     public boolean deleteVoucher(int voucherId) {
         String sql = "DELETE FROM dbo.Vouchers WHERE voucher_id = ?";
         

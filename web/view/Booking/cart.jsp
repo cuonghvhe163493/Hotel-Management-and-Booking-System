@@ -45,6 +45,8 @@
     <!-- Include header -->
     <jsp:include page="/view/common/header.jsp" />
 
+   
+
     <!-- Page Banner -->
     <section id="center" class="center_o pt-4 pb-5 text-center bg-dark text-white">
         <div class="container-xl">
@@ -123,19 +125,57 @@
 
             <div class="divider"></div>
 
-            <!-- ================= SERVICE CART SECTION ================= -->
-            <div id="service-cart">
-                <h4 class="section-title"><i class="fa fa-concierge-bell"></i> Service Cart</h4>
+            <!-- ================= UNIFIED SERVICE CART SECTION ================= -->
+            <div id="unified-service-cart">
+                <h4 class="section-title"><i class="fa fa-concierge-bell"></i> Services & Add-ons</h4>
 
-                <c:if test="${empty sessionScope.cartServices}">
-                    <div class="text-center">
-                        <h5>Your service cart is empty.</h5>
-                        <a href="${pageContext.request.contextPath}/services" class="btn btn-primary mt-3">Browse Services</a>
+                <!-- EXTRA SERVICES -->
+                <c:if test="${not empty sessionScope.cartExtraServices}">
+                    <h5 style="color: #333; margin-top: 20px; margin-bottom: 15px;">
+                        <i class="fa fa-box-open"></i> Extra Services
+                    </h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered cart-table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Type</th>
+                                    <th>Guests</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="item" items="${sessionScope.cartExtraServices}" varStatus="status">
+                                    <tr>
+                                        <td>${item.service.serviceName}</td>
+                                        <td>${item.service.serviceType}</td>
+                                        <td>${item.guestsCount}</td>
+                                        <td><fmt:formatDate value="${item.checkInDate}" pattern="yyyy-MM-dd"/></td>
+                                        <td><fmt:formatDate value="${item.checkOutDate}" pattern="yyyy-MM-dd"/></td>
+                                        <td>
+                                            <fmt:formatNumber value="${item.service.servicePrice}" type="number"/>
+                                        </td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/extra-service-cart?index=${status.index}" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i> Remove
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </c:if>
 
+                <!-- REGULAR SERVICES -->
                 <c:if test="${not empty sessionScope.cartServices}">
-                    <div class="table-responsive">
+                    <h5 style="color: #333; margin-top: 20px; margin-bottom: 15px;">
+                        <i class="fa fa-cog"></i> Regular Services
+                    </h5>
+                    <div class="table-responsive mb-4">
                         <table class="table table-bordered cart-table">
                             <thead class="table-dark">
                                 <tr>
@@ -167,7 +207,7 @@
                                             </td>
                                             <td>${item.service.price}</td>
                                             <td>
-                                                <a href="service-cart?index=${status.index}" class="btn btn-danger btn-sm">
+                                                <a href="${pageContext.request.contextPath}/service-cart?index=${status.index}" class="btn btn-danger btn-sm">
                                                     <i class="fa fa-trash"></i> Remove
                                                 </a>
                                                 <button type="submit" class="btn btn-info btn-sm">
@@ -180,13 +220,24 @@
                             </tbody>
                         </table>
                     </div>
+                </c:if>
 
-                    <div class="text-end mt-4">
-                        <c:if test="${not empty error}">
-                            <div class="alert alert-danger">${error}</div>
-                        </c:if>
-                        <a href="${pageContext.request.contextPath}/service-booking" class="btn btn-success px-4 py-2 fw-bold">
-                            <i class="fa fa-calendar-check"></i> Proceed Service Booking
+                <!-- EMPTY STATE -->
+                <c:if test="${empty sessionScope.cartExtraServices and empty sessionScope.cartServices}">
+                    <div class="text-center">
+                        <h5>Your service cart is empty.</h5>
+                        <div class="mt-3">
+                            <a href="${pageContext.request.contextPath}/extra-services" class="btn btn-primary mx-2">Browse Extra Services</a>
+                            <a href="${pageContext.request.contextPath}/services" class="btn btn-primary mx-2">Browse Services</a>
+                        </div>
+                    </div>
+                </c:if>
+
+                <!-- UNIFIED CHECKOUT BUTTON (ONLY SHOW IF ANYTHING IN CART) -->
+                <c:if test="${not empty sessionScope.cartExtraServices or not empty sessionScope.cartServices}">
+                    <div class="text-end mt-5">
+                        <a href="${pageContext.request.contextPath}/service-booking" class="btn btn-success px-5 py-3 fw-bold btn-lg">
+                            <i class="fa fa-check-circle"></i> Proceed to Checkout
                         </a>
                     </div>
                 </c:if>

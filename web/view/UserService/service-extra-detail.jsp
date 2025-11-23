@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +23,7 @@
     <body>
         <!-- Include header -->
         <jsp:include page="/view/common/header.jsp" />
-        
+
         <!-- Page Banner -->
         <section id="center" class="center_o pt-4 pb-5 text-center bg-dark text-white">
             <div class="container-xl">
@@ -32,7 +34,7 @@
                 </h6>
             </div>
         </section>
-        
+
         <section id="room" class="p_3">
             <div class="container-xl">
                 <c:if test="${not empty service}">
@@ -50,9 +52,9 @@
                             </ul>
 
                             <!-- Form add to cart -->
-                            <form action="#" method="post" class="mt-3">
+                            <form action="${pageContext.request.contextPath}/extra-service-cart" method="post" class="mt-3">
                                 <input type="hidden" name="action" value="add"/>
-                                <input type="hidden" name="roomId" value="${service.extraServiceId}"/>
+                                <input type="hidden" name="serviceId" value="${service.extraServiceId}"/>
                                 <div class="row g-2">
                                     <div class="col-md-4">
                                         <label class="form-label">Time-start</label>
@@ -76,7 +78,14 @@
                                         <button type="submit" class="btn btn-warning">
                                             Add to Cart
                                         </button>
+
                                     </div>
+
+                                    <c:if test="${param.success ne null}">
+                                        <div class="alert alert-success" role="alert">
+                                            Add to cart successfully
+                                        </div>
+                                    </c:if>
                                 </div>
                             </form>
                         </div>

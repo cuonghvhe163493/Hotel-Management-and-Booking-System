@@ -15,7 +15,7 @@ public class RoomListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // **Kiểm tra Session Admin**
+      
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("role") == null || 
             !session.getAttribute("role").toString().toLowerCase().contains("admin")) { 
@@ -25,13 +25,13 @@ public class RoomListController extends HttpServlet {
 
         RoomDAO roomDAO = new RoomDAO();
         
-        // 1. Lấy danh sách phòng
+       
         List<Room> rooms = roomDAO.getAllRooms();
         
-        // 2. Gán vào request
+       
         request.setAttribute("roomList", rooms);
         
-        // 3. Chuyển tiếp đến JSP
+      
         request.getRequestDispatcher("/view/HotelAdministration/room_list.jsp").forward(request, response);
     }
 }

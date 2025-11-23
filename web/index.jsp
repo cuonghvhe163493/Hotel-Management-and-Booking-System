@@ -473,17 +473,17 @@
             </script>
             
             <script>
-    // 1. Ki?m tra session attribute "isSuspended"
+    
     <% Boolean isSuspended = (Boolean) session.getAttribute("isSuspended"); %>
     
     <% if (isSuspended != null && isSuspended) { %>
-        // 2. ??nh ngh?a thông báo và th?i gian
-        const message = "Tài kho?n c?a b?n ?ang b? T?M KHÓA. B?n v?n có th? truy c?p, nh?ng m?t s? tính n?ng có th? b? gi?i h?n. Vui lòng liên h? h? tr?.";
-        const duration = 3000; // 3 giây
+  
+        const message = "Your account in suspended, carefull for it";
+        const duration = 3000; 
         
-        // --- Hàm hi?n th? Modal/Alert tùy ch?nh (B?n c?n t? ??nh ngh?a CSS) ---
+        
         function showSuspendedAlert(msg, duration) {
-            // T?O POPUP ??P H?N (Tùy ch?n)
+          
             const alertDiv = document.createElement('div');
             alertDiv.id = 'suspended-alert';
             alertDiv.style.cssText = `
@@ -496,17 +496,17 @@
             alertDiv.innerHTML = '?? **T?M KHÓA TÀI KHO?N**' + '<br>' + msg;
             document.body.appendChild(alertDiv);
             
-            // T? ??ng ?n sau th?i gian ??nh s?n
+            
             setTimeout(() => {
                 alertDiv.style.opacity = '0';
                 setTimeout(() => alertDiv.remove(), 500);
             }, duration);
         }
         
-        // 3. Th?c thi thông báo
+     
         showSuspendedAlert(message, duration);
         
-        // 4. Xóa c? kh?i Session ?? không hi?n th? l?i ? l?n t?i trang sau
+      
         <% session.removeAttribute("isSuspended"); %>
         
     <% } %>

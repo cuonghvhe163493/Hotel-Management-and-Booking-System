@@ -1,205 +1,115 @@
 <%-- 
-    Document   : ExtendChangeRoom
-    Created on : Oct 19, 2025, 2:18:12 PM
+    Document   : ExtendRoom
+    Created on : Oct 19, 2025, 3:04:53 PM
     Author     : Admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Change Room</title>
-        <link href="${pageContext.request.contextPath}/view/Staymanagement/css/stay.css" rel="stylesheet">
-    </head>
-    <body>
-        <p> Current ID Room: <input type="text" name="idroom" value="" placeholder="ID Room" />
-        <p> ID Room to change: <input type="text" name="idroom" value="" placeholder="ID Room" />
-        <p> Reason : <input type="text"  value="" placeholder="Date" />    
-        <p>Note</p>    
-        <input type="text" name="Note" value="" />
-        <input type="submit" class="send-btn" value="Submit" />
-        
-        
-        
-    </body>
-        <div class="main_room">
-            <div class="main_o1">
-                <section id="top" class="pt-3 pb-3">
-                    <div class="container-xl">
-                        <div class="row top_1">
-                            <div class="col-md-4">
-                                <div class="top_1l">
-                                    <span class="d-inline-block bg_yell  rounded-circle float-start me-2 text-center"><a href="#"><i class="fa fa-phone text-white"></i></a></span>
-                                    <h6 class="mb-0 lh-base font_14"><a class="text-white" href="#">For Further Inquires : <br>
-                                            +(000) 345 67 89</a></h6>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="top_1m text-center mt-2">
-                                    <h3 class="mb-0"><a class="text-white" href="index.html"><i class="fa fa-plane col_yell"></i> HMBS</a></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="header">
-                    <nav class="navbar navbar-expand-md navbar-light pt-3 pb-3" id="navbar_sticky">
-                        <div class="container-xl">
-                            <a class="navbar-brand fs-3 p-0 fw-bold text-white" href="index.html"><i class="fa fa-plane col_yell"></i> HMBS </a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav mb-0">
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="about.html">About </a>
-                                    </li>
-
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Rooms
-                                        </a>
-                                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="rooms.html"> Rooms</a></li>
-                                            <li><a class="dropdown-item border-0" href="detail.html"> Room Detail</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Blog
-                                        </a>
-                                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="blog.html"> Blog</a></li>
-                                            <li><a class="dropdown-item border-0" href="blog_detail.html"> Blog Detail</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="services.html">Services</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="gallery.html">Gallery</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="contact.html">Contact</a>
-                                    </li>
-
-                                </ul>
-                                <ul class="navbar-nav mb-0 ms-auto">
-                                    <li class="nav-item">
-                                        <a class="nav-link button" href="#">BOOK NOW </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </section>
-                <section id="center" class="center_o pt-4 pb-5">
-                    <div class="container-xl">
-                        <div class="row center_o1 text-center">
-                            <div class="col-md-12">
-                                <h2 class="text-white text-uppercase">Rooms</h2>
-                                <h6 class="mb-0 mt-3 col_yell"><a class="text-white" href="#">Stay Room</a> <span class="mx-2 text-muted">/</span> Check In </h6>
-                            </div>
-                        </div>
-                    </div>   
-                </section>
-            </div>
-        </div>
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        <section id="footer" class="p-4 bg-dark text-light">
-            <div class="container-xl">
-                <div class="row">
-                    <!-- Logo & Description -->
-                    <div class="col-md-3 mb-4">
-                        <h4 class="text-white mb-2">
-                            <i class="fa fa-plane text-warning"></i>HMBS
-                        </h4>
-                        <p class="small mb-0">
-                            Your comfort is our priority. Experience modern hospitality with us.
-                        </p>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <h6 class="text-white mb-3">Quick Links</h6>
-                        <ul class="list-unstyled small">
-                            <li><a href="#" class="text-light text-decoration-none">Home</a></li>
-                            <li><a href="#" class="text-light text-decoration-none">About</a></li>
-                            <li><a href="#" class="text-light text-decoration-none">Rooms</a></li>
-                            <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="col-md-3 mb-4">
-                        <h6 class="text-white mb-3">Contact Us</h6>
-                        <p class="small mb-1">123 Street, New York, USA</p>
-                        <p class="small mb-1">Phone: +1 234 567 890</p>
-                        <p class="small mb-0">Email: info@hotells.com</p>
-                    </div>
-
-                    <!-- Newsletter -->
-                    <div class="col-md-3 mb-4">
-                        <h6 class="text-white mb-3">Stay Updated</h6>
-                        <div class="input-group">
-                            <input type="email" class="form-control rounded-0" placeholder="Your Email">
-                            <button class="btn btn-warning text-dark rounded-0" type="button">
-                                <i class="fa fa-paper-plane"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="border-secondary my-3">
-
-                <div class="text-center small">
-                    © 2025 HMBS. All Rights Reserved.
-                </div>
-            </div>
-        </section>
-
-        <!--sticky navbar-->
-        <script>
-            window.onscroll = function () {
-                myFunction()
-            };
-            var navbar_sticky = document.getElementById("navbar_sticky");
-            var sticky = navbar_sticky.offsetTop;
-            var navbar_height = document.querySelector('.navbar').offsetHeight;
-            function myFunction() {
-                if (window.pageYOffset >= sticky + navbar_height) {
-                    navbar_sticky.classList.add("sticky")
-
-                } else {
-                    navbar_sticky.classList.remove("sticky");
-                    document.body.style.paddingTop = '0'
-                }
+        <style>
+            .body-box{
+                display: flex;
+                justify-content: center; 
+                align-items: center;     
+                min-height: 100vh;       
+                margin: 0;
+                background-color: #f5f5f5;
             }
-        </script>
-    
-    
+            .change-container {
+                width: 350px;
+                font-family: Arial, sans-serif;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+
+            .change-header {
+                background-color: #ff9800;
+                color: white;
+                padding: 10px 15px;
+                font-weight: bold;
+            }
+
+            .change-body {
+                background: #fafafa;
+                padding: 18px;
+            }
+
+            .change-title {
+                margin-top: 0;
+                color: #ff9800;
+            }
+
+            .change-select {
+                width: 100%;
+                padding: 8px;
+                margin: 6px 0 12px 0;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .change-btn {
+                padding: 8px 18px;
+                border: none;
+                background-color: #ff9800;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .change-btn:hover {
+                opacity: 0.9;
+            }
+
+        </style>
+
+    </head>
+    <body >
+        <jsp:include page="/view/common/header.jsp" />
+        <div class="body-box">
+            
+
+            <div class="change-container">
+                <h3 class="word_3">Change Room</h3>
+                <div class="change-header">
+                    <p>Notification</p>
+                </div>
+
+                <div class="change-body">
+                    <form action="${pageContext.request.contextPath}/ChangeRoom" method="post" class="change-form">
+                        <h3 class="change-title">Change Room</h3>
+
+                        <p>Current Room ID:
+                            <select name="roomId" class="change-select">
+                                <option value="">-- Select Current Room --</option>
+                                <c:forEach var="r" items="${list_1}">
+                                    <option value="${r}">${r}</option>
+                                </c:forEach>
+                            </select>
+                        </p>
+
+                        <p>Room ID to Change:
+                            <select name="roomIdToChange" class="change-select">
+                                <option value="">-- Select New Room --</option>
+                                <c:forEach var="r" items="${list_2}">
+                                    <option value="${r}">${r}</option>
+                                </c:forEach>
+                            </select>
+                        </p>
+
+                        <input type="submit" value="Submit" class="change-btn" />
+                        ${mess}
+                    </form>
+                </div>
+
+            </div>
+        </div>        
+
+    </body>
 </html>

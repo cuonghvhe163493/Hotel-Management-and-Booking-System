@@ -28,7 +28,7 @@ public class ChangeUserStatusDAO {
    
     public List<User> getAllCustomers() {
         List<User> customers = new ArrayList<>();
-        // Lấy tất cả người dùng có vai trò là 'customer'
+        
         String query = "SELECT * FROM dbo.Users WHERE role = 'customer' ORDER BY user_id ASC";
         
         try (Connection conn = DBConnection.getConnection(); 
@@ -40,14 +40,14 @@ public class ChangeUserStatusDAO {
             }
         } catch (SQLException e) {
             System.out.println(" Lỗi khi lấy tất cả khách hàng: " + e.getMessage());
-            // Nên ghi log lỗi chi tiết hơn ở môi trường Production
+           
         }
         return customers;
     }
     
  
     public User getUserById(int userId) {
-        // Dùng cho trường hợp cần lấy thông tin chi tiết của 1 user cụ thể
+       
         String query = "SELECT * FROM dbo.Users WHERE user_id = ?"; 
         User user = null;
         try (Connection conn = DBConnection.getConnection(); 

@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/web/view/HotelAdministration/admin_homepage.jsp</file>
-            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/src/java/controller/HotelAdministrationController/HotelAdministrationController.java</file>
-            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/src/java/dao/HotelAdministration/HotelAdministrationDAO.java</file>
+            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/src/java/model/Blog.java</file>
+            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/src/java/model/Booking.java</file>
+            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/web/view/UserService/service-detail.jsp</file>
+            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/src/java/controller.UserServicesController/ServiceCartServlet.java</file>
+            <file>file:/D:/HocFPT/Môn%20Ky%20Mới/SWP391PRoject2/Hotel-Management-and-Booking-System-cuonghv%20(1)/Hotel-Management-and-Booking-System-cuonghv/src/java/model/HotelService.java</file>
         </group>
     </open-files>
 </project-private>

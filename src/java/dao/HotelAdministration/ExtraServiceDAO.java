@@ -3,16 +3,16 @@ package dao.HotelAdministration;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.ExtraService; // Dùng model.ExtraService
+import model.ExtraService; 
 import utils.DBConnection;
 import java.util.Date;
 import model.Reservation;
 
 public class ExtraServiceDAO {
     
-    // Helper method to map ResultSet to ExtraService object
+    
     private ExtraService extractExtraServiceFromResultSet(ResultSet rs) throws SQLException {
-        // Dựa trên DDL, các cột là: extra_service_id, reservation_id, service_name, service_description, service_price, status
+        
         return new ExtraService(
             rs.getInt("extra_service_id"),
             rs.getInt("reservation_id"),
@@ -27,7 +27,7 @@ public class ExtraServiceDAO {
         );
     }
 
-    // 🔹 1. Lấy tất cả các Extra Service
+    
     public List<ExtraService> getAllExtraServices() {
         List<ExtraService> services = new ArrayList<>();
         String sql = "SELECT * FROM dbo.Extra_Services ORDER BY extra_service_id DESC";
@@ -46,9 +46,9 @@ public class ExtraServiceDAO {
         return services;
     }
 
-    // 🔹 2. Tạo Extra Service mới (CREATE)
+    
     public boolean createExtraService(int reservationId, String serviceName, String description, double price, Date startTime, Date endTime) {
-        // Trạng thái mặc định là 'pending'
+       
         String sql = "INSERT INTO dbo.Extra_Services (reservation_id, service_name, service_description, service_price, service_start_time, service_end_time, status, created_at, updated_at) "
                    + "VALUES (?, ?, ?, ?, ?, ?, 'pending', GETDATE(), GETDATE())";
         
@@ -71,7 +71,7 @@ public class ExtraServiceDAO {
         }
     }
 
-    // 🔹 3. Cập nhật Extra Service (UPDATE)
+    
     public boolean updateExtraService(int serviceId, int reservationId, String serviceName, String description, double price, Date startTime, Date endTime, String status) {
         String sql = "UPDATE dbo.Extra_Services SET reservation_id=?, service_name=?, service_description=?, service_price=?, service_start_time=?, service_end_time=?, status=?, updated_at=GETDATE() WHERE extra_service_id=?";
         
@@ -96,7 +96,7 @@ public class ExtraServiceDAO {
         }
     }
     
-    // 🔹 4. Xóa Extra Service (DELETE)
+   
     public boolean deleteExtraService(int serviceId) {
         String sql = "DELETE FROM dbo.Extra_Services WHERE extra_service_id = ?";
         
@@ -109,7 +109,7 @@ public class ExtraServiceDAO {
         } catch (SQLException e) {
             System.err.println("❌ SQL Error in deleteExtraService: " + e.getMessage());
             e.printStackTrace();
-            // Ném lỗi Khóa ngoại nếu cần
+           
             if (e.getErrorCode() == 547 || e.getMessage().contains("REFERENCE constraint")) { 
                 throw new RuntimeException("FK_VIOLATION"); 
             }
@@ -119,9 +119,7 @@ public class ExtraServiceDAO {
     
     public List<Reservation> getAllReservations() {
     List<Reservation> reservations = new ArrayList<>();
-    // Chỉ lấy các đặt chỗ đang hoạt động (confirmed, checked_in, completed)
-    // SỬA: Lấy tất cả các cột cần thiết, bao gồm cả cột nullable (voucher_id)
-    String sql = "SELECT * FROM dbo.Reservations WHERE status IN ('confirmed', 'completed', 'checked_in') ORDER BY reservation_id DESC";
+       String sql = "SELECT * FROM dbo.Reservations WHERE status IN ('confirmed', 'completed', 'checked_in') ORDER BY reservation_id DESC";
     
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql);
@@ -129,10 +127,10 @@ public class ExtraServiceDAO {
 
         while (rs.next()) {
             
-            // Xử lý cột nullable (voucher_id) để tránh lỗi NumberFormatException
+          
             Integer voucherId = rs.getObject("voucher_id") != null ? rs.getInt("voucher_id") : null;
             
-            // Tạo đối tượng Reservation
+           
             reservations.add(new Reservation(
                 rs.getInt("reservation_id"),
                 rs.getInt("customer_id"),
@@ -150,7 +148,7 @@ public class ExtraServiceDAO {
     } catch (SQLException e) {
         System.err.println("❌ SQL Error in getAllReservations: " + e.getMessage());
         e.printStackTrace();
-        // Nếu lỗi, nên kiểm tra log server (Console) để biết lỗi chính xác là gì.
+       
     }
     return reservations;
 }

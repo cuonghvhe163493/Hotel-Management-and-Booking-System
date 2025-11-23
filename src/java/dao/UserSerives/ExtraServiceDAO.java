@@ -80,7 +80,7 @@ public class ExtraServiceDAO {
                     s.setServiceDescription(rs.getString("service_description"));
                     s.setServicePrice(rs.getDouble("service_price"));
                     s.setServiceStartTime(rs.getDate("service_start_time"));
-                    s.setServiceStartTime(rs.getDate("service_end_time"));
+                    s.setServiceEndTime(rs.getDate("service_end_time"));
                     s.setStatus(rs.getString("status"));
                     s.setCreatedAt(rs.getDate("created_at"));
                     s.setUpdatedAt(rs.getDate("updated_at"));
@@ -119,7 +119,7 @@ public class ExtraServiceDAO {
                     s.setServiceDescription(rs.getString("service_description"));
                     s.setServicePrice(rs.getDouble("service_price"));
                     s.setServiceStartTime(rs.getDate("service_start_time"));
-                    s.setServiceStartTime(rs.getDate("service_end_time"));
+                    s.setServiceEndTime(rs.getDate("service_end_time"));
                     s.setStatus(rs.getString("status"));
                     s.setCreatedAt(rs.getDate("created_at"));
                     s.setUpdatedAt(rs.getDate("updated_at"));

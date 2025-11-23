@@ -42,8 +42,9 @@
                         <input type="submit" class="send-btn" value="Check" />
                     </form>    
                 </div>
-                <div>
-                    <table>
+                        <br>
+                <div class="table-container">
+                    <table class="list-table">
                         <thead>
                             <tr>
                                 <th>Room Id</th> 

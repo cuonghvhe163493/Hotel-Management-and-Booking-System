@@ -131,8 +131,10 @@ public class BookingDAO {
     public List<Booking> getBookingsByCustomerId(int customerId) {
         List<Booking> list = new ArrayList<>();
         String sql = "SELECT * FROM Bookings WHERE customer_id = ?";
+        System.out.println("DEBUG BookingDAO: Querying bookings with customerId=" + customerId);
         try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, customerId);
+            System.out.println("DEBUG: SQL prepared, executing query...");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Booking b = new Booking();
@@ -150,11 +152,68 @@ public class BookingDAO {
                 b.setCreatedAt(rs.getTimestamp("created_at"));
                 b.setUpdatedAt(rs.getTimestamp("updated_at"));
                 list.add(b);
+                System.out.println("DEBUG: Added booking bookingId=" + b.getBookingId());
+            }
+            System.out.println("DEBUG: Total bookings found: " + list.size());
+        } catch (Exception e) {
+            System.err.println("ERROR in BookingDAO.getBookingsByCustomerId:");
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     * Paged booking list for a customer (useful for large histories).
+     * Uses SQL Server OFFSET/FETCH syntax.
+     */
+    public List<Booking> getBookingsByCustomerIdPaged(int customerId, int offset, int limit) {
+        List<Booking> list = new ArrayList<>();
+        String sql = "SELECT * FROM Bookings WHERE customer_id = ? ORDER BY created_at DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        System.out.println("DEBUG BookingDAO: Querying paged bookings with customerId=" + customerId + ", offset=" + offset + ", limit=" + limit);
+        try (PreparedStatement ps = (this.conn != null ? this.conn : DBConnection.getConnection()).prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ps.setInt(2, offset);
+            ps.setInt(3, limit);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Booking b = new Booking();
+                    b.setBookingId(rs.getInt("booking_id"));
+                    b.setCustomerId(rs.getInt("customer_id"));
+                    b.setStatus(rs.getString("status"));
+                    b.setCheckInDate(rs.getDate("check_in_date"));
+                    b.setCheckOutDate(rs.getDate("check_out_date"));
+                    b.setHoldUntil(rs.getDate("hold_until"));
+                    b.setNote(rs.getString("note"));
+                    b.setSubtotal(rs.getDouble("subtotal"));
+                    b.setDiscountTotal(rs.getDouble("discount_total"));
+                    b.setGrandTotal(rs.getDouble("grand_total"));
+                    b.setPaidTotal(rs.getDouble("paid_total"));
+                    b.setCreatedAt(rs.getTimestamp("created_at"));
+                    b.setUpdatedAt(rs.getTimestamp("updated_at"));
+                    list.add(b);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("ERROR in BookingDAO.getBookingsByCustomerIdPaged:");
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     * Count bookings for a customer (used for pagination).
+     */
+    public int getBookingCountByCustomerId(int customerId) {
+        String sql = "SELECT COUNT(*) AS cnt FROM Bookings WHERE customer_id = ?";
+        try (PreparedStatement ps = (this.conn != null ? this.conn : DBConnection.getConnection()).prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("cnt");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return 0;
     }
 
     public void deleteBooking(int bookingId) {

@@ -56,7 +56,7 @@
                 <h2 class="fw-bold mb-4 col_yell">Booking Successful!</h2>
 
                 <c:if test="${bookingSuccess}">
-                    <p>Thank you, <strong>${user.username}</strong>. Your booking (#${bookingId}) has been confirmed.</p>
+                    <p>Thank you, <strong>${user.username}</strong>. Your booking (${bookingId}) has been confirmed.</p>
                     <p>
                         Total: <strong class="col_yell">${grandTotal} ₫</strong>
                     </p>
@@ -64,12 +64,14 @@
 
                     <div class="d-flex justify-content-center gap-3 mt-3 flex-wrap">
                         <!-- Form đi tới Payment bằng POST -->
-                        <form action="${pageContext.request.contextPath}/payment" method="post">
-                            <input type="hidden" name="bookingId" value="${bookingId}">
-                            <input type="hidden" name="grandTotal" value="${grandTotal}">
-                            <input type="hidden" name="orderInfo" value="Payment for booking #${bookingId}">
-                            <button type="submit" class="btn btn-theme btn-lg">Go to Payment</button>
-                        </form>
+                        <c:if test="${bookingSuccess}">
+                            <form action="${pageContext.request.contextPath}/payment" method="post">
+                                <input type="hidden" name="bookingId" value="${bookingId}">
+                                <input type="hidden" name="grandTotal" value="${grandTotal}">
+                                <input type="hidden" name="orderInfo" value="Payment for booking ${bookingId}">
+                                <button type="submit" class="btn btn-theme btn-lg">Go to Payment</button>
+                            </form>
+                        </c:if>
 
                         <!-- Nút đi tới Booking List / Order List -->
                         <a href="${pageContext.request.contextPath}/booking-list" 

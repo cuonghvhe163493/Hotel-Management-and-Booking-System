@@ -34,7 +34,7 @@ public class CheckOutServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String phoneNumber = request.getParameter("phoneNumber");
-        int phoneNumb = Integer.parseInt(phoneNumber);
+        long phoneNumb = Long.parseLong(phoneNumber);
 
         CheckInOut cio = new CheckInOut();
         List<StayRoom> list = cio.getCheckOutRoomForReceptionist(phoneNumb);
@@ -57,7 +57,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     response.setContentType("text/html; charset=UTF-8");
 
     String[] selectedRoomIds = request.getParameterValues("selectedRooms");
-    
+    String id = request.getParameter("bookingId");
     StayRoomDAO dao = new StayRoomDAO();
 
     
@@ -69,15 +69,18 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         return; 
     }
     for (String roomIdStr : selectedRoomIds) {
-        
+            int bookingId = Integer.parseInt(id);
             int roomId = Integer.parseInt(roomIdStr.trim());
             dao.updateRoomStatus(roomId, "maintenance");
-            dao.updateBookingRoomStatus(roomId, "checked_out");    
+            dao.updateBookingRoomStatus(roomId, "checked_out");
+            if(dao.checkBooking(bookingId)){
+                dao.updateBookingStatus(bookingId, "completed");
+            }
     }
 
     request.setAttribute("successMessage", "Check-out successful");
 
-    RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckInForReceptionist.jsp");
+    RequestDispatcher rd = request.getRequestDispatcher("view/Staymanagement/CheckOutForReceptionist.jsp");
     rd.forward(request, response);
 }
 

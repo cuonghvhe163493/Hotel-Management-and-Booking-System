@@ -46,8 +46,9 @@
                         <input class="send-btn" type="submit" value="Check" />
                     </form>    
                 </div>
-                <div>
-                    <table>
+                        <br>
+                <div class="table-container">
+                    <table class="list-table">
                         <thead>
                             <tr>
                                 <th>Room Id</th> 
@@ -70,14 +71,14 @@
                 </div>           
             </div>    
 
-            <div>
+            <div >
                 <p>Price Each Room: 
                     <c:forEach var="room" items="${stayroom}">
                     <p>Room: ${room.roomNumber} : ${room.price}   </p>
                     <p>==========================</p>
                 </c:forEach>
                 <p>Services:   
-                <p>The total amount of deposit: 
+                <p>The total amount of booking: 
                     <c:if test="${not empty stayroom}">
                         <c:set var="firstRoom" value="${stayroom[0]}" />
                             ${firstRoom.totalDeposit} 
